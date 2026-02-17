@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>The Golden Whisk | Artisan Bakery</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="cartDrawer" class="cart-drawer">
+    <div class="cart-header">
+        <h2>Your Basket</h2>
+        <button onclick="toggleCart()" class="close-btn">&times;</button>
+    </div>
+    <div id="cartItems" class="cart-items-container">
+        <p class="empty-msg">Your basket is empty.</p>
+    </div>
+    <div class="cart-footer">
+        <div class="total-row">
+            <span>Total:</span>
+            <span id="cartTotal">$0.00</span>
+        </div>
+        <button class="checkout-btn" onclick="proceedToCheckout()">Checkout</button>
+    </div>
+</div>
+
+<nav class="navbar">
+    <div class="nav-container">
+        <a href="#" class="logo">G<span>W</span></a>
+        <input type="text" id="searchInput" placeholder="Search pastries...">
+        <ul class="nav-links">
+            <li><a href="#menu">Menu</a></li>
+            <li class="cart-link" onclick="toggleCart()">
+                <a href="#">Cart (<span id="cartCount">0</span>)</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<header class="hero" id="home">
+    <div class="hero-text">
+        <h1>Soft Bakes, Early Mornings.</h1>
+        <p>Freshly baked cookies and custom cakes made with love.</p>
+    </div>
+</header>
+
+<section class="products" id="menu">
+    <h2>The Morning Selection</h2>
+
+    <div class="filter-container">
+        <button class="filter-btn active" onclick="filterCategory('all', event)">All</button>
+        <button class="filter-btn" onclick="filterCategory('cookies', event)">Cookies</button>
+        <button class="filter-btn" onclick="filterCategory('pastries', event)">Pastries</button>
+        <button class="filter-btn" onclick="filterCategory('cakes', event)">Cakes</button>
+    </div>
+
+    <div class="product-grid" id="productGrid">
+        <div class="product-card" data-category="cookies">
+            <img src="https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format&fit=crop&w=600&q=80">
+            <h3>Gourmet Cookies</h3>
+            <p>Soft chocolate chunk cookies.</p>
+            <p class="price">$12.00</p>
+            <button class="add-to-cart" onclick="addToCart('Gourmet Cookies', 12.00)">Add to Cart</button>
+        </div>
+
+        <div class="product-card" data-category="pastries">
+            <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=600&q=80">
+            <h3>Morning Pastries</h3>
+            <p>Flaky croissants & fruit delights.</p>
+            <p class="price">$8.50</p>
+            <button class="add-to-cart" onclick="addToCart('Morning Pastries', 8.50)">Add to Cart</button>
+        </div>
+
+        <div class="product-card" data-category="cakes">
+            <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=600&q=80">
+            <h3>Custom Cakes</h3>
+            <p>Elegant celebration cakes.</p>
+            <p class="price">$45.00</p>
+            <button class="add-to-cart" onclick="addToCart('Custom Cakes', 45.00)">Add to Cart</button>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p>© 2026 THE GOLDEN WHISK</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
