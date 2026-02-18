@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,7 +8,33 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<div class="user-bar">
+    <span id="welcomeMsg">Welcome, Guest</span>
+    <button id="authBtn" onclick="toggleAuthModal()">Login / Sign Up</button>
+</div>
 
+<div id="quickViewModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeQuickView()">&times;</span>
+        <div id="quickViewData" class="quick-view-flex">
+            </div>
+        <div class="related-section">
+            <h4>Frequently Bought Together</h4>
+            <div id="relatedProducts" class="related-grid"></div>
+        </div>
+    </div>
+</div>
+
+<div id="authModal" class="modal">
+    <div class="modal-content auth-form">
+        <h3 id="authTitle">Create Account</h3>
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <button onclick="handleAuth()">Submit</button>
+        <p onclick="toggleAuthType()" style="cursor:pointer; font-size: 0.8rem; margin-top:10px;">Already have an account? Login</p>
+    </div>
+</div>
+    
 <div id="cartDrawer" class="cart-drawer">
     <div class="cart-header">
         <h2>Your Basket</h2>
