@@ -279,6 +279,56 @@ window.onload = () => {
     updateCartUI();
     updateAuthUI();
 };
+// 1. CHANGE QUANTITY (+ or -)
+function changeQty(productId, delta) {
+    if (cart[productId]) {
+        cart[productId].qty += delta;
+        
+        // If quantity drops to 0, remove it entirely
+        if (cart[productId].qty <= 0) {
+            delete cart[productId];
+        }
+        
+        saveCart();
+        updateCartUI();
+    }
+}
+
+// 2. DELETE ENTIRE LINE ITEM
+function removeItem(productId) {
+    delete cart[productId];
+    saveCart();
+    updateCartUI();
+}
+
+// 3. UPDATED UI RENDERER
+function updateCartUI() {
+    const cartItems = document.getElementById("cartItems");
+    const items = Object.values(cart);
+    
+    cartItems.innerHTML = items.length === 0 
+        ? '<p class="empty-msg">Your basket is empty.</p>' 
+        : items.map(item => `
+            <div class="cart-item-row" style="display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; border-bottom: 1px solid #eee; padding-bottom: 10px;">
+                <div style="flex:1;">
+                    <h4 style="margin:0; font-size:0.9rem;">${item.name}</h4>
+                    <span style="color:#82937E; font-weight:600;">$${(item.price * item.qty).toFixed(2)}</span>
+                </div>
+                
+                <div class="qty-controls" style="display:flex; align-items:center; gap:10px;">
+                    <button onclick="changeQty(${item.id}, -1)" class="qty-btn">-</button>
+                    <span>${item.qty}</span>
+                    <button onclick="changeQty(${item.id}, 1)" class="qty-btn">+</button>
+                    <button onclick="removeItem(${item.id})" style="background:none; border:none; color:red; cursor:pointer; margin-left:10px;">
+                        🗑️
+                    </button>
+                </div>
+            </div>
+        `).join('');
+
+    // Update totals and counts as usual...
+    calculateTotals();
+}
 
 // 5. CHECKOUT PLACEHOLDER (Prep for Lab 3)
 function proceedToCheckout() {
