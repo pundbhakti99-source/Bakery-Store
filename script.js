@@ -190,6 +190,95 @@ function toggleCart() {
 
 // Initial Render
 renderProducts(products);
+// --- 1. CONFIG & DATA ---
+let cart = JSON.parse(localStorage.getItem('whiskCart')) || {};
+let currentUser = JSON.parse(localStorage.getItem('whiskUser')) || null;
+
+// --- 2. SIGNUP/AUTH CONCEPT ---
+function handleAuth() {
+    const user = document.getElementById('username').value;
+    if(!user) return alert("Please enter a name");
+    
+    currentUser = { name: user };
+    localStorage.setItem('whiskUser', JSON.stringify(currentUser));
+    updateAuthUI();
+    toggleAuthModal();
+}
+
+function updateAuthUI() {
+    const msg = document.getElementById('welcomeMsg');
+    const btn = document.getElementById('authBtn');
+    if(currentUser) {
+        msg.innerText = `Hello, ${currentUser.name}!`;
+        btn.innerText = "Logout";
+        btn.onclick = () => {
+            localStorage.removeItem('whiskUser');
+            location.reload();
+        };
+    }
+}
+
+// --- 3. PERSISTENCE (Local Storage) ---
+function saveCart() {
+    localStorage.setItem('whiskCart', JSON.stringify(cart));
+}
+
+// --- 4. QUICK VIEW & RELATED PRODUCTS ---
+function openQuickView(id) {
+    const product = products.find(p => p.id === id);
+    const modal = document.getElementById('quickViewModal');
+    const container = document.getElementById('quickViewData');
+    
+    container.innerHTML = `
+        <img src="${product.img}" style="width:100%; max-width:300px; border-radius:10px;">
+        <div class="qv-details">
+            <h2>${product.name}</h2>
+            <p>${product.desc}</p>
+            <p class="price">$${product.price.toFixed(2)}</p>
+            <button class="add-to-cart" onclick="addToCart(${product.id})">Add to Basket</button>
+        </div>
+    `;
+
+    renderRelated(product.category, product.id);
+    modal.style.display = "block";
+}
+
+function renderRelated(category, currentId) {
+    const relatedContainer = document.getElementById('relatedProducts');
+    // Logic: Find items in same category, excluding the one we are looking at
+    const related = products
+        .filter(p => p.category === category && p.id !== currentId)
+        .slice(0, 2); // Limit to 2 items
+
+    relatedContainer.innerHTML = related.map(p => `
+        <div class="related-card" onclick="openQuickView(${p.id})">
+            <img src="${p.img}">
+            <p>${p.name}</p>
+        </div>
+    `).join('');
+}
+
+// --- 5. UPDATED ADD TO CART ---
+function addToCart(productId) {
+    const product = products.find(p => p.id === productId);
+    if (cart[productId]) {
+        cart[productId].qty += 1;
+    } else {
+        cart[productId] = { ...product, qty: 1 };
+    }
+    
+    saveCart(); // Persistence!
+    updateCartUI();
+    // Optional: Visual feedback
+    alert(`${product.name} added to basket!`);
+}
+
+// Initializing
+window.onload = () => {
+    renderProducts(products); // From previous step
+    updateCartUI();
+    updateAuthUI();
+};
 
 // 5. CHECKOUT PLACEHOLDER (Prep for Lab 3)
 function proceedToCheckout() {
