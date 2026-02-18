@@ -322,7 +322,43 @@
         <div id="modalDetails"></div>
     </div>
 </div>
-    
+<div id="checkoutOverlay" class="checkout-overlay">
+    <div class="checkout-container">
+        <button class="back-to-store" onclick="closeCheckout()">← Back to Bakery</button>
+        
+        <div class="checkout-flex">
+            <div class="checkout-form">
+                <h3>Delivery Details</h3>
+                <input type="text" placeholder="Full Name" id="shipName">
+                <input type="text" placeholder="Street Address" id="shipAddr">
+                <div class="form-row">
+                    <input type="text" placeholder="City">
+                    <input type="text" placeholder="Zip Code">
+                </div>
+            </div>
+
+            <div class="checkout-receipt">
+                <h3>Order Summary</h3>
+                <div id="summaryItems"></div>
+                <hr>
+                <div class="summary-line">
+                    <span>Subtotal</span>
+                    <span id="subtotalVal">$0.00</span>
+                </div>
+                <div class="summary-line">
+                    <span>Delivery Fee</span>
+                    <span>$5.00</span>
+                </div>
+                <div class="summary-line total">
+                    <span>Grand Total</span>
+                    <span id="grandTotalVal">$0.00</span>
+                </div>
+                <button class="place-order-btn" onclick="finalizeOrder()">Place Order</button>
+            </div>
+        </div>
+    </div>
+</div>
+ 
 <script src="script.js"></script>
 </body>
 </html>
