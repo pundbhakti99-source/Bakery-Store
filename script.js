@@ -345,6 +345,45 @@ function initProducts() {
         renderProducts(products);
     }, 1500);
 }
+function proceedToCheckout() {
+    const items = Object.values(cart);
+    if (items.length === 0) return alert("Your basket is empty!");
+
+    const overlay = document.getElementById('checkoutOverlay');
+    const summaryContainer = document.getElementById('summaryItems');
+    
+    // Generate the itemized list
+    summaryContainer.innerHTML = items.map(item => `
+        <div class="summary-item">
+            <span>${item.qty}x ${item.name}</span>
+            <span>$${(item.price * item.qty).toFixed(2)}</span>
+        </div>
+    `).join('');
+
+    // Calculate Totals
+    let subtotal = items.reduce((sum, item) => sum + (item.price * item.qty), 0);
+    document.getElementById('subtotalVal').innerText = `$${subtotal.toFixed(2)}`;
+    document.getElementById('grandTotalVal').innerText = `$${(subtotal + 5).toFixed(2)}`;
+
+    overlay.classList.add('active');
+}
+
+function finalizeOrder() {
+    const name = document.getElementById('shipName').value;
+    if(!name) return alert("Please enter your name for the order!");
+
+    alert(`Thank you for your order, ${name}! Your pastries are being prepared.`);
+    
+    // Clear Cart & Persistence
+    cart = {};
+    saveCart();
+    updateCartUI();
+    closeCheckout();
+}
+
+function closeCheckout() {
+    document.getElementById('checkoutOverlay').classList.remove('active');
+}
 
 // 5. CHECKOUT PLACEHOLDER (Prep for Lab 3)
 function proceedToCheckout() {
