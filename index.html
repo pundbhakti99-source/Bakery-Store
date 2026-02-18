@@ -57,6 +57,54 @@
     </div>
 
     <div class="product-grid" id="productGrid">
+        <div class="product-card" data-category="pastries">
+    <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=600&q=80">
+    <h3>Artisan Sourdough</h3>
+    <p>Crusty outside, airy inside.</p>
+    <p class="price">$9.00</p>
+    <button class="add-to-cart" onclick="addToCart('Artisan Sourdough', 9.00)">Add to Cart</button>
+</div>
+
+<div class="product-card" data-category="pastries">
+    <img src="https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=600&q=80">
+    <h3>Glazed Cinnamon Rolls</h3>
+    <p>Warm, gooey, and extra cinnamon.</p>
+    <p class="price">$5.50</p>
+    <button class="add-to-cart" onclick="addToCart('Cinnamon Rolls', 5.50)">Add to Cart</button>
+</div>
+
+<div class="product-card" data-category="cookies">
+    <img src="https://images.unsplash.com/photo-1559622314-f83c65644781?auto=format&fit=crop&w=600&q=80">
+    <h3>Red Velvet Cookies</h3>
+    <p>With white chocolate chips.</p>
+    <p class="price">$14.00</p>
+    <button class="add-to-cart" onclick="addToCart('Red Velvet Cookies', 14.00)">Add to Cart</button>
+</div>
+
+<div class="product-card" data-category="cookies">
+    <img src="https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e?auto=format&fit=crop&w=600&q=80">
+    <h3>Oatmeal Raisin</h3>
+    <p>Classic, chewy, and spiced.</p>
+    <p class="price">$11.00</p>
+    <button class="add-to-cart" onclick="addToCart('Oatmeal Raisin', 11.00)">Add to Cart</button>
+</div>
+
+<div class="product-card" data-category="cakes">
+    <img src="https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?auto=format&fit=crop&w=600&q=80">
+    <h3>Berry Cheesecake</h3>
+    <p>Creamy New York style.</p>
+    <p class="price">$38.00</p>
+    <button class="add-to-cart" onclick="addToCart('Berry Cheesecake', 38.00)">Add to Cart</button>
+</div>
+
+<div class="product-card" data-category="cakes">
+    <img src="https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?auto=format&fit=crop&w=600&q=80">
+    <h3>Birthday Funfetti</h3>
+    <p>Sprinkles and vanilla buttercream.</p>
+    <p class="price">$42.00</p>
+    <button class="add-to-cart" onclick="addToCart('Birthday Funfetti', 42.00)">Add to Cart</button>
+</div>
+        
         <div class="product-card" data-category="cookies">
             <img src="https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format&fit=crop&w=600&q=80">
             <h3>Gourmet Cookies</h3>
@@ -86,7 +134,13 @@
 <footer>
     <p>© 2026 THE GOLDEN WHISK</p>
 </footer>
-
+<div id="productModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeModal()">&times;</span>
+        <div id="modalDetails"></div>
+    </div>
+</div>
+    
 <script src="script.js"></script>
 </body>
 </html>
