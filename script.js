@@ -329,6 +329,22 @@ function updateCartUI() {
     // Update totals and counts as usual...
     calculateTotals();
 }
+function initProducts() {
+    const grid = document.getElementById("productGrid");
+    // Show 4 skeleton cards initially
+    grid.innerHTML = Array(4).fill(0).map(() => `
+        <div class="product-card">
+            <div class="skeleton skeleton-img"></div>
+            <div class="skeleton skeleton-text"></div>
+            <div class="skeleton skeleton-price"></div>
+        </div>
+    `).join('');
+
+    // Simulate API delay
+    setTimeout(() => {
+        renderProducts(products);
+    }, 1500);
+}
 
 // 5. CHECKOUT PLACEHOLDER (Prep for Lab 3)
 function proceedToCheckout() {
