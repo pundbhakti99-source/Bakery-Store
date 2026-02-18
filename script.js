@@ -48,6 +48,16 @@ function addToCart(name, price) {
         toggleCart();
     }
 }
+function applyDiscount() {
+    const code = prompt("Enter Discount Code (Try: WELCOME10)");
+    if (code === "WELCOME10") {
+        total = total * 0.9; // 10% off
+        updateCartUI();
+        alert("Discount applied!");
+    } else {
+        alert("Invalid code.");
+    }
+}
 
 function updateCartUI() {
     const cartCount = document.getElementById("cartCount");
