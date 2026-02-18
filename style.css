@@ -10,6 +10,22 @@ body {
     color: #2D2D2D;
     overflow-x: hidden;
 }
+.skeleton {
+    background: #eee;
+    background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
+    border-radius: 8px;
+    background-size: 200% 100%;
+    animation: 1.5s shine linear infinite;
+}
+
+@keyframes shine {
+    to { background-position-x: -200%; }
+}
+
+.skeleton-img { height: 200px; width: 100%; margin-bottom: 15px; }
+.skeleton-text { height: 20px; width: 80%; margin-bottom: 10px; }
+.skeleton-price { height: 25px; width: 40%; }
+
 .related-grid {
     display: flex;
     gap: 15px;
