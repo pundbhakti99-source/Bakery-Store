@@ -80,5 +80,63 @@ body { font-family: 'Montserrat', sans-serif; background: #FAF9F6; color: #2D2D2
 
 /* Adjust Hero for cards */
 .hero { height: auto; min-height: 70vh; padding: 100px 20px; }
+.product-page-modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0; top: 0; width: 100%; height: 100%;
+    background: white; /* Clean white like Bakingo */
+    overflow-y: auto;
+}
+
+.pp-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    padding: 40px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.pp-price-row #pp-price {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.weight-options {
+    display: flex; gap: 10px; margin-top: 10px;
+}
+
+.w-btn {
+    border: 1px solid #ddd;
+    background: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.w-btn.active {
+    border-color: #ff3232; /* Red theme like Bakingo */
+    background: #fff5f5;
+}
+
+.buy-now-btn {
+    width: 100%;
+    background: #ff3232;
+    color: white;
+    border: none;
+    padding: 15px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 8px;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .pp-grid { grid-template-columns: 1fr; padding: 15px; }
+}
 
 footer { background: #2D2D2D; color: #FAF9F6; padding: 40px; text-align: center; letter-spacing: 2px; font-size: 0.8rem; }
