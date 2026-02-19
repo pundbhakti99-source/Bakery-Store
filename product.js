@@ -1,107 +1,703 @@
-const products = [
-  // --- COOKIES (34 Items) ---
-  { name: "Classic Choco Chip", price: 120, cat: "cookies", img: "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?q=80&w=600", desc: "Signature soft-bake with Belgian chocolate chunks." },
-  { name: "Red Velvet Cream", price: 140, cat: "cookies", img: "https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e?q=80&w=600", desc: "Rich cocoa base with white chocolate chips." },
-  { name: "Oatmeal Raisin", price: 110, cat: "cookies", img: "https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e?q=80&w=600", desc: "Chewy oats with organic sun-dried raisins." },
-  { name: "Double Chocolate", price: 150, cat: "cookies", img: "https://images.unsplash.com/photo-1597733153203-a54d0fbc47df?q=80&w=600", desc: "Dark cocoa dough with milk chocolate chunks." },
-  { name: "Pistachio Shortbread", price: 180, cat: "cookies", img: "https://images.unsplash.com/photo-1557089706-68d02dbda277?q=80&w=600", desc: "But buttery shortbread with premium pistachios." },
-  { name: "Nutella Sea Salt", price: 160, cat: "cookies", img: "https://images.unsplash.com/photo-1584001331242-6902256c9a30?q=80&w=600", desc: "Stuffed with Nutella and topped with sea salt." },
-  { name: "Peanut Butter Blast", price: 130, cat: "cookies", img: "https://images.unsplash.com/photo-1499636136210-6f4ee915583e?q=80&w=600", desc: "Creamy peanut butter baked to perfection." },
-  { name: "Lemon Sugar Glaze", price: 100, cat: "cookies", img: "https://images.unsplash.com/photo-1590333746438-283454399e6b?q=80&w=600", desc: "Refreshing lemon zest in a sugar crust." },
-  { name: "White Choco Macadamia", price: 195, cat: "cookies", img: "https://images.unsplash.com/photo-1627914600063-7f8c9a30404a?q=80&w=600", desc: "Crunchy nuts with smooth white chocolate." },
-  { name: "Ginger Molasses", price: 115, cat: "cookies", img: "https://images.unsplash.com/photo-1600431521340-491eca880813?q=80&w=600", desc: "Warm spices and organic molasses." },
-  { name: "Coffee Bean Crunch", price: 145, cat: "cookies", img: "https://images.unsplash.com/photo-1511381939415-e44015466834?q=80&w=600", desc: "Infused with real ground espresso." },
-  { name: "Matcha Softbake", price: 170, cat: "cookies", img: "https://images.unsplash.com/photo-1515037893149-de7f840978e2?q=80&w=600", desc: "Fine Japanese Matcha green tea flavor." },
-  { name: "Snickerdoodle", price: 110, cat: "cookies", img: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?q=80&w=600", desc: "Soft cookie rolled in cinnamon sugar." },
-  { name: "Coconut Macaroon", price: 135, cat: "cookies", img: "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?q=80&w=600", desc: "Toasted coconut with a honey drizzle." },
-  { name: "Pumpkin Spice", price: 140, cat: "cookies", img: "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?q=80&w=600", desc: "Seasonal favorite with nutmeg and clove." },
-  { name: "Dark Chocolate Rye", price: 165, cat: "cookies", img: "https://images.unsplash.com/photo-1559622314-f83c65644781?q=80&w=600", desc: "Earthy rye flour with 70% dark chocolate." },
-  { name: "Salted Caramel", price: 155, cat: "cookies", img: "https://images.unsplash.com/photo-1579306194872-64d3b7bac4c2?q=80&w=600", desc: "Chewy caramel center with a salt punch." },
-  { name: "M&M Rainbow", price: 125, cat: "cookies", img: "https://images.unsplash.com/photo-1553531384-397c80973a0b?q=80&w=600", desc: "Colorful milk chocolate candies in every bite." },
-  { name: "Earl Grey Butter", price: 145, cat: "cookies", img: "https://images.unsplash.com/photo-1594911772125-07fc7a2d8d9f?q=80&w=600", desc: "Infused with Earl Grey tea leaves." },
-  { name: "Espresso Biscotti", price: 90, cat: "cookies", img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=600", desc: "Crunchy Italian style, perfect for dipping." },
-  { name: "Lavender Honey", price: 160, cat: "cookies", img: "https://images.unsplash.com/photo-1557089706-68d02dbda277?q=80&w=600", desc: "Floral lavender notes with a honey glaze." },
-  { name: "S'mores Cookie", price: 175, cat: "cookies", img: "https://images.unsplash.com/photo-1559622314-f83c65644781?q=80&w=600", desc: "Marshmallow, graham cracker, and chocolate." },
-  { name: "Cranberry White Choco", price: 150, cat: "cookies", img: "https://images.unsplash.com/photo-1499636136210-6f4ee915583e?q=80&w=600", desc: "Tart dried cranberries with sweet white chips." },
-  { name: "Banana Bread Cookie", price: 120, cat: "cookies", img: "https://images.unsplash.com/photo-1499636136210-6f4ee915583e?q=80&w=600", desc: "Soft, cake-like cookie with real banana." },
-  { name: "Tahini Chocolate", price: 185, cat: "cookies", img: "https://images.unsplash.com/photo-1557089706-68d02dbda277?q=80&w=600", desc: "Nutty tahini base with dark chocolate pools." },
-  { name: "Rocky Road", price: 170, cat: "cookies", img: "https://images.unsplash.com/photo-1559622314-f83c65644781?q=80&w=600", desc: "Chocolate dough with nuts and marshmallows." },
-  { name: "Maple Pecan", price: 155, cat: "cookies", img: "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?q=80&w=600", desc: "Real maple syrup and toasted pecans." },
-  { name: "Toffee Crunch", price: 140, cat: "cookies", img: "https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e?q=80&w=600", desc: "Buttery toffee bits in a brown sugar base." },
-  { name: "Brown Butter Vanilla", price: 130, cat: "cookies", img: "https://images.unsplash.com/photo-1499636136210-6f4ee915583e?q=80&w=600", desc: "Rich nutty flavor from browned butter." },
-  { name: "Orange Zest Shortbread", price: 120, cat: "cookies", img: "https://images.unsplash.com/photo-1557089706-68d02dbda277?q=80&w=600", desc: "Crispy and light with fresh citrus." },
-  { name: "Almond Joyous", price: 160, cat: "cookies", img: "https://images.unsplash.com/photo-1559622314-f83c65644781?q=80&w=600", desc: "Coconut, almonds, and milk chocolate." },
-  { name: "Chai Spice Snaps", price: 110, cat: "cookies", img: "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?q=80&w=600", desc: "Crisp cookie with warm masala spices." },
-  { name: "Peppermint Bark", price: 150, cat: "cookies", img: "https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e?q=80&w=600", desc: "White chocolate drizzle with crushed mint." },
-  { name: "Blackberry Thumbprint", price: 135, cat: "cookies", img: "https://images.unsplash.com/photo-1557089706-68d02dbda277?q=80&w=600", desc: "Buttery base with house-made jam." },
 
-  // --- PASTRIES (33 Items) ---
-  { name: "Classic Croissant", price: 150, cat: "pastries", img: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?q=80&w=600", desc: "Authentic 24-layer buttery French pastry." },
-  { name: "Pain au Chocolat", price: 180, cat: "pastries", img: "https://images.unsplash.com/photo-1530610476181-d83430b64dcd?q=80&w=600", desc: "Flaky pastry with dark chocolate bars." },
-  { name: "Almond Frangipane", price: 210, cat: "pastries", img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=600", desc: "Twice-baked with sweet almond cream." },
-  { name: "Cinnamon Swirl", price: 180, cat: "pastries", img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=600", desc: "Gooey cinnamon filling with vanilla icing." },
-  { name: "Blueberry Muffin", price: 120, cat: "pastries", img: "https://images.unsplash.com/photo-1607958996333-41aef7caefaa?q=80&w=600", desc: "Bursting with fresh organic blueberries." },
-  { name: "Apple Turnover", price: 165, cat: "pastries", img: "https://images.unsplash.com/photo-1608039829572-7852bf5c7c68?q=80&w=600", desc: "Cinnamon apples in a crispy puff shell." },
-  { name: "Cheese Danish", price: 190, cat: "pastries", img: "https://images.unsplash.com/photo-1549589237-9e70b6be4da8?q=80&w=600", desc: "Sweet cream cheese center pastry." },
-  { name: "Strawberry Tart", price: 250, cat: "pastries", img: "https://images.unsplash.com/photo-1516733725897-1aa73b87c8e8?q=80&w=600", desc: "Fresh strawberries on vanilla custard." },
-  { name: "Chocolate Eclair", price: 200, cat: "pastries", img: "https://images.unsplash.com/photo-1629115916083-7e8c323f46f4?q=80&w=600", desc: "Choux pastry filled with pastry cream." },
-  { name: "Spinach Feta Puff", price: 185, cat: "pastries", img: "https://images.unsplash.com/photo-1623114112815-39d2ec00469b?q=80&w=600", desc: "Savory puff pastry with Mediterranean filling." },
-  { name: "Vanilla Scone", price: 130, cat: "pastries", img: "https://images.unsplash.com/photo-1589119908995-c6837fa14848?q=80&w=600", desc: "English style scone with sugar pearls." },
-  { name: "Pecan Sticky Bun", price: 220, cat: "pastries", img: "https://images.unsplash.com/photo-1541167760496-1628856ab772?q=80&w=600", desc: "Caramelized pecans and honey glaze." },
-  { name: "Banana Walnut Muffin", price: 95, cat: "pastries", img: "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?q=80&w=600", desc: "Moist bread made with ripened bananas." },
-  { name: "Raspberry Galette", price: 230, cat: "pastries", img: "https://images.unsplash.com/photo-1464195244916-405fa0a82545?q=80&w=600", desc: "Rustic open-faced fruit tart." },
-  { name: "Apricot Pocket", price: 175, cat: "pastries", img: "https://images.unsplash.com/photo-1619535810314-72921e19993d?q=80&w=600", desc: "Sweet apricot preserve in flaky dough." },
-  { name: "Everything Bagel", price: 85, cat: "pastries", img: "https://images.unsplash.com/photo-1585478259715-876acc5be8eb?q=80&w=600", desc: "Savory boiled bagel with classic seeds." },
-  { name: "Lemon Poppy Muffin", price: 110, cat: "pastries", img: "https://images.unsplash.com/photo-1585478259715-876acc5be8eb?q=80&w=600", desc: "Tangy lemon with a crunch." },
-  { name: "Pistachio Croissant", price: 260, cat: "pastries", img: "https://images.unsplash.com/photo-1603532648955-0393e01c8f62?q=80&w=600", desc: "Filled with roasted pistachio cream." },
-  { name: "Ham & Swiss Croissant", price: 280, cat: "pastries", img: "https://images.unsplash.com/photo-1549589237-9e70b6be4da8?q=80&w=600", desc: "Savory breakfast favorite." },
-  { name: "Chocolate Brioche", price: 190, cat: "pastries", img: "https://images.unsplash.com/photo-1621303837174-89787a7d4729?q=80&w=600", desc: "Soft, buttery bread with dark chocolate." },
-  { name: "Vanilla Profiteroles", price: 140, cat: "pastries", img: "https://images.unsplash.com/photo-1532499016263-f2c3e98df9cd?q=80&w=600", desc: "Mini cream puffs with chocolate drizzle." },
-  { name: "Peach Galette", price: 220, cat: "pastries", img: "https://images.unsplash.com/photo-1534432123161-97910c59cb4d?q=80&w=600", desc: "Fresh summer peaches in a flaky crust." },
-  { name: "Jalapeno Cheese Roll", price: 160, cat: "pastries", img: "https://images.unsplash.com/photo-1623114112815-39d2ec00469b?q=80&w=600", desc: "Spicy and cheesy savory pastry." },
-  { name: "Maple Pecan Plait", price: 200, cat: "pastries", img: "https://images.unsplash.com/photo-1530610476181-d83430b64dcd?q=80&w=600", desc: "Maple glaze and toasted pecans." },
-  { name: "Blackberry Scone", price: 125, cat: "pastries", img: "https://images.unsplash.com/photo-1589119908995-c6837fa14848?q=80&w=600", desc: "Hand-kneaded with fresh berries." },
-  { name: "Chocolate Twirl", price: 175, cat: "pastries", img: "https://images.unsplash.com/photo-1621303837174-89787a7d4729?q=80&w=600", desc: "Twisted pastry with cocoa swirls." },
-  { name: "Cheddar Chive Scone", price: 140, cat: "pastries", img: "https://images.unsplash.com/photo-1589119908995-c6837fa14848?q=80&w=600", desc: "Savory scone with sharp cheddar." },
-  { name: "Custard Slice", price: 210, cat: "pastries", img: "https://images.unsplash.com/photo-1629115916083-7e8c323f46f4?q=80&w=600", desc: "Classic vanilla slice with thick custard." },
-  { name: "Cherry Turnover", price: 170, cat: "pastries", img: "https://images.unsplash.com/photo-1608039829572-7852bf5c7c68?q=80&w=600", desc: "Sweet and tart cherry filling." },
-  { name: "Olive Focaccia Slice", price: 130, cat: "pastries", img: "https://images.unsplash.com/photo-1541167760496-1628856ab772?q=80&w=600", desc: "Herb infused bread with kalamata olives." },
-  { name: "Honey Cake Slice", price: 180, cat: "pastries", img: "https://images.unsplash.com/photo-1612203985729-7072695438d3?q=80&w=600", desc: "Russian style layered honey pastry." },
-  { name: "Salted Caramel Tart", price: 240, cat: "pastries", img: "https://images.unsplash.com/photo-1516733725897-1aa73b87c8e8?q=80&w=600", desc: "Rich ganache with a salt kick." },
-  { name: "Apple Crumble Muffin", price: 115, cat: "pastries", img: "https://images.unsplash.com/photo-1607958996333-41aef7caefaa?q=80&w=600", desc: "Cinnamon apple with a streusel top." },
-
-  // --- CAKES (33 Items) ---
-  { name: "Midnight Velvet", price: 950, cat: "cakes", img: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=600", desc: "Deep dark chocolate with silk ganache." },
-  { name: "Berry Cheesecake", price: 1200, cat: "cakes", img: "https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?q=80&w=600", desc: "New York style with fresh berries." },
-  { name: "Birthday Funfetti", price: 850, cat: "cakes", img: "https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?q=80&w=600", desc: "Vanilla sponge with colorful sprinkles." },
-  { name: "Black Forest", price: 1100, cat: "cakes", img: "https://images.unsplash.com/photo-1571115177098-24ec42ed2bb4?q=80&w=600", desc: "Cherry compote and whipped cream." },
-  { name: "Red Velvet Bliss", price: 1050, cat: "cakes", img: "https://images.unsplash.com/photo-1586788680434-30d324634bf6?q=80&w=600", desc: "Classic with velvet cream cheese frost." },
-  { name: "Mango Mousse", price: 1300, cat: "cakes", img: "https://images.unsplash.com/photo-1535141192574-5d4897c12636?q=80&w=600", desc: "Light and airy Alphonso mango mousse." },
-  { name: "Carrot Walnut", price: 900, cat: "cakes", img: "https://images.unsplash.com/photo-1536599424071-0b215a388ba7?q=80&w=600", desc: "Spiced cake with cream cheese layer." },
-  { name: "Tiramisu Gateau", price: 1400, cat: "cakes", img: "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?q=80&w=600", desc: "Coffee soaked sponge with mascarpone." },
-  { name: "Lemon Drizzle", price: 750, cat: "cakes", img: "https://images.unsplash.com/photo-1519869325930-281384150729?q=80&w=600", desc: "Zesty lemon loaf with light icing." },
-  { name: "Hazelnut Praline", price: 1550, cat: "cakes", img: "https://images.unsplash.com/photo-1516738901171-8eb4fc13bd20?q=80&w=600", desc: "Roasted hazelnut cream and chocolate." },
-  { name: "Pineapple Bliss", price: 800, cat: "cakes", img: "https://images.unsplash.com/photo-1491933322481-d99c305b6544?q=80&w=600", desc: "Tropical pineapple upside-down cake." },
-  { name: "Opera Cake", price: 1800, cat: "cakes", img: "https://images.unsplash.com/photo-1627308595229-7830a5c91f9f?q=80&w=600", desc: "Elegant French almond coffee layers." },
-  { name: "Lotus Biscoff", price: 1650, cat: "cakes", img: "https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?q=80&w=600", desc: "Speculoos spread and biscuit crunch." },
-  { name: "Chocolate Truffle", price: 1150, cat: "cakes", img: "https://images.unsplash.com/photo-1464347755392-80727a5e83c1?q=80&w=600", desc: "Rich 70% dark chocolate truffle cake." },
-  { name: "Fruit Fantasy", price: 1250, cat: "cakes", img: "https://images.unsplash.com/photo-1464979681340-bdd28a61699e?q=80&w=600", desc: "Seasonal mixed fruits on vanilla sponge." },
-  { name: "Ferrero Rocher Cake", price: 1950, cat: "cakes", img: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=600", desc: "Decadent hazelnut chocolate." },
-  { name: "Pistachio Rose", price: 1450, cat: "cakes", img: "https://images.unsplash.com/photo-1535254973040-607b474cb80d?q=80&w=600", desc: "Exotic Persian flavors." },
-  { name: "Blueberry Lemon", price: 950, cat: "cakes", img: "https://images.unsplash.com/photo-1519869325930-281384150729?q=80&w=600", desc: "Light sponge with tart lemon curd." },
-  { name: "Mocha Espresso", price: 1100, cat: "cakes", img: "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?q=80&w=600", desc: "Espresso infused sponge." },
-  { name: "Rainbow Layer", price: 1600, cat: "cakes", img: "https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?q=80&w=600", desc: "Vibrant layers with vanilla icing." },
-  { name: "Salted Caramel Drip", price: 1250, cat: "cakes", img: "https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?q=80&w=600", desc: "Caramel frosting and drip." },
-  { name: "Triple Choco Fudge", price: 1500, cat: "cakes", img: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=600", desc: "The ultimate chocolate indulgence." },
-  { name: "Classic Shortcake", price: 900, cat: "cakes", img: "https://images.unsplash.com/photo-1535141192574-5d4897c12636?q=80&w=600", desc: "Fresh cream and strawberries." },
-  { name: "Cookies & Cream", price: 1150, cat: "cakes", img: "https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?q=80&w=600", desc: "White chocolate cream with Oreo." },
-  { name: "Coconut Cloud", price: 1000, cat: "cakes", img: "https://images.unsplash.com/photo-1519869325930-281384150729?q=80&w=600", desc: "Fluffy coconut flakes." },
-  { name: "Boston Cream", price: 1100, cat: "cakes", img: "https://images.unsplash.com/photo-1571115177098-24ec42ed2bb4?q=80&w=600", desc: "Custard filled sponge." },
-  { name: "Cinnamon Walnut", price: 850, cat: "cakes", img: "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?q=80&w=600", desc: "Streusel topping." },
-  { name: "Zesty Key Lime", price: 950, cat: "cakes", img: "https://images.unsplash.com/photo-1519869325930-281384150729?q=80&w=600", desc: "Refreshing citrus." },
-  { name: "Chai Spiced", price: 1050, cat: "cakes", img: "https://images.unsplash.com/photo-1536599424071-0b215a388ba7?q=80&w=600", desc: "Warm ginger and cardamom." },
-  { name: "Honey Almond", price: 1200, cat: "cakes", img: "https://images.unsplash.com/photo-1535141192574-5d4897c12636?q=80&w=600", desc: "Sweet honey glaze." },
-  { name: "Dark Forest Cake", price: 1150, cat: "cakes", img: "https://images.unsplash.com/photo-1571115177098-24ec42ed2bb4?q=80&w=600", desc: "Cherry and rich dark cocoa." },
-  { name: "Vanilla Bean Cake", price: 800, cat: "cakes", img: "https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?q=80&w=600", desc: "Simple and elegant." },
-  { name: "White Truffle Cake", price: 1300, cat: "cakes", img: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=600", desc: "Luxury white chocolate." }
+const bakeryProducts = [
+  {
+    "name": "Classic Chocolate Chip",
+    "price": 95,
+    "cat": "cookies",
+    "img": "https://images.unsplash.com/photo-1499636136210-6f4ee915583e",
+    "desc": "Buttery cookies loaded with premium dark and milk chocolate chips, baked to golden perfection with crispy edges and a chewy center."
+  },
+  {
+    "name": "Double Chocolate Fudge",
+    "price": 110,
+    "cat": "cookies",
+    "img": "https://images.unsplash.com/photo-1606313564200-e75d5e30476c",
+    "desc": "Intensely rich cocoa cookies studded with chocolate chunks, delivering a deep, decadent chocolate experience in every bite."
+  },
+  {
+    "name": "Oatmeal Raisin",
+    "price": 90,
+    "cat": "cookies",
+    "img": "https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e",
+    "desc": "Wholesome rolled oats blended with plump California raisins and warm cinnamon spices for a comforting, homestyle treat."
+  },
+  {
+    "name": "Peanut Butter Bliss",
+    "price": 105,
+    "cat": "cookies",
+    "img": "https://images.unsplash.com/photo-1558961363-fa8fdf82db35",
+    "desc": "Creamy peanut butter cookies with that signature fork-pressed pattern, perfectly balanced between sweet and savory."
+  },
+  {
+    "name": "Snickerdoodle",
+    "price": 95,
+    "cat": "cookies",
+    "img": "https://images.unsplash.com/photo-1548848221-0c2e497ed557",
+    "desc": "Soft, pillowy cookies rolled in cinnamon sugar, creating a crackled top with an irresistibly tender interior."
+  },
+  {
+    "name": "White Chocolate Macadamia",
+    "price": 140,
+    "cat": "cookies",
+    "img": "https://images.unsplash.com/photo-1619149651268-5cc902485eb2",
+    "desc": "Buttery Hawaiian macadamia nuts paired with creamy white chocolate in a golden, slightly crisp cookie base."
+  },
+  {
+    "name": "Salted Caramel Swirl",
+    "price": 135,
+    "cat": "cookies",
+    "img": "https://images.unsplash.com/photo-1585023068178-d57c79c1cb51",
+    "desc": "Luscious caramel ribbons swirled through brown butter cookie dough, finished with flaky Maldon sea salt."
+  },
+  {
+    "name": "Lemon Sugar",
+    "price": 100,
+    "cat": "cookies",
+    "img": "https://images.unsplash.com/photo-1590080876351-941da357f1b0",
+    "desc": "Bright, zesty lemon cookies with a delicate sugar coating, offering a refreshing citrus burst in every bite."
+  },
+  {
+    "name": "Red Velvet Cream Cheese",
+    "price": 125,
+    "cat": "cookies",
+    "img": "https://images.unsplash.com/photo-1612201142855-7873bc1661b4",
+    "desc": "Vibrant crimson cookies with swirls of tangy cream cheese, combining cake-like texture with classic flavor."
+  },
+  {
+    "name": "Espresso Chocolate Chunk",
+    "price": 130,
+    "cat": "cookies",
+    "img": "https://images.unsplash.com/photo-1599599810694-b5b37304c041",
+    "desc": "Robust espresso-infused dough loaded with dark chocolate chunks for coffee lovers seeking an afternoon pick-me-up."
+  },
+  {
+    "name": "Maple Pecan Shortbread",
+    "price": 145,
+    "cat": "cookies",
+    "img": "https://images.unsplash.com/photo-1558312657-b2dead03d494",
+    "desc": "Buttery shortbread enriched with pure maple syrup and studded with toasted Georgia pecans."
+  },
+  {
+    "name": "Ginger Molasses",
+    "price": 105,
+    "cat": "cookies",
+    "img": "https://images.unsplash.com/photo-1607114910421-e8d5b5e11b87",
+    "desc": "Chewy molasses cookies with crystallized ginger pieces and warm holiday spices that melt on your tongue."
+  },
+  {
+    "name": "Coconut Macaroon",
+    "price": 115,
+    "cat": "cookies",
+    "img": "https://images.unsplash.com/photo-1548365328-8c6db3220e4c",
+    "desc": "Crispy-edged, chewy-centered coconut mounds with golden toasted peaks and a hint of vanilla."
+  },
+  {
+    "name": "Almond Biscotti",
+    "price": 120,
+    "cat": "cookies",
+    "img": "https://images.unsplash.com/photo-1558961363-fa8fdf82db35",
+    "desc": "Twice-baked Italian cookies with whole roasted almonds, perfect for dunking in coffee or espresso."
+  },
+  {
+    "name": "Chocolate Crinkle",
+    "price": 110,
+    "cat": "cookies",
+    "img": "https://images.unsplash.com/photo-1481391319762-47dff72954d9",
+    "desc": "Fudgy chocolate cookies with dramatic powdered sugar cracks, revealing a rich, brownie-like interior."
+  },
+  {
+    "name": "Butter Pecan",
+    "price": 125,
+    "cat": "cookies",
+    "img": "https://images.unsplash.com/photo-1499636136210-6f4ee915583e",
+    "desc": "Brown butter cookies loaded with caramelized pecans and a touch of vanilla for Southern-inspired sweetness."
+  },
+  {
+    "name": "Strawberry Cheesecake",
+    "price": 150,
+    "cat": "cookies",
+    "img": "https://images.unsplash.com/photo-1590080876351-941da357f1b0",
+    "desc": "Cream cheese cookie dough swirled with strawberry jam and topped with graham cracker crumbles."
+  },
+  {
+    "name": "M&M Rainbow",
+    "price": 105,
+    "cat": "cookies",
+    "img": "https://images.unsplash.com/photo-1558312657-b2dead03d494",
+    "desc": "Colorful and fun cookies packed with candy-coated chocolate pieces that appeal to kids of all ages."
+  },
+  {
+    "name": "Tahini Sesame",
+    "price": 135,
+    "cat": "cookies",
+    "img": "https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e",
+    "desc": "Nutty tahini cookies coated in toasted sesame seeds, offering a sophisticated Middle Eastern twist."
+  },
+  {
+    "name": "Matcha White Chocolate",
+    "price": 155,
+    "cat": "cookies",
+    "img": "https://images.unsplash.com/photo-1563729784474-d77dbb933a9e",
+    "desc": "Earthy Japanese matcha dough studded with creamy white chocolate chips for a zen-inspired treat."
+  },
+  {
+    "name": "Brown Butter Walnut",
+    "price": 130,
+    "cat": "cookies",
+    "img": "https://images.unsplash.com/photo-1558312657-b2dead03d494",
+    "desc": "Nutty browned butter cookie dough with toasted walnut pieces and a hint of pure maple syrup."
+  },
+  {
+    "name": "Cranberry Orange",
+    "price": 115,
+    "cat": "cookies",
+    "img": "https://images.unsplash.com/photo-1590080876351-941da357f1b0",
+    "desc": "Zesty orange cookies studded with tart dried cranberries, perfect for autumn and winter gatherings."
+  },
+  {
+    "name": "Triple Ginger",
+    "price": 125,
+    "cat": "cookies",
+    "img": "https://images.unsplash.com/photo-1607114910421-e8d5b5e11b87",
+    "desc": "Fresh, ground, and crystallized ginger combine for an intensely spiced cookie with serious kick."
+  },
+  {
+    "name": "Chai Spice",
+    "price": 120,
+    "cat": "cookies",
+    "img": "https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e",
+    "desc": "Warm cardamom, cinnamon, and clove infused cookies inspired by traditional masala chai flavors."
+  },
+  {
+    "name": "S'mores",
+    "price": 145,
+    "cat": "cookies",
+    "img": "https://images.unsplash.com/photo-1499636136210-6f4ee915583e",
+    "desc": "Graham cracker cookie base topped with chocolate chunks and toasted mini marshmallows."
+  },
+  {
+    "name": "Lavender Honey",
+    "price": 140,
+    "cat": "cookies",
+    "img": "https://images.unsplash.com/photo-1590080876351-941da357f1b0",
+    "desc": "Delicate cookies infused with culinary lavender and local wildflower honey for floral elegance."
+  },
+  {
+    "name": "Pistachio Rose",
+    "price": 165,
+    "cat": "cookies",
+    "img": "https://images.unsplash.com/photo-1563729784474-d77dbb933a9e",
+    "desc": "Persian-inspired cookies with ground pistachios and rose water, topped with crushed nuts."
+  },
+  {
+    "name": "Funfetti Birthday",
+    "price": 110,
+    "cat": "cookies",
+    "img": "https://images.unsplash.com/photo-1558312657-b2dead03d494",
+    "desc": "Vanilla bean cookies loaded with rainbow sprinkles, bringing birthday cake vibes to every celebration."
+  },
+  {
+    "name": "Nutella Stuffed",
+    "price": 175,
+    "cat": "cookies",
+    "img": "https://images.unsplash.com/photo-1606313564200-e75d5e30476c",
+    "desc": "Thick chocolate cookies with a molten hazelnut spread center that oozes with each bite."
+  },
+  {
+    "name": "Apple Pie",
+    "price": 130,
+    "cat": "cookies",
+    "img": "https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e",
+    "desc": "Cinnamon-spiced cookies with dried apple pieces and a brown sugar streusel topping."
+  },
+  {
+    "name": "Black Forest",
+    "price": 155,
+    "cat": "cookies",
+    "img": "https://images.unsplash.com/photo-1606313564200-e75d5e30476c",
+    "desc": "Dark chocolate cookies with dried cherries and white chocolate chips, inspired by the classic German cake."
+  },
+  {
+    "name": "Toffee Crunch",
+    "price": 135,
+    "cat": "cookies",
+    "img": "https://images.unsplash.com/photo-1499636136210-6f4ee915583e",
+    "desc": "Buttery cookies studded with English toffee bits that add irresistible caramelized crunch."
+  },
+  {
+    "name": "Earl Grey",
+    "price": 145,
+    "cat": "cookies",
+    "img": "https://images.unsplash.com/photo-1590080876351-941da357f1b0",
+    "desc": "Sophisticated shortbread infused with bergamot-scented Earl Grey tea and a light lemon glaze."
+  },
+  {
+    "name": "Mexican Hot Chocolate",
+    "price": 140,
+    "cat": "cookies",
+    "img": "https://images.unsplash.com/photo-1606313564200-e75d5e30476c",
+    "desc": "Spiced chocolate cookies with cinnamon and a hint of cayenne pepper for gentle warmth."
+  },
+  {
+    "name": "Classic Butter Croissant",
+    "price": 95,
+    "cat": "pastries",
+    "img": "https://images.unsplash.com/photo-1555507036-ab1f4038808a",
+    "desc": "Flaky, golden croissant with 27 layers of laminated French butter dough, baked to crispy perfection."
+  },
+  {
+    "name": "Pain au Chocolat",
+    "price": 120,
+    "cat": "pastries",
+    "img": "https://images.unsplash.com/photo-1530610476181-d83430b64dcd",
+    "desc": "Buttery croissant dough wrapped around two bars of premium dark chocolate, creating a decadent breakfast treat."
+  },
+  {
+    "name": "Almond Croissant",
+    "price": 145,
+    "cat": "pastries",
+    "img": "https://images.unsplash.com/photo-1509365465985-25d11c17e812",
+    "desc": "Twice-baked croissant filled with frangipane cream, topped with sliced almonds and powdered sugar."
+  },
+  {
+    "name": "Ham & Cheese Croissant",
+    "price": 165,
+    "cat": "pastries",
+    "img": "https://images.unsplash.com/photo-1620146344904-097a0002d363",
+    "desc": "Savory croissant filled with Black Forest ham and melted Gruyère cheese, perfect for brunch."
+  },
+  {
+    "name": "Danish Raspberry Swirl",
+    "price": 130,
+    "cat": "pastries",
+    "img": "https://images.unsplash.com/photo-1509365390695-33aee754301f",
+    "desc": "Spiral Danish pastry filled with tangy raspberry preserves and drizzled with vanilla icing."
+  },
+  {
+    "name": "Apple Turnover",
+    "price": 115,
+    "cat": "pastries",
+    "img": "https://images.unsplash.com/photo-1568051243851-f9b136146e97",
+    "desc": "Flaky puff pastry envelope filled with cinnamon-spiced apple compote and glazed with sugar."
+  },
+  {
+    "name": "Chocolate Éclair",
+    "price": 155,
+    "cat": "pastries",
+    "img": "https://images.unsplash.com/photo-1525059696034-4967a8e1dca2",
+    "desc": "Choux pastry filled with silky vanilla custard and topped with rich dark chocolate ganache."
+  },
+  {
+    "name": "Coffee Éclair",
+    "price": 160,
+    "cat": "pastries",
+    "img": "https://images.unsplash.com/photo-1612203985729-70726954388c",
+    "desc": "Light choux pastry filled with espresso-infused cream and glazed with coffee fondant."
+  },
+  {
+    "name": "Fruit Danish Crown",
+    "price": 140,
+    "cat": "pastries",
+    "img": "https://images.unsplash.com/photo-1509365390695-33aee754301f",
+    "desc": "Crown-shaped Danish filled with vanilla custard and topped with seasonal fresh fruits."
+  },
+  {
+    "name": "Cinnamon Roll",
+    "price": 125,
+    "cat": "pastries",
+    "img": "https://images.unsplash.com/photo-1609127843904-a9f4e29d2a85",
+    "desc": "Soft, yeasted roll swirled with brown sugar and Ceylon cinnamon, topped with cream cheese frosting."
+  },
+  {
+    "name": "Pecan Sticky Bun",
+    "price": 175,
+    "cat": "pastries",
+    "img": "https://images.unsplash.com/photo-1619221882220-1da1407b2154",
+    "desc": "Caramelized pull-apart bun with toasted pecans and butterscotch glaze that's perfectly gooey."
+  },
+  {
+    "name": "Blueberry Scone",
+    "price": 105,
+    "cat": "pastries",
+    "img": "https://images.unsplash.com/photo-1586444248902-2f64eddc13df",
+    "desc": "Tender British-style scone studded with wild blueberries and finished with a light lemon glaze."
+  },
+  {
+    "name": "Cheese Danish",
+    "price": 120,
+    "cat": "pastries",
+    "img": "https://images.unsplash.com/photo-1509365390695-33aee754301f",
+    "desc": "Flaky Danish pastry filled with sweetened cream cheese and a hint of pure vanilla extract."
+  },
+  {
+    "name": "Croissant aux Amandes",
+    "price": 165,
+    "cat": "pastries",
+    "img": "https://images.unsplash.com/photo-1509365465985-25d11c17e812",
+    "desc": "Day-old croissant soaked in almond syrup, filled with almond cream, and baked until caramelized."
+  },
+  {
+    "name": "Pain aux Raisins",
+    "price": 110,
+    "cat": "pastries",
+    "img": "https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e",
+    "desc": "Spiral pastry with vanilla pastry cream and rum-soaked raisins, glazed with apricot."
+  },
+  {
+    "name": "Kouign-Amann",
+    "price": 185,
+    "cat": "pastries",
+    "img": "https://images.unsplash.com/photo-1555507036-ab1f4038808a",
+    "desc": "Caramelized Breton pastry with layers of butter and sugar creating crispy, flaky perfection."
+  },
+  {
+    "name": "Bear Claw",
+    "price": 145,
+    "cat": "pastries",
+    "img": "https://images.unsplash.com/photo-1509365465985-25d11c17e812",
+    "desc": "Almond-filled Danish shaped like a bear's paw, with sliced almonds and powdered sugar."
+  },
+  {
+    "name": "Chocolate Babka",
+    "price": 200,
+    "cat": "pastries",
+    "img": "https://images.unsplash.com/photo-1509365465985-25d11c17e812",
+    "desc": "Jewish-style twisted bread with swirls of dark chocolate and streusel topping."
+  },
+  {
+    "name": "Cinnamon Babka",
+    "price": 195,
+    "cat": "pastries",
+    "img": "https://images.unsplash.com/photo-1609127843904-a9f4e29d2a85",
+    "desc": "Braided sweet bread with brown sugar-cinnamon filling and a buttery streusel crust."
+  },
+  {
+    "name": "Palmier",
+    "price": 85,
+    "cat": "pastries",
+    "img": "https://images.unsplash.com/photo-1558961363-fa8fdf82db35",
+    "desc": "Crispy elephant ear-shaped pastry made from caramelized puff pastry, light and crunchy."
+  },
+  {
+    "name": "Paris-Brest",
+    "price": 220,
+    "cat": "pastries",
+    "img": "https://images.unsplash.com/photo-1612203985729-70726954388c",
+    "desc": "Ring-shaped choux pastry filled with praline mousseline cream, topped with sliced almonds."
+  },
+  {
+    "name": "Cream Puff",
+    "price": 135,
+    "cat": "pastries",
+    "img": "https://images.unsplash.com/photo-1612203985729-70726954388c",
+    "desc": "Light choux pastry sphere filled with Chantilly cream and dusted with powdered sugar."
+  },
+  {
+    "name": "Profiterole Tower",
+    "price": 280,
+    "cat": "pastries",
+    "img": "https://images.unsplash.com/photo-1612203985729-70726954388c",
+    "desc": "Stack of cream puffs drizzled with warm chocolate sauce, perfect for sharing."
+  },
+  {
+    "name": "Spinach Feta Puff",
+    "price": 150,
+    "cat": "pastries",
+    "img": "https://images.unsplash.com/photo-1620146344904-097a0002d363",
+    "desc": "Golden puff pastry filled with spinach, feta cheese, and Mediterranean herbs."
+  },
+  {
+    "name": "Sausage Roll",
+    "price": 125,
+    "cat": "pastries",
+    "img": "https://images.unsplash.com/photo-1620146344904-097a0002d363",
+    "desc": "Flaky pastry wrapped around seasoned pork sausage with herbs and a touch of sage."
+  },
+  {
+    "name": "Beef Wellington Bite",
+    "price": 195,
+    "cat": "pastries",
+    "img": "https://images.unsplash.com/photo-1620146344904-097a0002d363",
+    "desc": "Mini puff pastry with beef tenderloin, mushroom duxelles, and Dijon mustard."
+  },
+  {
+    "name": "Cherry Danish",
+    "price": 130,
+    "cat": "pastries",
+    "img": "https://images.unsplash.com/photo-1509365390695-33aee754301f",
+    "desc": "Flaky Danish pastry with vanilla custard and sweet-tart cherry compote topping."
+  },
+  {
+    "name": "Apricot Danish",
+    "price": 125,
+    "cat": "pastries",
+    "img": "https://images.unsplash.com/photo-1509365390695-33aee754301f",
+    "desc": "Buttery Danish filled with almond cream and glazed apricot halves."
+  },
+  {
+    "name": "Brioche Feuilletée",
+    "price": 155,
+    "cat": "pastries",
+    "img": "https://images.unsplash.com/photo-1555507036-ab1f4038808a",
+    "desc": "Layered brioche with a croissant-like texture, rich with European butter."
+  },
+  {
+    "name": "Canelé",
+    "price": 140,
+    "cat": "pastries",
+    "img": "https://images.unsplash.com/photo-1558961363-fa8fdf82db35",
+    "desc": "French Bordeaux specialty with caramelized crust and soft rum-vanilla custard interior."
+  },
+  {
+    "name": "Sfogliatella",
+    "price": 165,
+    "cat": "pastries",
+    "img": "https://images.unsplash.com/photo-1555507036-ab1f4038808a",
+    "desc": "Italian shell-shaped pastry with crispy layers filled with ricotta and candied citrus."
+  },
+  {
+    "name": "Mille-Feuille",
+    "price": 250,
+    "cat": "pastries",
+    "img": "https://images.unsplash.com/photo-1612203985729-70726954388c",
+    "desc": "Napoleon pastry with three layers of caramelized puff pastry and vanilla diplomat cream."
+  },
+  {
+    "name": "Portuguese Egg Tart",
+    "price": 115,
+    "cat": "pastries",
+    "img": "https://images.unsplash.com/photo-1558961363-fa8fdf82db35",
+    "desc": "Flaky pastry cup with caramelized custard, featuring signature charred spots on top."
+  },
+  {
+    "name": "Classic Chocolate Layer",
+    "price": 650,
+    "cat": "cakes",
+    "img": "https://images.unsplash.com/photo-1578985545062-69928b1d9587",
+    "desc": "Three layers of rich chocolate cake with silky chocolate buttercream and dark chocolate ganache drip."
+  },
+  {
+    "name": "Red Velvet",
+    "price": 700,
+    "cat": "cakes",
+    "img": "https://images.unsplash.com/photo-1616541823729-00fe0aacd32c",
+    "desc": "Iconic crimson cake with tangy cream cheese frosting, decorated with red velvet crumbs."
+  },
+  {
+    "name": "Vanilla Bean Celebration",
+    "price": 550,
+    "cat": "cakes",
+    "img": "https://images.unsplash.com/photo-1464349095431-e9a21285b5f3",
+    "desc": "Light vanilla sponge cake with Madagascar vanilla buttercream and edible flower decorations."
+  },
+  {
+    "name": "New York Cheesecake",
+    "price": 600,
+    "cat": "cakes",
+    "img": "https://images.unsplash.com/photo-1533134242443-d4fd215305ad",
+    "desc": "Dense, creamy cheesecake with graham cracker crust and your choice of fruit topping."
+  },
+  {
+    "name": "Carrot Walnut",
+    "price": 580,
+    "cat": "cakes",
+    "img": "https://images.unsplash.com/photo-1621303837174-89787a7d4729",
+    "desc": "Spiced carrot cake with toasted walnuts, cream cheese frosting, and marzipan carrot decorations."
+  },
+  {
+    "name": "Tiramisu Torte",
+    "price": 750,
+    "cat": "cakes",
+    "img": "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9",
+    "desc": "Espresso-soaked layers with mascarpone cream, dusted with premium Dutch cocoa powder."
+  },
+  {
+    "name": "Lemon Raspberry",
+    "price": 680,
+    "cat": "cakes",
+    "img": "https://images.unsplash.com/photo-1565958011703-44f9829ba187",
+    "desc": "Zesty lemon cake layers with raspberry curd filling and Italian meringue frosting."
+  },
+  {
+    "name": "German Chocolate",
+    "price": 720,
+    "cat": "cakes",
+    "img": "https://images.unsplash.com/photo-1578985545062-69928b1d9587",
+    "desc": "Classic chocolate cake topped with coconut-pecan frosting, a Southern American tradition."
+  },
+  {
+    "name": "Black Forest Gateau",
+    "price": 850,
+    "cat": "cakes",
+    "img": "https://images.unsplash.com/photo-1606890737304-57a1ca8a5b62",
+    "desc": "Chocolate sponge with Kirsch-soaked cherries, Chantilly cream, and chocolate shavings."
+  },
+  {
+    "name": "Strawberry Shortcake",
+    "price": 620,
+    "cat": "cakes",
+    "img": "https://images.unsplash.com/photo-1488477181946-6428a0291777",
+    "desc": "Fluffy vanilla cake with fresh strawberries and clouds of whipped cream frosting."
+  },
+  {
+    "name": "Opera Cake",
+    "price": 950,
+    "cat": "cakes",
+    "img": "https://images.unsplash.com/photo-1562440499-64c9a111f713",
+    "desc": "French masterpiece with almond sponge, coffee buttercream, and chocolate ganache layers."
+  },
+  {
+    "name": "Coconut Paradise",
+    "price": 680,
+    "cat": "cakes",
+    "img": "https://images.unsplash.com/photo-1464349095431-e9a21285b5f3",
+    "desc": "Moist coconut cake with coconut cream filling, frosted with toasted coconut flakes."
+  },
+  {
+    "name": "Pumpkin Spice",
+    "price": 560,
+    "cat": "cakes",
+    "img": "https://images.unsplash.com/photo-1621303837174-89787a7d4729",
+    "desc": "Seasonal favorite with warm spices, cream cheese frosting, and candied pepita topping."
+  },
+  {
+    "name": "Mocha Hazelnut",
+    "price": 780,
+    "cat": "cakes",
+    "img": "https://images.unsplash.com/photo-1578985545062-69928b1d9587",
+    "desc": "Coffee-infused chocolate cake with Frangelico buttercream and praline crunch."
+  },
+  {
+    "name": "Tres Leches",
+    "price": 520,
+    "cat": "cakes",
+    "img": "https://images.unsplash.com/photo-1464349095431-e9a21285b5f3",
+    "desc": "Latin American sponge cake soaked in three milks, topped with cinnamon whipped cream."
+  },
+  {
+    "name": "Matcha Green Tea",
+    "price": 750,
+    "cat": "cakes",
+    "img": "https://images.unsplash.com/photo-1565958011703-44f9829ba187",
+    "desc": "Japanese-inspired layers with ceremonial grade matcha and white chocolate buttercream."
+  },
+  {
+    "name": "Salted Caramel",
+    "price": 720,
+    "cat": "cakes",
+    "img": "https://images.unsplash.com/photo-1562440499-64c9a111f713",
+    "desc": "Brown butter cake with salted caramel filling, caramel buttercream, and sea salt flakes."
+  },
+  {
+    "name": "Princess Torte",
+    "price": 880,
+    "cat": "cakes",
+    "img": "https://images.unsplash.com/photo-1565958011703-44f9829ba187",
+    "desc": "Swedish classic with layers of cake, jam, custard, and whipped cream under green marzipan."
+  },
+  {
+    "name": "Hummingbird Cake",
+    "price": 640,
+    "cat": "cakes",
+    "img": "https://images.unsplash.com/photo-1621303837174-89787a7d4729",
+    "desc": "Southern banana-pineapple cake with pecans, cream cheese frosting, and edible flowers."
+  },
+  {
+    "name": "Earl Grey Lavender",
+    "price": 780,
+    "cat": "cakes",
+    "img": "https://images.unsplash.com/photo-1565958011703-44f9829ba187",
+    "desc": "Sophisticated tea-infused cake with lavender buttercream and crystallized flower petals."
+  },
+  {
+    "name": "Chocolate Peanut Butter",
+    "price": 700,
+    "cat": "cakes",
+    "img": "https://images.unsplash.com/photo-1578985545062-69928b1d9587",
+    "desc": "Rich chocolate layers with peanut butter mousse, topped with chocolate ganache and peanut butter cups."
+  },
+  {
+    "name": "Italian Cream",
+    "price": 720,
+    "cat": "cakes",
+    "img": "https://images.unsplash.com/photo-1464349095431-e9a21285b5f3",
+    "desc": "Buttery coconut-pecan cake with cream cheese frosting and toasted coconut decoration."
+  },
+  {
+    "name": "Mango Passion",
+    "price": 760,
+    "cat": "cakes",
+    "img": "https://images.unsplash.com/photo-1565958011703-44f9829ba187",
+    "desc": "Tropical sponge with mango mousse, passion fruit curd, and fresh exotic fruit topping."
+  },
+  {
+    "name": "Chocolate Truffle",
+    "price": 950,
+    "cat": "cakes",
+    "img": "https://images.unsplash.com/photo-1606890737304-57a1ca8a5b62",
+    "desc": "Dense, flourless chocolate cake with truffle ganache and gold leaf accents."
+  },
+  {
+    "name": "Funfetti Celebration",
+    "price": 480,
+    "cat": "cakes",
+    "img": "https://images.unsplash.com/photo-1464349095431-e9a21285b5f3",
+    "desc": "Festive vanilla cake loaded with rainbow sprinkles and vanilla buttercream frosting."
+  },
+  {
+    "name": "Honey Almond",
+    "price": 650,
+    "cat": "cakes",
+    "img": "https://images.unsplash.com/photo-1562440499-64c9a111f713",
+    "desc": "Delicate almond sponge with wildflower honey buttercream and candied almond decoration."
+  },
+  {
+    "name": "Biscoff Caramelized",
+    "price": 720,
+    "cat": "cakes",
+    "img": "https://images.unsplash.com/photo-1578985545062-69928b1d9587",
+    "desc": "Cookie butter lovers dream with speculoos sponge, Biscoff buttercream, and cookie crumb coating."
+  },
+  {
+    "name": "Blackberry Violet",
+    "price": 850,
+    "cat": "cakes",
+    "img": "https://images.unsplash.com/photo-1565958011703-44f9829ba187",
+    "desc": "Elegant violet-scented cake with blackberry compote and Swiss meringue buttercream."
+  },
+  {
+    "name": "Banoffee",
+    "price": 580,
+    "cat": "cakes",
+    "img": "https://images.unsplash.com/photo-1562440499-64c9a111f713",
+    "desc": "British classic with banana cake layers, toffee sauce, and fresh whipped cream topping."
+  },
+  {
+    "name": "Wedding White Rose",
+    "price": 1200,
+    "cat": "cakes",
+    "img": "https://images.unsplash.com/photo-1535254973040-607b474cb50d",
+    "desc": "Elegant four-tier white cake with champagne buttercream and handcrafted sugar roses."
+  },
+  {
+    "name": "Chocolate Raspberry Dream",
+    "price": 780,
+    "cat": "cakes",
+    "img": "https://images.unsplash.com/photo-1606890737304-57a1ca8a5b62",
+    "desc": "Dark chocolate layers with raspberry ganache, topped with fresh raspberries and chocolate curls."
+  },
+  {
+    "name": "Caramel Apple Spice",
+    "price": 680,
+    "cat": "cakes",
+    "img": "https://images.unsplash.com/photo-1621303837174-89787a7d4729",
+    "desc": "Autumn-inspired apple cake with caramel filling, cinnamon buttercream, and apple chip garnish."
+  },
+  {
+    "name": "Grand Marnier Orange",
+    "price": 920,
+    "cat": "cakes",
+    "img": "https://images.unsplash.com/photo-1562440499-64c9a111f713",
+    "desc": "Sophisticated orange cake soaked in Grand Marnier with orange curd and candied orange peel."
+  }
 ];
