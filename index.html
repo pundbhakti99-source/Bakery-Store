@@ -40,7 +40,50 @@
         <div id="modalBody"></div>
     </div>
 </div>
+<div id="productPageModal" class="product-page-modal">
+    <div class="pp-content">
+        <span class="pp-close" onclick="closeProductPage()">&times;</span>
+        <div class="pp-grid">
+            <div class="pp-image">
+                <img id="pp-main-img" src="" alt="">
+            </div>
+            <div class="pp-details">
+                <h1 id="pp-name">Product Name</h1>
+                <div class="pp-price-row">
+                    <span id="pp-price">₹00</span>
+                    <span class="tax-hint">(Inclusive of GST)</span>
+                </div>
+                
+                <p id="pp-desc" class="pp-description"></p>
 
+                <div class="pp-section">
+                    <label>Select Weight</label>
+                    <div class="weight-options">
+                        <button class="w-btn active">0.5 Kg</button>
+                        <button class="w-btn">1 Kg</button>
+                        <button class="w-btn">1.5 Kg</button>
+                        <button class="w-btn">2 Kg</button>
+                    </div>
+                </div>
+
+                <div class="pp-section">
+                    <label>Cake Message (Optional)</label>
+                    <input type="text" placeholder="Write A Sweet Wish!" id="pp-message">
+                </div>
+
+                <div class="pp-section">
+                    <div class="location-box">
+                        <input type="text" placeholder="Enter Pincode for Delivery">
+                        <button>Check</button>
+                    </div>
+                </div>
+
+                <button class="buy-now-btn" onclick="addToCartFromPage()">Buy Now</button>
+            </div>
+        </div>
+    </div>
+</div>
+    
 <div id="cartDrawer" class="cart-drawer">
     <div class="cart-header">
         <h2>Your Basket</h2>
