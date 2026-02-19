@@ -102,23 +102,76 @@ function checkPin() {
         status.style.color = "red";
     }
 }
+// Toggle Sidebar visibility
+function toggleCart() {
+    const sidebar = document.getElementById("cartSidebar");
+    const overlay = document.getElementById("cartOverlay");
+    sidebar.classList.toggle("open");
+    overlay.style.display = sidebar.classList.contains("open") ? "block" : "none";
+    renderCart();
+}
+
 function addToCart(isBuyNow) {
-    // Strips the ₹ and converts to a number
     const priceText = document.getElementById("m-price").innerText.replace('₹', '');
     const priceNum = parseInt(priceText);
-    
     const weight = document.querySelector('.w-btn.active').innerText;
-    const entryName = `${activeItem.name} (${weight})`;
     
-    cart.push({ name: entryName, price: priceNum });
-    document.getElementById("cartCount").innerText = cart.length;
+    const entry = {
+        name: `${activeItem.name} (${weight})`,
+        price: priceNum,
+        img: activeItem.img
+    };
+
+    cart.push(entry);
+    updateCartCount();
 
     if(isBuyNow) {
-        alert("Proceeding to Checkout for: " + entryName + " at ₹" + priceNum);
-        // Here you would typically redirect to a checkout page
+        toggleCart();
     } else {
-        alert(entryName + " added to Basket!");
+        alert("Added to basket!");
         closeModal();
     }
+}
+
+function updateCartCount() {
+    document.getElementById("cartCount").innerText = cart.length;
+}
+
+function renderCart() {
+    const list = document.getElementById("cartItemsList");
+    const totalEl = document.getElementById("cartTotal");
+    let total = 0;
+
+    if (cart.length === 0) {
+        list.innerHTML = "<p style='text-align:center; color:#888;'>Your basket is empty.</p>";
+        totalEl.innerText = "₹0";
+        return;
+    }
+
+    list.innerHTML = cart.map((item, index) => {
+        total += item.price;
+        return `
+            <div class="cart-item">
+                <div>
+                    <strong>${item.name}</strong>
+                    <p>₹${item.price}</p>
+                </div>
+                <button onclick="removeItem(${index})" style="background:none; border:none; color:red; cursor:pointer;">Remove</button>
+            </div>
+        `;
+    }).join('');
+
+    totalEl.innerText = `₹${total}`;
+}
+
+function removeItem(index) {
+    cart.splice(index, 1);
+    updateCartCount();
+    renderCart();
+}
+
+function proceedToCheckout() {
+    if(cart.length === 0) return alert("Basket is empty!");
+    alert("Redirecting to secure payment gateway...");
 }
 
