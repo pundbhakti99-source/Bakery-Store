@@ -11,7 +11,7 @@ const products = [
     "name": "Double Chocolate Fudge",
     "price": 110,
     "cat": "cookies",
-    "img": "https://unsplash.com/s/photos/chocolate-cookies",
+    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9yTYHyHLmsK_D71b2QA3wMZGK2Yuq4bU57Q&s",
     "desc": "Intensely rich cocoa cookies studded with chocolate chunks, delivering a deep, decadent chocolate experience in every bite."
   },
   {
