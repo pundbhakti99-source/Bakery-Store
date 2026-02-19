@@ -57,20 +57,17 @@ function openModal(name) {
     if(!p) return;
     activeItem = p;
 
-    // ... (Your existing modal text updates: name, img, desc, price) ...
-    document.getElementById("m-name").innerText = p.name;
-    document.getElementById("m-img").src = p.img;
-    document.getElementById("m-desc").innerText = p.desc;
-    document.getElementById("m-price").innerText = `₹${p.price}`;
-    document.getElementById("m-buy-price").innerText = `₹${p.price}`;
+    // ... your existing text updates (name, img, price, etc.) ...
 
-    // --- NEW: RECOMMENDATION LOGIC ---
+    // Reset Recommendation Scroll to start
     const recGrid = document.getElementById("recGrid");
-    // Filter items in the same category, excluding the current one
+    recGrid.scrollLeft = 0; 
+
+    // Filter and Render Recommendations (Updated for swipe)
     const suggestions = products
         .filter(item => item.cat === p.cat && item.name !== p.name)
-        .sort(() => 0.5 - Math.random()) // Shuffle
-        .slice(0, 3); // Take top 3
+        .sort(() => 0.5 - Math.random())
+        .slice(0, 5); // Increased to 5 to make the scroll visible
 
     recGrid.innerHTML = suggestions.map(s => `
         <div class="rec-item" onclick="openModal('${s.name.replace(/'/g, "\\'")}')">
@@ -78,11 +75,11 @@ function openModal(name) {
             <p>${s.name}</p>
         </div>
     `).join('');
-    // ---------------------------------
 
     document.getElementById("productModal").style.display = "block";
     document.body.style.overflow = "hidden";
 }
+
 
 
 function closeModal() {
