@@ -1,19 +1,12 @@
 let cart = [];
 let currentProduct = null;
 
-const products = [
-    { name: "Classic Choco Chip", price: 120, cat: "cookies", img: "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?q=80&w=600", desc: "Signature soft-bake with Belgian chocolate chunks." },
-    { name: "Red Velvet Cream", price: 140, cat: "cookies", img: "https://images.unsplash.com/photo-1610450938030-2f3086439002?q=80&w=600", desc: "Rich cocoa base with white chocolate chips." },
-    { name: "Classic Croissant", price: 150, cat: "pastries", img: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?q=80&w=600", desc: "Authentic 24-layer buttery French pastry." },
-    { name: "Belgian Chocolate Cake", price: 850, cat: "cakes", img: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=600", desc: "Decadent layers of dark chocolate ganache." }
-    // ... add your remaining items here
-];
-
-window.onload = () => {
-    document.getElementById("menu").style.display = "none";
+// Ensure menu is hidden initially
+window.onload = () => { 
+    document.getElementById("menu").style.display = "none"; 
 };
 
-// 1. Navigation & Dynamic Population
+// 1. NAVIGATION
 function jumpToCategory(cat) {
     const menuSection = document.getElementById("menu");
     menuSection.style.display = "block";
@@ -26,6 +19,7 @@ function filterCategory(cat, e) {
     const activeBtn = e ? e.target : document.getElementById(`btn-${cat}`);
     if (activeBtn) activeBtn.classList.add("active");
 
+    // Using the 'products' array from your external product.js
     const filtered = (cat === 'all') ? products : products.filter(p => p.cat === cat);
     renderGrid(filtered);
 }
@@ -41,19 +35,20 @@ function renderGrid(items) {
     `).join('');
 }
 
-// 2. Product Detail Fixes
+// 2. DYNAMIC POPULATION (Functional Fix)
 function openProductDetail(name) {
-    const product = products.find(p => p.name === name);
-    if(!product) return;
+    // Search your external products list for the matching name
+    const productData = products.find(p => p.name === name);
+    if (!productData) return;
 
-    currentProduct = product; 
-    document.getElementById("pp-name").innerText = product.name;
-    document.getElementById("pp-price").innerText = `₹${product.price}`;
-    document.getElementById("pp-btn-price").innerText = `₹${product.price}`;
-    document.getElementById("pp-desc").innerText = product.desc;
-    document.getElementById("pp-main-img").src = product.img;
+    currentProduct = productData; 
+    document.getElementById("pp-name").innerText = productData.name;
+    document.getElementById("pp-price").innerText = `₹${productData.price}`;
+    document.getElementById("pp-btn-price").innerText = `₹${productData.price}`;
+    document.getElementById("pp-desc").innerText = productData.desc;
+    document.getElementById("pp-main-img").src = productData.img;
     
-    // Reset weights
+    // Reset weight buttons to first option
     document.querySelectorAll('.w-btn').forEach((btn, i) => {
         i === 0 ? btn.classList.add('active') : btn.classList.remove('active');
     });
@@ -67,7 +62,7 @@ function closeProductPage() {
     document.body.style.overflow = "auto";
 }
 
-// 3. Weight Selection (Active States)
+// 3. UI IMPROVEMENT: Active Weight States
 document.addEventListener('click', function(e) {
     if (e.target.classList.contains('w-btn')) {
         document.querySelectorAll('.w-btn').forEach(btn => btn.classList.remove('active'));
@@ -81,34 +76,34 @@ document.addEventListener('click', function(e) {
     }
 });
 
-// 4. Pincode Logic
+// 4. PINCODE CHECK (Integration)
 function checkPincode() {
     const pin = document.getElementById("pincodeInput").value;
     const msg = document.getElementById("pincodeMsg");
-    const validPins = ["400001", "110001", "560001"]; // Example list
-
-    if(validPins.includes(pin)) {
-        msg.innerText = "✓ Delivery available to this area!";
-        msg.style.color = "#82937E";
+    
+    // Simple validation logic (Example: only 6 digit numbers allowed)
+    if (pin.length === 6 && !isNaN(pin)) {
+        msg.innerText = "✓ We deliver to " + pin;
+        msg.style.color = "green";
     } else {
-        msg.innerText = "× Sorry, we don't deliver here yet.";
-        msg.style.color = "#ff3232";
+        msg.innerText = "× Sorry, no delivery to this area.";
+        msg.style.color = "red";
     }
 }
 
-// 5. Cart Logic
-function addToCartFromPage(isBuyNow) {
-    const p = document.getElementById("pp-price").innerText.replace('₹','');
-    const w = document.querySelector('.w-btn.active').innerText;
-    const finalName = `${currentProduct.name} (${w})`;
+// 5. CART LOGIC (Enhanced with Add to Cart)
+function addToCart(isBuyNow) {
+    const priceText = document.getElementById("pp-price").innerText.replace('₹','');
+    const weight = document.querySelector('.w-btn.active').innerText;
+    const itemName = `${currentProduct.name} (${weight})`;
     
-    cart.push({ name: finalName, price: parseInt(p) });
+    cart.push({ name: itemName, price: parseInt(priceText) });
     document.getElementById("cartCount").innerText = cart.length;
     
-    if(isBuyNow) {
-        alert("Proceeding to Checkout with: " + finalName);
+    if (isBuyNow) {
+        alert("Redirecting to Checkout...");
     } else {
-        alert(finalName + " added to basket!");
+        alert(itemName + " added to your basket!");
         closeProductPage();
     }
 }
