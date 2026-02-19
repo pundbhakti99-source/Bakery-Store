@@ -3,26 +3,47 @@ let total = 0;
 let isLoggedIn = false;
 
 // 1. AUTHENTICATION LOGIC
-function openAuthModal() {
-    document.getElementById("authModal").style.display = "block";
-}
 
-function closeAuthModal() {
-    document.getElementById("authModal").style.display = "none";
-}
-
-function handleAuth() {
-    const email = document.getElementById("email").value;
-    if (email.includes("@")) {
-        isLoggedIn = true;
-        document.getElementById("userLink").innerHTML = `<a href="javascript:void(0)">Hi, User</a>`;
-        alert("Success! You are now signed in.");
-        closeAuthModal();
+// This function switches the visible form inside the modal
+function toggleAuthView(view) {
+    const signInView = document.getElementById("signInView");
+    const signUpView = document.getElementById("signUpView");
+    
+    if (view === 'signup') {
+        signInView.style.display = "none";
+        signUpView.style.display = "block";
     } else {
-        alert("Please enter a valid email address.");
+        signInView.style.display = "block";
+        signUpView.style.display = "none";
     }
 }
 
+// This handles both the Login button and the Register button
+function handleAuth(type) {
+    let email, name;
+
+    if (type === 'login') {
+        email = document.getElementById("loginEmail").value;
+        if (!email.includes("@")) {
+            alert("Please enter a valid email to sign in.");
+            return;
+        }
+        name = "User"; // Generic name for login
+    } else {
+        name = document.getElementById("regName").value;
+        email = document.getElementById("regEmail").value;
+        if (!name || !email.includes("@")) {
+            alert("Please fill in all registration fields.");
+            return;
+        }
+    }
+
+    // Mark as logged in and update UI
+    isLoggedIn = true;
+    document.getElementById("userLink").innerHTML = `<a href="javascript:void(0)">Hi, ${name.split(' ')[0]}</a>`;
+    alert(type === 'login' ? "Welcome back!" : "Account created successfully!");
+    closeAuthModal();
+}
 // 2. PRODUCT DETAIL MODAL
 function openProductDetail(name, price, desc, imgUrl) {
     const modal = document.getElementById("productModal");
