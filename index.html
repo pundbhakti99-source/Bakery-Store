@@ -12,24 +12,24 @@
 <nav class="navbar">
     <div class="nav-container">
         <a href="#" class="logo">G<span>W</span></a>
-        <div class="nav-search">
-            <input type="text" id="searchInput" placeholder="Search our bakery..." onkeyup="handleSearch(event)">
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search our bakery..." onkeyup="handleSearch()">
         </div>
         <ul class="nav-links">
             <li><a href="#menu" onclick="jumpToCategory('all')">Menu</a></li>
-            <li id="userLink"><a href="#">Sign In</a></li>
-            <li class="cart-btn"><a href="#">Cart (<span id="cartCount">0</span>)</a></li>
+            <li><a href="#">Sign In</a></li>
+            <li class="cart-status">Cart (<span id="cartCount">0</span>)</li>
         </ul>
     </div>
 </nav>
 
 <header class="hero">
-    <div class="hero-overlay"></div> 
+    <div class="hero-overlay"></div>
     <div class="hero-content">
         <div class="hero-card">
             <h1>Soft Bakes, Early Mornings.</h1>
-            <p>Handcrafted with love, delivered to your doorstep.</p>
-            <div class="category-jump">
+            <p>Handcrafted treats delivered to your door.</p>
+            <div class="cat-stack">
                 <div class="cat-item" onclick="jumpToCategory('cookies')">
                     <img src="https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=200" alt="Cookies">
                     <span>Cookies</span>
@@ -47,59 +47,53 @@
     </div>
 </header>
 
-<section class="products-section" id="menu" style="display: none;">
-    <div class="filter-bar">
-        <button class="filter-btn active" id="btn-all" onclick="filterCategory('all', event)">All Bakes</button>
-        <button class="filter-btn" id="btn-cookies" onclick="filterCategory('cookies', event)">Cookies</button>
-        <button class="filter-btn" id="btn-pastries" onclick="filterCategory('pastries', event)">Pastries</button>
-        <button class="filter-btn" id="btn-cakes" onclick="filterCategory('cakes', event)">Cakes</button>
+<section id="menu" class="product-section">
+    <div class="filters">
+        <button class="f-btn active" id="btn-all" onclick="filterCategory('all', event)">All Bakes</button>
+        <button class="f-btn" id="btn-cookies" onclick="filterCategory('cookies', event)">Cookies</button>
+        <button class="f-btn" id="btn-pastries" onclick="filterCategory('pastries', event)">Pastries</button>
+        <button class="f-btn" id="btn-cakes" onclick="filterCategory('cakes', event)">Cakes</button>
     </div>
     <div class="product-grid" id="productGrid"></div>
 </section>
 
-<div id="productPageModal" class="pp-modal">
-    <div class="pp-container">
-        <span class="pp-close" onclick="closeProductPage()">&times;</span>
-        <div class="pp-layout">
-            <div class="pp-image">
-                <img id="pp-main-img" src="" alt="">
+<div id="productModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeModal()">&times;</span>
+        <div class="modal-body">
+            <div class="modal-img">
+                <img id="m-img" src="" alt="">
             </div>
-            <div class="pp-details">
-                <h1 id="pp-name">Product Name</h1>
-                <div class="pp-price-box">
-                    <span id="pp-price">₹0</span>
-                    <small>Inclusive of all taxes</small>
+            <div class="modal-info">
+                <h2 id="m-name">Product Name</h2>
+                <div class="m-price-row">
+                    <span id="m-price">₹0</span>
+                    <small>Inc. GST</small>
                 </div>
-                <p id="pp-desc" class="pp-text"></p>
-
-                <div class="pp-options">
-                    <div class="option-row">
-                        <label>Select Weight</label>
-                        <div class="weight-btns">
-                            <button class="w-btn active" data-mult="1">0.5 Kg</button>
-                            <button class="w-btn" data-mult="1.8">1 Kg</button>
-                            <button class="w-btn" data-mult="3.5">2 Kg</button>
-                        </div>
+                <p id="m-desc"></p>
+                
+                <div class="m-options">
+                    <label>Weight Selection</label>
+                    <div class="weight-row">
+                        <button class="w-btn active" data-mult="1">0.5 Kg</button>
+                        <button class="w-btn" data-mult="1.8">1 Kg</button>
+                        <button class="w-btn" data-mult="3.5">2 Kg</button>
                     </div>
-
-                    <div class="option-row">
-                        <label>Custom Message</label>
-                        <input type="text" id="pp-msg" placeholder="Happy Birthday..." maxlength="30">
+                    
+                    <label>Gift Message</label>
+                    <input type="text" id="m-msg" placeholder="Happy Birthday!">
+                    
+                    <label>Check Delivery</label>
+                    <div class="pin-row">
+                        <input type="text" id="pinInput" placeholder="Pincode">
+                        <button onclick="checkPin()">Check</button>
                     </div>
-
-                    <div class="option-row">
-                        <label>Delivery Check</label>
-                        <div class="pincode-box">
-                            <input type="text" id="pincodeInput" placeholder="Pincode">
-                            <button onclick="checkPincode()">Check</button>
-                        </div>
-                        <p id="pincodeMsg"></p>
-                    </div>
+                    <p id="pinStatus"></p>
                 </div>
 
-                <div class="pp-footer">
-                    <button class="btn-secondary" onclick="addToCart(false)">Add to Cart</button>
-                    <button class="btn-primary" onclick="addToCart(true)">Buy Now | <span id="pp-btn-price">₹0</span></button>
+                <div class="m-actions">
+                    <button class="add-btn" onclick="addToCart(false)">Add to Cart</button>
+                    <button class="buy-btn" onclick="addToCart(true)">Buy Now | <span id="m-buy-price">₹0</span></button>
                 </div>
             </div>
         </div>
