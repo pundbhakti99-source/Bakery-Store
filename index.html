@@ -75,21 +75,34 @@
 <header class="hero">
     <div class="hero-text">
         <h1>Soft Bakes, Early Mornings.</h1>
-        <p>Freshly baked cookies and custom cakes made with love.</p>
+        <p>Select a category to explore our fresh bakes.</p>
+        
+        <div class="category-jump-container">
+            <div class="cat-card" onclick="jumpToCategory('cookies')">
+                <img src="https://images.unsplash.com/photo-1499636136210-6f4ee915583e?q=80&w=400" alt="Cookies">
+                <span>Cookies</span>
+            </div>
+            <div class="cat-card" onclick="jumpToCategory('pastries')">
+                <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?q=80&w=400" alt="Pastries">
+                <span>Pastries</span>
+            </div>
+            <div class="cat-card" onclick="jumpToCategory('cakes')">
+                <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=400" alt="Cakes">
+                <span>Cakes</span>
+            </div>
+        </div>
     </div>
 </header>
 
-<section class="products" id="menu">
-    <h2>The Morning Selection</h2>
-    <div class="filter-container">
-        <button class="filter-btn active" onclick="filterCategory('all', event)">All</button>
-        <button class="filter-btn" onclick="filterCategory('cookies', event)">Cookies</button>
-        <button class="filter-btn" onclick="filterCategory('pastries', event)">Pastries</button>
-        <button class="filter-btn" onclick="filterCategory('cakes', event)">Cakes</button>
+<section class="products" id="menu" style="display: none;"> <div class="filter-container">
+        <button class="filter-btn" onclick="filterCategory('all', event)">All</button>
+        <button class="filter-btn" id="btn-cookies" onclick="filterCategory('cookies', event)">Cookies</button>
+        <button class="filter-btn" id="btn-pastries" onclick="filterCategory('pastries', event)">Pastries</button>
+        <button class="filter-btn" id="btn-cakes" onclick="filterCategory('cakes', event)">Cakes</button>
     </div>
     <div class="product-grid" id="productGrid"></div>
 </section>
-
+    
 <footer>
     <p>© 2026 THE GOLDEN WHISK</p>
 </footer>
