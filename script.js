@@ -188,3 +188,21 @@ function proceedToCheckout() {
     alert("Redirecting to secure payment gateway...");
 }
 
+// Add a random rating to your render function for visual flair
+function renderProducts(items) {
+    const grid = document.getElementById("productGrid");
+    grid.innerHTML = items.map(p => {
+        // Mock rating between 4.5 and 5.0 for premium feel
+        const rate = (Math.random() * (5 - 4.5) + 4.5).toFixed(1);
+        return `
+            <div class="p-card" onclick="openModal('${p.name.replace(/'/g, "\\'")}')">
+                <img src="${p.img}" alt="${p.name}">
+                <div class="rating">★★★★★ <span>(${rate})</span></div>
+                <h3>${p.name}</h3>
+                <p class="p-price">₹${p.price}</p>
+            </div>
+        `;
+    }).join('');
+}
+
+// Ensure the footer is added to your index.html as well!
