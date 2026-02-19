@@ -249,224 +249,217 @@ const products = [
     "name": "Pain au Chocolat",
     "price": 120,
     "cat": "pastries",
-    "img": "https://images.unsplash.com/photo-1530610476181-d83430b64dcd",
+    "img": "https://theobroma.in/cdn/shop/files/PainAuChocolat02.jpg?v=1710838733",
     "desc": "Buttery croissant dough wrapped around two bars of premium dark chocolate, creating a decadent breakfast treat."
   },
   {
     "name": "Almond Croissant",
     "price": 145,
     "cat": "pastries",
-    "img": "https://images.unsplash.com/photo-1509365465985-25d11c17e812",
+    "img": "https://www.kitchensanctuary.com/wp-content/uploads/2017/04/Almond-Croissants-Square-FS-31.jpg",
     "desc": "Twice-baked croissant filled with frangipane cream, topped with sliced almonds and powdered sugar."
   },
   {
     "name": "Ham & Cheese Croissant",
     "price": 165,
     "cat": "pastries",
-    "img": "https://images.unsplash.com/photo-1620146344904-097a0002d363",
+    "img": "https://images.immediate.co.uk/production/volatile/sites/30/2023/09/Ham-and-cheese-croissant-449b9ce.jpg",
     "desc": "Savory croissant filled with Black Forest ham and melted Gruyère cheese, perfect for brunch."
   },
   {
     "name": "Danish Raspberry Swirl",
     "price": 130,
     "cat": "pastries",
-    "img": "https://images.unsplash.com/photo-1509365390695-33aee754301f",
+    "img": "https://www.vanillabeancuisine.com/wp-content/uploads/2022/08/Raspberry-Danish-FEAT-IMAGE.jpg",
     "desc": "Spiral Danish pastry filled with tangy raspberry preserves and drizzled with vanilla icing."
   },
   {
     "name": "Apple Turnover",
     "price": 115,
     "cat": "pastries",
-    "img": "https://images.unsplash.com/photo-1568051243851-f9b136146e97",
+    "img": "https://familydinners.com/wp-content/uploads/2022/08/Handmade-Apple-Turnover-Recipe-5.jpg",
     "desc": "Flaky puff pastry envelope filled with cinnamon-spiced apple compote and glazed with sugar."
   },
   {
     "name": "Chocolate Éclair",
     "price": 155,
     "cat": "pastries",
-    "img": "https://images.unsplash.com/photo-1525059696034-4967a8e1dca2",
+    "img": "https://www.gogogogourmet.com/wp-content/uploads/2015/02/Chocolate-Eclairs-7.jpg",
     "desc": "Choux pastry filled with silky vanilla custard and topped with rich dark chocolate ganache."
   },
   {
     "name": "Coffee Éclair",
     "price": 160,
     "cat": "pastries",
-    "img": "https://images.unsplash.com/photo-1612203985729-70726954388c",
+    "img": "https://whippedfood.com/wp-content/uploads/2023/09/Coffee-Eclair.jpg",
     "desc": "Light choux pastry filled with espresso-infused cream and glazed with coffee fondant."
   },
   {
     "name": "Fruit Danish Crown",
     "price": 140,
     "cat": "pastries",
-    "img": "https://images.unsplash.com/photo-1509365390695-33aee754301f",
+    "img": "https://www.britishbakels.co.uk/wp-content/uploads/sites/2/2022/01/Bakels_147-Large.jpg",
     "desc": "Crown-shaped Danish filled with vanilla custard and topped with seasonal fresh fruits."
   },
   {
     "name": "Cinnamon Roll",
     "price": 125,
     "cat": "pastries",
-    "img": "https://images.unsplash.com/photo-1609127843904-a9f4e29d2a85",
+    "img": "https://www.thepalatablelife.com/wp-content/uploads/2024/05/miso-butter-cinnamon-rolls-2-scaled.jpg",
     "desc": "Soft, yeasted roll swirled with brown sugar and Ceylon cinnamon, topped with cream cheese frosting."
   },
   {
     "name": "Pecan Sticky Bun",
     "price": 175,
     "cat": "pastries",
-    "img": "https://images.unsplash.com/photo-1619221882220-1da1407b2154",
+    "img": "https://redstaryeast.com/wp-content/uploads/2014/10/Pecan-Sticky-Buns-72-dpi-800w.jpg",
     "desc": "Caramelized pull-apart bun with toasted pecans and butterscotch glaze that's perfectly gooey."
   },
   {
     "name": "Blueberry Scone",
     "price": 105,
     "cat": "pastries",
-    "img": "https://images.unsplash.com/photo-1586444248902-2f64eddc13df",
+    "img": "https://www.kyleecooks.com/wp-content/uploads/2021/02/Blueberry-Scones-SQ-1.jpg",
     "desc": "Tender British-style scone studded with wild blueberries and finished with a light lemon glaze."
   },
   {
     "name": "Cheese Danish",
     "price": 120,
     "cat": "pastries",
-    "img": "https://images.unsplash.com/photo-1509365390695-33aee754301f",
+    "img": "https://littlesunnykitchen.com/wp-content/uploads/2023/04/Cheese-Danish-1.jpg",
     "desc": "Flaky Danish pastry filled with sweetened cream cheese and a hint of pure vanilla extract."
   },
   {
     "name": "Croissant aux Amandes",
     "price": 165,
     "cat": "pastries",
-    "img": "https://images.unsplash.com/photo-1509365465985-25d11c17e812",
+    "img": "https://noseychef.com/wp-content/uploads/2021/09/IMG_8872123.jpg",
     "desc": "Day-old croissant soaked in almond syrup, filled with almond cream, and baked until caramelized."
   },
   {
     "name": "Pain aux Raisins",
     "price": 110,
     "cat": "pastries",
-    "img": "https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e",
+    "img": "https://www.cookinwithmima.com/wp-content/uploads/2022/10/Pain-Aux-Raisin-Recipe.jpg",
     "desc": "Spiral pastry with vanilla pastry cream and rum-soaked raisins, glazed with apricot."
   },
   {
     "name": "Kouign-Amann",
     "price": 185,
     "cat": "pastries",
-    "img": "https://images.unsplash.com/photo-1555507036-ab1f4038808a",
+    "img": "https://anitalianinmykitchen.com/wp-content/uploads/2016/01/k-amann-sq-1-of-1.jpg",
     "desc": "Caramelized Breton pastry with layers of butter and sugar creating crispy, flaky perfection."
   },
   {
     "name": "Bear Claw",
     "price": 145,
     "cat": "pastries",
-    "img": "https://images.unsplash.com/photo-1509365465985-25d11c17e812",
+    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSak_m0xfrJZ44reqFt8ZJAYUB7L9EdQ0p97Q&s",
     "desc": "Almond-filled Danish shaped like a bear's paw, with sliced almonds and powdered sugar."
   },
   {
     "name": "Chocolate Babka",
     "price": 200,
     "cat": "pastries",
-    "img": "https://images.unsplash.com/photo-1509365465985-25d11c17e812",
+    "img": "https://www.foodandwine.com/thmb/3EzcSQmx93K20oEJCsZVYrPm6KE=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/RECIPE0116-XL-chocolate-babka-1a2e39def5f043f58caf48b97456a119.jpg",
     "desc": "Jewish-style twisted bread with swirls of dark chocolate and streusel topping."
   },
   {
     "name": "Cinnamon Babka",
     "price": 195,
     "cat": "pastries",
-    "img": "https://images.unsplash.com/photo-1609127843904-a9f4e29d2a85",
+    "img": "https://toriavey.com/images/2019/01/P1288273.jpg",
     "desc": "Braided sweet bread with brown sugar-cinnamon filling and a buttery streusel crust."
   },
   {
     "name": "Palmier",
     "price": 85,
     "cat": "pastries",
-    "img": "https://images.unsplash.com/photo-1558961363-fa8fdf82db35",
+    "img": "https://natashaskitchen.com/wp-content/uploads/2025/11/Palmiers-Elephant-Ears-SQ-500x375.jpg",
     "desc": "Crispy elephant ear-shaped pastry made from caramelized puff pastry, light and crunchy."
   },
   {
     "name": "Paris-Brest",
     "price": 220,
     "cat": "pastries",
-    "img": "https://images.unsplash.com/photo-1612203985729-70726954388c",
+    "img": "https://bakefromscratch.com/wp-content/uploads/2017/02/Paris-Brest-696x566.jpg",
     "desc": "Ring-shaped choux pastry filled with praline mousseline cream, topped with sliced almonds."
   },
   {
     "name": "Cream Puff",
     "price": 135,
     "cat": "pastries",
-    "img": "https://images.unsplash.com/photo-1612203985729-70726954388c",
+    "img": "https://staticcookist.akamaized.net/wp-content/uploads/sites/22/2024/03/puff-pastry-cones.jpg",
     "desc": "Light choux pastry sphere filled with Chantilly cream and dusted with powdered sugar."
-  },
-  {
-    "name": "Profiterole Tower",
-    "price": 280,
-    "cat": "pastries",
-    "img": "https://images.unsplash.com/photo-1612203985729-70726954388c",
-    "desc": "Stack of cream puffs drizzled with warm chocolate sauce, perfect for sharing."
   },
   {
     "name": "Spinach Feta Puff",
     "price": 150,
     "cat": "pastries",
-    "img": "https://images.unsplash.com/photo-1620146344904-097a0002d363",
+    "img": "https://www.oliveandmango.com/images/uploads/2020_12_30_spanakopita_sunflower_1.jpg",
     "desc": "Golden puff pastry filled with spinach, feta cheese, and Mediterranean herbs."
   },
   {
     "name": "Sausage Roll",
     "price": 125,
     "cat": "pastries",
-    "img": "https://images.unsplash.com/photo-1620146344904-097a0002d363",
+    "img": "https://www.shecooksdesign.com/wp-content/uploads/2024/03/sausage-rolls-01.jpg",
     "desc": "Flaky pastry wrapped around seasoned pork sausage with herbs and a touch of sage."
   },
   {
     "name": "Beef Wellington Bite",
     "price": 195,
     "cat": "pastries",
-    "img": "https://images.unsplash.com/photo-1620146344904-097a0002d363",
+    "img": "https://hillstreetgrocer.com/application/files/8716/6571/9520/Recipe-image65.jpg",
     "desc": "Mini puff pastry with beef tenderloin, mushroom duxelles, and Dijon mustard."
   },
   {
     "name": "Cherry Danish",
     "price": 130,
     "cat": "pastries",
-    "img": "https://images.unsplash.com/photo-1509365390695-33aee754301f",
+    "img": "https://www.vanillabeancuisine.com/wp-content/uploads/2021/01/Plate-of-cherry-danishes.jpg",
     "desc": "Flaky Danish pastry with vanilla custard and sweet-tart cherry compote topping."
   },
   {
     "name": "Apricot Danish",
     "price": 125,
     "cat": "pastries",
-    "img": "https://images.unsplash.com/photo-1509365390695-33aee754301f",
+    "img": "https://brasseriebread.com.au/wp-content/uploads/2020/05/Apricot-Danish2-2-1800x1200.jpg",
     "desc": "Buttery Danish filled with almond cream and glazed apricot halves."
   },
   {
     "name": "Brioche Feuilletée",
     "price": 155,
     "cat": "pastries",
-    "img": "https://images.unsplash.com/photo-1555507036-ab1f4038808a",
+    "img": "https://i0.wp.com/aime-mange.com/wp-content/uploads/2020/12/IMG_0610-scaled.jpg?resize=683%2C1024&ssl=1",
     "desc": "Layered brioche with a croissant-like texture, rich with European butter."
   },
   {
     "name": "Canelé",
     "price": 140,
     "cat": "pastries",
-    "img": "https://images.unsplash.com/photo-1558961363-fa8fdf82db35",
+    "img": "https://cdn.prod.website-files.com/62d6dee53062554a34a0c24e/6333210308d113b258cb3853_62d6dee53062555270a0c7d6-adobestock-476169951-small-2.webp",
     "desc": "French Bordeaux specialty with caramelized crust and soft rum-vanilla custard interior."
   },
   {
     "name": "Sfogliatella",
     "price": 165,
     "cat": "pastries",
-    "img": "https://images.unsplash.com/photo-1555507036-ab1f4038808a",
+    "img": "https://www.foodandwine.com/thmb/Hby9wBBAtjo8WOzwrmKXhdfQTzA=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/Sfogliatelle-FT-RECIPE1222-f5ae520a60c745f8ac83f7519432d904.jpg",
     "desc": "Italian shell-shaped pastry with crispy layers filled with ricotta and candied citrus."
   },
   {
     "name": "Mille-Feuille",
     "price": 250,
     "cat": "pastries",
-    "img": "https://images.unsplash.com/photo-1612203985729-70726954388c",
+    "img": "https://myloveofbaking.com/wp-content/uploads/2021/04/IMG_6633-scaled.jpg",
     "desc": "Napoleon pastry with three layers of caramelized puff pastry and vanilla diplomat cream."
   },
   {
     "name": "Portuguese Egg Tart",
     "price": 115,
     "cat": "pastries",
-    "img": "https://images.unsplash.com/photo-1558961363-fa8fdf82db35",
+    "img": "https://cdn.apartmenttherapy.info/image/upload/f_jpg,q_auto:eco,c_fill,g_auto,w_1500,ar_1:1/tk%2Fphoto%2F2025%2F06-2025%2F2025-06-pasteis-de-nata%2Fpasteis-de-nata-11",
     "desc": "Flaky pastry cup with caramelized custard, featuring signature charred spots on top."
   },
   {
