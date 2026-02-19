@@ -108,3 +108,25 @@ window.onclick = (e) => {
     } 
 }
 
+// Function to handle the category click on homepage
+function jumpToCategory(cat) {
+    const menuSection = document.getElementById("menu");
+    menuSection.style.display = "block"; // Show the hidden menu
+    
+    // Smooth scroll to the menu
+    menuSection.scrollIntoView({ behavior: 'smooth' });
+    
+    // Trigger the existing filter logic
+    filterCategory(cat);
+    
+    // Set the button to active visually
+    document.querySelectorAll(".filter-btn").forEach(btn => btn.classList.remove("active"));
+    const activeBtn = document.getElementById(`btn-${cat}`);
+    if(activeBtn) activeBtn.classList.add("active");
+}
+
+// Update the window.onload to NOT show products immediately
+window.onload = () => {
+    // We don't call renderGrid(products) here anymore 
+    // so the page stays empty/clean until a category is clicked.
+};
