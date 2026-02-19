@@ -4,6 +4,22 @@ let isLoggedIn = false;
 
 // 1. AUTHENTICATION LOGIC
 
+function openAuthModal() {
+    const modal = document.getElementById("authModal");
+    if (modal) {
+        modal.style.display = "block";
+    } else {
+        console.error("Auth Modal element not found!");
+    }
+}
+
+function closeAuthModal() {
+    const modal = document.getElementById("authModal");
+    if (modal) {
+        modal.style.display = "none";
+    }
+}
+
 // This function switches the visible form inside the modal
 function toggleAuthView(view) {
     const signInView = document.getElementById("signInView");
