@@ -1,7 +1,7 @@
 let cart = [];
-let currentProduct = null;
+let activeItem = null;
 
-// Initial Setup
+// Ensure Menu section stays hidden until triggered
 window.onload = () => {
     document.getElementById("menu").style.display = "none";
 };
@@ -14,102 +14,98 @@ function jumpToCategory(cat) {
     filterCategory(cat);
 }
 
-function filterCategory(cat, e) {
-    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-    const targetBtn = e ? e.target : document.getElementById(`btn-${cat}`);
-    if (targetBtn) targetBtn.classList.add('active');
-
-    // Accesses global 'products' variable from product.js
-    const list = (cat === 'all') ? products : products.filter(p => p.cat === cat);
-    renderGrid(list);
+function handleSearch() {
+    const term = document.getElementById("searchInput").value.toLowerCase();
+    document.getElementById("menu").style.display = "block";
+    const matches = products.filter(p => p.name.toLowerCase().includes(term));
+    renderProducts(matches);
 }
 
-function renderGrid(items) {
+// 2. Filter & Render
+function filterCategory(cat, event) {
+    document.querySelectorAll('.f-btn').forEach(b => b.classList.remove('active'));
+    if(event) event.target.classList.add('active');
+    else document.getElementById(`btn-${cat}`).classList.add('active');
+
+    const filtered = (cat === 'all') ? products : products.filter(p => p.cat === cat);
+    renderProducts(filtered);
+}
+
+function renderProducts(items) {
     const grid = document.getElementById("productGrid");
     grid.innerHTML = items.map(p => `
-        <div class="product-card" onclick="openProductDetail('${p.name.replace(/'/g, "\\'")}')">
+        <div class="p-card" onclick="openModal('${p.name.replace(/'/g, "\\'")}')">
             <img src="${p.img}" alt="${p.name}">
             <h3>${p.name}</h3>
-            <p class="price">₹${p.price}</p>
+            <p class="p-price">₹${p.price}</p>
         </div>
     `).join('');
 }
 
-function handleSearch(e) {
-    const term = e.target.value.toLowerCase();
-    const matches = products.filter(p => p.name.toLowerCase().includes(term));
-    if (term.length > 0) {
-        document.getElementById("menu").style.display = "block";
-        renderGrid(matches);
-    }
-}
+// 3. Modal Logic
+function openModal(name) {
+    const p = products.find(item => item.name === name);
+    if(!p) return;
+    activeItem = p;
 
-// 2. Product Detail Logic
-function openProductDetail(name) {
-    const item = products.find(p => p.name === name);
-    if (!item) return;
+    document.getElementById("m-name").innerText = p.name;
+    document.getElementById("m-img").src = p.img;
+    document.getElementById("m-desc").innerText = p.desc;
+    document.getElementById("m-price").innerText = `₹${p.price}`;
+    document.getElementById("m-buy-price").innerText = `₹${p.price}`;
 
-    currentProduct = item;
-    document.getElementById("pp-name").innerText = item.name;
-    document.getElementById("pp-desc").innerText = item.desc;
-    document.getElementById("pp-main-img").src = item.img;
-    document.getElementById("pp-price").innerText = `₹${item.price}`;
-    document.getElementById("pp-btn-price").innerText = `₹${item.price}`;
-
-    // Reset weight buttons
-    document.querySelectorAll('.w-btn').forEach((btn, idx) => {
-        idx === 0 ? btn.classList.add('active') : btn.classList.remove('active');
+    // Reset weights
+    document.querySelectorAll('.w-btn').forEach((b, i) => {
+        i === 0 ? b.classList.add('active') : b.classList.remove('active');
     });
 
-    document.getElementById("productPageModal").style.display = "block";
+    document.getElementById("productModal").style.display = "block";
     document.body.style.overflow = "hidden";
 }
 
-function closeProductPage() {
-    document.getElementById("productPageModal").style.display = "none";
+function closeModal() {
+    document.getElementById("productModal").style.display = "none";
     document.body.style.overflow = "auto";
 }
 
-// 3. Weight & Pricing Multipliers
+// 4. Weight Multiplier
 document.addEventListener('click', (e) => {
-    if (e.target.classList.contains('w-btn')) {
+    if(e.target.classList.contains('w-btn')) {
         document.querySelectorAll('.w-btn').forEach(b => b.classList.remove('active'));
         e.target.classList.add('active');
-
-        const mult = parseFloat(e.target.dataset.mult);
-        const newPrice = Math.round(currentProduct.price * mult);
         
-        document.getElementById("pp-price").innerText = `₹${newPrice}`;
-        document.getElementById("pp-btn-price").innerText = `₹${newPrice}`;
+        const mult = parseFloat(e.target.dataset.mult);
+        const finalPrice = Math.round(activeItem.price * mult);
+        document.getElementById("m-price").innerText = `₹${finalPrice}`;
+        document.getElementById("m-buy-price").innerText = `₹${finalPrice}`;
     }
 });
 
-// 4. Delivery Pincode Check
-function checkPincode() {
-    const pin = document.getElementById("pincodeInput").value;
-    const msg = document.getElementById("pincodeMsg");
-    if (pin.length === 6 && !isNaN(pin)) {
-        msg.innerText = "✓ Delivery is available for this area.";
-        msg.style.color = "green";
+// 5. Pincode & Cart
+function checkPin() {
+    const pin = document.getElementById("pinInput").value;
+    const status = document.getElementById("pinStatus");
+    if(pin.length === 6 && !isNaN(pin)) {
+        status.innerText = "✓ Delivery Available!";
+        status.style.color = "green";
     } else {
-        msg.innerText = "× Sorry, we don't deliver here yet.";
-        msg.style.color = "red";
+        status.innerText = "× Invalid Pincode.";
+        status.style.color = "red";
     }
 }
 
-// 5. Cart Management
-function addToCart(buyNow) {
-    const price = document.getElementById("pp-price").innerText.replace('₹','');
+function addToCart(isBuyNow) {
+    const price = document.getElementById("m-price").innerText;
     const weight = document.querySelector('.w-btn.active').innerText;
-    const finalName = `${currentProduct.name} (${weight})`;
-
-    cart.push({ name: finalName, price: parseInt(price) });
+    const entry = `${activeItem.name} (${weight})`;
+    
+    cart.push({ name: entry, price: price });
     document.getElementById("cartCount").innerText = cart.length;
 
-    if (buyNow) {
-        alert("Redirecting to Checkout for: " + finalName);
+    if(isBuyNow) {
+        alert("Proceeding to Buy: " + entry);
     } else {
-        alert("Added to Basket!");
-        closeProductPage();
+        alert(entry + " added to Cart!");
+        closeModal();
     }
 }
