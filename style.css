@@ -2,7 +2,7 @@
 body { font-family: 'Montserrat', sans-serif; background: #FAF9F6; color: #333; }
 
 /* NAVBAR */
-.navbar { position: fixed; width: 100%; top: 0; background: #fff; z-index: 100; padding: 15px 0; border-bottom: 1px solid #eee; }
+.navbar { position: fixed; width: 100%; top: 0; background: #fff; z-index: 1000; padding: 15px 0; border-bottom: 1px solid #eee; }
 .nav-container { width: 90%; margin: auto; display: flex; justify-content: space-between; align-items: center; }
 .logo { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; font-weight: bold; text-decoration: none; color: #333; }
 .logo span { color: #82937E; }
@@ -10,33 +10,72 @@ body { font-family: 'Montserrat', sans-serif; background: #FAF9F6; color: #333; 
 .nav-links { list-style: none; display: flex; gap: 15px; align-items: center; }
 .nav-links a { text-decoration: none; color: #333; font-weight: 600; font-size: 0.9rem; }
 
-/* HERO SECTION - UPDATED WITH YOUR IMAGE */
+/* UPDATED HERO SECTION */
 .hero { 
     position: relative; 
-    height: 85vh; 
+    height: 90vh; 
     margin-top: 60px;
     background: url('https://images.unsplash.com/photo-1499636136210-6f4ee915583e?auto=format&fit=crop&w=1200') center/cover no-repeat;
     display: flex; 
     align-items: center; 
     justify-content: center;
 }
+
 .hero-overlay { 
     position: absolute; 
-    top: 0; 
-    left: 0; 
-    width: 100%; 
-    height: 100%; 
-    background: rgba(0,0,0,0.4); /* Darkens the image so text is readable */
+    top: 0; left: 0; width: 100%; height: 100%; 
+    background: rgba(0, 0, 0, 0.45); 
 }
-.hero-content { position: relative; z-index: 10; width: 90%; max-width: 500px; }
-.hero-card { background: #fff; padding: 30px; border-radius: 15px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-.hero-card h1 { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; margin-bottom: 5px; }
 
-/* CATEGORY STACK */
-.cat-stack { margin-top: 20px; display: flex; flex-direction: column; gap: 12px; }
-.cat-item { display: flex; align-items: center; gap: 15px; cursor: pointer; background: #f9f9f9; padding: 8px; border-radius: 10px; transition: 0.2s; }
-.cat-item:hover { background: #eee; transform: translateX(5px); }
-.cat-item img { width: 60px; height: 60px; object-fit: cover; border-radius: 8px; }
+.hero-content { 
+    position: relative; 
+    z-index: 10; 
+    width: 90%; 
+    max-width: 450px; 
+}
+
+.hero-card { 
+    background: rgba(255, 255, 255, 0.95); 
+    padding: 35px 25px; 
+    border-radius: 20px; 
+    text-align: center; 
+    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+}
+
+.hero-card h1 { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; margin-bottom: 5px; color: #2D2D2D; }
+
+/* PREVENTING OVERLAP & CATEGORY STACK */
+.cat-stack { 
+    margin-top: 25px; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 12px; 
+}
+
+.cat-item { 
+    display: flex; 
+    align-items: center; 
+    gap: 15px; 
+    cursor: pointer; 
+    background: #fff; 
+    padding: 10px; 
+    border-radius: 12px; 
+    border: 1px solid #eee;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.cat-item:hover { 
+    transform: translateX(8px);
+    border-color: #82937E;
+}
+
+.cat-item img { 
+    width: 45px; 
+    height: 45px; 
+    object-fit: cover; 
+    border-radius: 6px; 
+}
+
 .cat-item span { font-weight: 600; font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; }
 
 /* PRODUCT GRID */
@@ -50,7 +89,7 @@ body { font-family: 'Montserrat', sans-serif; background: #FAF9F6; color: #333; 
 .p-card img { width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 12px; }
 
 /* MODAL STYLES */
-.modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: #fff; overflow-y: auto; }
+.modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: #fff; overflow-y: auto; }
 .modal-content { max-width: 1000px; margin: auto; padding: 40px 20px; position: relative; }
 .close-modal { position: absolute; right: 20px; top: 10px; font-size: 2.5rem; cursor: pointer; }
 .modal-body { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
