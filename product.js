@@ -1,7 +1,7 @@
 const products = [
     // --- COOKIES (34 Items) ---
     { name: "Classic Choco Chip", price: 120, cat: "cookies", img: "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?q=80&w=600", desc: "Signature soft-bake with Belgian chocolate chunks." },
-    { name: "Red Velvet Cream", price: 140, cat: "cookies", img: "https://images.unsplash.com/photo-1618923850107-d1a234d7a73a?q=80&w=600", desc: "Rich cocoa base with white chocolate chips." },
+    { name: "Red Velvet Cream", price: 140, cat: "cookies", img: "https://sallysbakingaddiction.com/cream-cheese-stuffed-red-velvet-cookies/", desc: "Rich cocoa base with white chocolate chips." },
     { name: "Oatmeal Raisin", price: 110, cat: "cookies", img: "https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e?q=80&w=600", desc: "Chewy oats with organic sun-dried raisins." },
     { name: "Double Chocolate", price: 150, cat: "cookies", img: "https://images.unsplash.com/photo-1597733153203-a54d0fbc47df?q=80&w=600", desc: "Dark cocoa dough with milk chocolate chunks." },
     { name: "Pistachio Shortbread", price: 180, cat: "cookies", img: "https://images.unsplash.com/photo-1557089706-68d02dbda277?q=80&w=600", desc: "Buttery shortbread with premium pistachios." },
