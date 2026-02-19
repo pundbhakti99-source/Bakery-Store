@@ -14,7 +14,7 @@
         <a href="#" class="logo">G<span>W</span></a>
         <input type="text" id="searchInput" placeholder="Search our bakery...">
         <ul class="nav-links">
-            <li><a href="#menu" onclick="showMenu()">Menu</a></li>
+            <li><a href="#menu" onclick="jumpToCategory('all')">Menu</a></li>
             <li id="userLink" onclick="openAuthModal()"><a href="#">Sign In</a></li>
             <li onclick="toggleCart()"><a href="#">Cart (<span id="cartCount">0</span>)</a></li>
         </ul>
@@ -70,21 +70,22 @@
                 <div class="pp-option-group">
                     <label>Select Weight</label>
                     <div class="weight-selector">
-                        <button class="w-btn active">0.5 Kg</button>
-                        <button class="w-btn">1 Kg</button>
-                        <button class="w-btn">2 Kg</button>
+                        <button class="w-btn active" data-mult="1">0.5 Kg</button>
+                        <button class="w-btn" data-mult="1.8">1 Kg</button>
+                        <button class="w-btn" data-mult="3.5">2 Kg</button>
                     </div>
                 </div>
 
                 <div class="pp-option-group">
                     <label>Cake Message (Optional)</label>
-                    <input type="text" id="pp-msg" placeholder="Write A Sweet Wish!">
+                    <input type="text" id="pp-msg" placeholder="Write A Sweet Wish!" maxlength="25">
                 </div>
 
                 <div class="pp-option-group">
+                    <label>Pincode Check</label>
                     <div class="delivery-check">
                         <input type="text" placeholder="Enter Pincode">
-                        <button>Check</button>
+                        <button type="button">Check</button>
                     </div>
                 </div>
 
