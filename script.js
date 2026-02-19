@@ -2,67 +2,96 @@ let cart = [];
 let total = 0;
 let isLoggedIn = false;
 
-// 1. RENDERING LOGIC
+// 1. RENDERING LOGIC (Fixed conflict and added View Details logic)
 function renderGrid(items) {
     const grid = document.getElementById("productGrid");
+    grid.innerHTML = ""; // Clear grid
+
     if (items.length === 0) {
         grid.innerHTML = `<p style="grid-column: 1/-1; padding: 50px;">We couldn't find any matches!</p>`;
         return;
     }
-    grid.innerHTML = items.map(p => `
-        <div class="product-card" onclick="openProductDetail('${p.name.replace(/'/g, "\\'")}', ${p.price}, '${p.desc.replace(/'/g, "\\'")}', '${p.img}')">
-            <img src="${p.img}" alt="${p.name}">
-            <h3>${p.name}</h3>
-            <p class="price">₹${p.price.toFixed(2)}</p>
-            <button class="add-to-cart">View Details</button>
-        </div>
-    `).join('');
-    // In your renderGrid function inside script.js
-card.innerHTML = `
-    <div class="image-container">
-        <img src="${p.img}" alt="${p.name}" loading="lazy">
-    </div>
-    <div class="card-info">
-        <h3>${p.name}</h3>
-        <p class="price">₹${p.price.toFixed(2)}</p>
-        <button class="view-detail-btn">View Details</button>
-    </div>
-`;
-    
+
+    items.forEach(p => {
+        const card = document.createElement("div");
+        card.className = "product-card";
+        
+        // Use your clean CSS classes
+        card.innerHTML = `
+            <div class="image-container">
+                <img src="${p.img}" alt="${p.name}" loading="lazy">
+            </div>
+            <div class="card-info">
+                <h3>${p.name}</h3>
+                <p class="price">₹${p.price.toFixed(2)}</p>
+                <button class="view-detail-btn">View Details</button>
+            </div>
+        `;
+
+        // Make the whole card or just the button open the detail page
+        card.onclick = () => openProductDetail(p.name, p.price, p.desc, p.img);
+        
+        grid.appendChild(card);
+    });
 }
 
-// 2. MODAL & AUTH LOGIC
-function openAuthModal() { document.getElementById("authModal").style.display = "block"; }
-function closeAuthModal() { document.getElementById("authModal").style.display = "none"; }
-function toggleAuthView(view) {
-    document.getElementById("signInView").style.display = view === 'signup' ? "none" : "block";
-    document.getElementById("signUpView").style.display = view === 'signup' ? "block" : "none";
-}
-
-function handleAuth(type) {
-    const email = type === 'login' ? document.getElementById("loginEmail").value : document.getElementById("regEmail").value;
-    const name = type === 'login' ? "User" : document.getElementById("regName").value;
-    if (!email.includes("@")) return alert("Invalid email!");
-    isLoggedIn = true;
-    document.getElementById("userLink").innerHTML = `<a href="#">Hi, ${name.split(' ')[0]}</a>`;
-    closeAuthModal();
-    alert("Success!");
-}
-
+// 2. BAKINGO-STYLE DETAIL PAGE LOGIC
 function openProductDetail(name, price, desc, img) {
-    const body = document.getElementById("modalBody");
-    body.innerHTML = `
-        <img src="${img}" alt="${name}">
-        <h2 style="font-family: 'Cormorant Garamond', serif; margin-bottom: 10px;">${name}</h2>
-        <p style="color: #666; margin-bottom: 20px;">${desc}</p>
-        <div class="total-row"><span>Price:</span><span>₹${price.toFixed(2)}</span></div>
-        <button class="checkout-btn" onclick="addToCart('${name.replace(/'/g, "\\'")}', ${price}); closeProductModal();">Add to Basket</button>
-    `;
-    document.getElementById("productModal").style.display = "block";
+    document.getElementById("pp-name").innerText = name;
+    document.getElementById("pp-price").innerText = `₹${price.toFixed(2)}`;
+    // Update the price on the Buy button too
+    const btnPrice = document.getElementById("pp-btn-price");
+    if(btnPrice) btnPrice.innerText = `₹${price.toFixed(2)}`;
+    
+    document.getElementById("pp-desc").innerText = desc || "Freshly baked with love and the finest ingredients.";
+    document.getElementById("pp-main-img").src = img;
+    
+    document.getElementById("productPageModal").style.display = "block";
+    document.body.style.overflow = "hidden"; // Prevent background scroll
 }
-function closeProductModal() { document.getElementById("productModal").style.display = "none"; }
 
-// 3. CART LOGIC
+function closeProductPage() {
+    document.getElementById("productPageModal").style.display = "none";
+    document.body.style.overflow = "auto";
+}
+
+// 3. CATEGORY JUMP LOGIC
+function jumpToCategory(cat) {
+    const menuSection = document.getElementById("menu");
+    menuSection.style.display = "block"; 
+    
+    menuSection.scrollIntoView({ behavior: 'smooth' });
+    
+    filterCategory(cat);
+}
+
+function filterCategory(cat, e) {
+    // Reset active buttons
+    document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+    
+    // Set active button
+    if (e && e.target) {
+        e.target.classList.add("active");
+    } else {
+        const targetBtn = document.getElementById(`btn-${cat}`);
+        if(targetBtn) targetBtn.classList.add("active");
+    }
+
+    const filtered = (cat === 'all') ? products : products.filter(p => p.cat === cat);
+    renderGrid(filtered);
+}
+
+// 4. SEARCH LOGIC
+document.getElementById("searchInput").addEventListener("input", (e) => {
+    const term = e.target.value.toLowerCase();
+    if(term.length > 0) {
+        document.getElementById("menu").style.display = "block";
+        const matches = products.filter(p => p.name.toLowerCase().includes(term));
+        renderGrid(matches);
+    }
+});
+
+// 5. CART LOGIC
 function toggleCart() { document.getElementById("cartDrawer").classList.toggle("open"); }
 
 function addToCart(name, price) {
@@ -70,6 +99,16 @@ function addToCart(name, price) {
     total += price;
     updateCartUI();
     if (!document.getElementById("cartDrawer").classList.contains("open")) toggleCart();
+}
+
+function addToCartFromPage() {
+    // Get name and price from the currently open detail page
+    const name = document.getElementById("pp-name").innerText;
+    const priceText = document.getElementById("pp-price").innerText.replace('₹', '');
+    const price = parseFloat(priceText);
+    
+    addToCart(name, price);
+    closeProductPage();
 }
 
 function updateCartUI() {
@@ -87,78 +126,25 @@ function updateCartUI() {
     document.getElementById("cartTotal").innerText = `₹${total.toFixed(2)}`;
 }
 
-// 4. FILTER & SEARCH (Restored Logic)
-function filterCategory(cat, e) {
-    // 1. Reset all buttons
-    document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
-    
-    // 2. Add active class to clicked button
-    if (e && e.target) {
-        e.target.classList.add("active");
-    } else {
-        // Fallback if called via code without an event
-        document.querySelector('.filter-btn[onclick*="' + cat + '"]').classList.add("active");
-    }
+// 6. AUTH LOGIC
+function openAuthModal() { document.getElementById("authModal").style.display = "block"; }
+function closeAuthModal() { document.getElementById("authModal").style.display = "none"; }
 
-    // 3. Filter the array
-    const filtered = (cat === 'all') ? products : products.filter(p => p.cat === cat);
-    renderGrid(filtered);
+function handleAuth(type) {
+    const name = type === 'login' ? "User" : document.getElementById("regName").value;
+    isLoggedIn = true;
+    document.getElementById("userLink").innerHTML = `<a href="#">Hi, ${name.split(' ')[0]}</a>`;
+    closeAuthModal();
 }
 
-document.getElementById("searchInput").addEventListener("input", (e) => {
-    const term = e.target.value.toLowerCase();
-    const matches = products.filter(p => p.name.toLowerCase().includes(term));
-    renderGrid(matches);
-});
-
-// Initial Run: Now uses the filterCategory function to ensure buttons match state
-window.onload = () => filterCategory('all');
+// Initial Run
+window.onload = () => {
+    // Keep it empty until a category is clicked
+};
 
 window.onclick = (e) => { 
-    if (e.target.className === 'modal') { 
+    if (e.target.className === 'modal' || e.target.className === 'pp-modal') { 
         e.target.style.display = "none"; 
+        document.body.style.overflow = "auto";
     } 
 }
-
-// Function to handle the category click on homepage
-function jumpToCategory(cat) {
-    const menuSection = document.getElementById("menu");
-    menuSection.style.display = "block"; // Show the hidden menu
-    
-    // Smooth scroll to the menu
-    menuSection.scrollIntoView({ behavior: 'smooth' });
-    
-    // Trigger the existing filter logic
-    filterCategory(cat);
-    
-    // Set the button to active visually
-    document.querySelectorAll(".filter-btn").forEach(btn => btn.classList.remove("active"));
-    const activeBtn = document.getElementById(`btn-${cat}`);
-    if(activeBtn) activeBtn.classList.add("active");
-}
-
-// Update the window.onload to NOT show products immediately
-window.onload = () => {
-    // We don't call renderGrid(products) here anymore 
-    // so the page stays empty/clean until a category is clicked.
-};
-function openProductDetail(name, price, desc, img) {
-    document.getElementById("pp-name").innerText = name;
-    document.getElementById("pp-price").innerText = `₹${price}`;
-    document.getElementById("pp-desc").innerText = desc;
-    document.getElementById("pp-main-img").src = img;
-    
-    document.getElementById("productPageModal").style.display = "block";
-    document.body.style.overflow = "hidden"; // Prevent background scroll
-}
-
-function closeProductPage() {
-    document.getElementById("productPageModal").style.display = "none";
-    document.body.style.overflow = "auto";
-}
-
-// Update your card click in renderGrid to use this:
-card.querySelector('.view-detail-btn').onclick = (e) => {
-    e.stopPropagation(); // Prevent card click
-    openProductDetail(p.name, p.price, p.desc, p.img);
-};
