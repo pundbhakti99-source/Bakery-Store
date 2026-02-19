@@ -207,4 +207,59 @@ body { font-family: 'Montserrat', sans-serif; background: #FAF9F6; color: #333; 
     0% { transform: scale(0); }
     100% { transform: scale(1); }
 }
+/* IMPROVED MODAL SPACING */
+.modal-content {
+    padding: 20px;
+    border-radius: 20px 20px 0 0; /* Rounded top for mobile feel */
+}
+
+.modal-info h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    margin-bottom: 5px;
+}
+
+/* FIXING THE INPUT ROWS */
+.m-options label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-top: 15px;
+    color: #666;
+}
+
+.pin-row, .m-options input[type="text"] {
+    width: 100%;
+    margin-top: 5px;
+}
+
+.pin-row {
+    display: flex;
+    gap: 5px;
+}
+
+.pin-row input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.pin-row button {
+    padding: 0 15px;
+    background: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 0.8rem;
+}
+
+/* WEIGHT BUTTONS TWEAK */
+.w-btn {
+    flex: 1;
+    font-size: 0.8rem;
+    padding: 10px 5px;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
 
