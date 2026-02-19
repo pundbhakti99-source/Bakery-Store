@@ -93,19 +93,23 @@ function checkPin() {
         status.style.color = "red";
     }
 }
-
 function addToCart(isBuyNow) {
-    const price = document.getElementById("m-price").innerText;
-    const weight = document.querySelector('.w-btn.active').innerText;
-    const entry = `${activeItem.name} (${weight})`;
+    // Strips the ₹ and converts to a number
+    const priceText = document.getElementById("m-price").innerText.replace('₹', '');
+    const priceNum = parseInt(priceText);
     
-    cart.push({ name: entry, price: price });
+    const weight = document.querySelector('.w-btn.active').innerText;
+    const entryName = `${activeItem.name} (${weight})`;
+    
+    cart.push({ name: entryName, price: priceNum });
     document.getElementById("cartCount").innerText = cart.length;
 
     if(isBuyNow) {
-        alert("Proceeding to Buy: " + entry);
+        alert("Proceeding to Checkout for: " + entryName + " at ₹" + priceNum);
+        // Here you would typically redirect to a checkout page
     } else {
-        alert(entry + " added to Cart!");
+        alert(entryName + " added to Basket!");
         closeModal();
     }
 }
+
