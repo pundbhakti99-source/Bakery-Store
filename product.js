@@ -466,56 +466,56 @@ const products = [
     "name": "Classic Chocolate Layer",
     "price": 650,
     "cat": "cakes",
-    "img": "https://images.unsplash.com/photo-1578985545062-69928b1d9587",
+    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQglgMgLg7k4zXX5c5BhRdYvP2aADXl2WvzvA&s",
     "desc": "Three layers of rich chocolate cake with silky chocolate buttercream and dark chocolate ganache drip."
   },
   {
     "name": "Red Velvet",
     "price": 700,
     "cat": "cakes",
-    "img": "https://images.unsplash.com/photo-1616541823729-00fe0aacd32c",
+    "img": "https://thescranline.com/wp-content/uploads/2023/06/RED-VELVET-CAKE-23-S-01.jpg",
     "desc": "Iconic crimson cake with tangy cream cheese frosting, decorated with red velvet crumbs."
   },
   {
     "name": "Vanilla Bean Celebration",
     "price": 550,
     "cat": "cakes",
-    "img": "https://images.unsplash.com/photo-1464349095431-e9a21285b5f3",
+    "img": "https://stylesweet.com/wp-content/uploads/2022/07/VanillaBeanCake01.jpg",
     "desc": "Light vanilla sponge cake with Madagascar vanilla buttercream and edible flower decorations."
   },
   {
     "name": "New York Cheesecake",
     "price": 600,
     "cat": "cakes",
-    "img": "https://images.unsplash.com/photo-1533134242443-d4fd215305ad",
+    "img": "https://www.marthastewart.com/thmb/m6R1D2iuHvVxM8u7RJz7c-Us8Rg=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/MSL-865202-new-york-cheesecake-hero-horiz-0723-84e3c796119d408581d1ef4d02d801cd.jpg",
     "desc": "Dense, creamy cheesecake with graham cracker crust and your choice of fruit topping."
   },
   {
     "name": "Carrot Walnut",
     "price": 580,
     "cat": "cakes",
-    "img": "https://images.unsplash.com/photo-1621303837174-89787a7d4729",
+    "img": "https://butfirstchai.com/wp-content/uploads/2022/08/carrot_walnut_cake_03.jpg",
     "desc": "Spiced carrot cake with toasted walnuts, cream cheese frosting, and marzipan carrot decorations."
   },
   {
     "name": "Tiramisu Torte",
     "price": 750,
     "cat": "cakes",
-    "img": "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9",
+    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoqQikidvfbiZSkpocW_1T2p6_2y7OBv0YlQ&s",
     "desc": "Espresso-soaked layers with mascarpone cream, dusted with premium Dutch cocoa powder."
   },
   {
     "name": "Lemon Raspberry",
     "price": 680,
     "cat": "cakes",
-    "img": "https://images.unsplash.com/photo-1565958011703-44f9829ba187",
+    "img": "https://butternutbakeryblog.com/wp-content/uploads/2023/07/lemon-raspberry-cake.jpg",
     "desc": "Zesty lemon cake layers with raspberry curd filling and Italian meringue frosting."
   },
   {
     "name": "German Chocolate",
     "price": 720,
     "cat": "cakes",
-    "img": "https://images.unsplash.com/photo-1578985545062-69928b1d9587",
+    "img": "https://tasteofrecipe.net/wp-content/uploads/2024/09/aspic7_German_Chocolate_Cake_32dbdccf-2110-4577-b9cc-7e80fe887f3e.png",
     "desc": "Classic chocolate cake topped with coconut-pecan frosting, a Southern American tradition."
   },
   {
@@ -529,84 +529,84 @@ const products = [
     "name": "Strawberry Shortcake",
     "price": 620,
     "cat": "cakes",
-    "img": "https://images.unsplash.com/photo-1488477181946-6428a0291777",
+    "img": "https://www.crazyforcrust.com/wp-content/uploads/2025/03/strawberry-shortcake-cake-12.jpg",
     "desc": "Fluffy vanilla cake with fresh strawberries and clouds of whipped cream frosting."
   },
   {
     "name": "Opera Cake",
     "price": 950,
     "cat": "cakes",
-    "img": "https://images.unsplash.com/photo-1562440499-64c9a111f713",
+    "img": "https://ovenfresh2025.s3.eu-north-1.amazonaws.com/New_Website_products/2023/02/opera-e1705915835336.jpg",
     "desc": "French masterpiece with almond sponge, coffee buttercream, and chocolate ganache layers."
   },
   {
     "name": "Coconut Paradise",
     "price": 680,
     "cat": "cakes",
-    "img": "https://images.unsplash.com/photo-1464349095431-e9a21285b5f3",
+    "img": "https://toujours.co.in/cdn/shop/files/LAH-00174.jpg?v=1688206956",
     "desc": "Moist coconut cake with coconut cream filling, frosted with toasted coconut flakes."
   },
   {
     "name": "Pumpkin Spice",
     "price": 560,
     "cat": "cakes",
-    "img": "https://images.unsplash.com/photo-1621303837174-89787a7d4729",
+    "img": "https://thebananadiaries.com/wp-content/uploads/2023/10/vegan-pumpkin-cake_1438.jpg",
     "desc": "Seasonal favorite with warm spices, cream cheese frosting, and candied pepita topping."
   },
   {
     "name": "Mocha Hazelnut",
     "price": 780,
     "cat": "cakes",
-    "img": "https://images.unsplash.com/photo-1578985545062-69928b1d9587",
+    "img": "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/mocha-hazelnut-cake-5746712.jpg",
     "desc": "Coffee-infused chocolate cake with Frangelico buttercream and praline crunch."
   },
   {
     "name": "Tres Leches",
     "price": 520,
     "cat": "cakes",
-    "img": "https://images.unsplash.com/photo-1464349095431-e9a21285b5f3",
+    "img": "https://tatyanaseverydayfood.com/wp-content/uploads/2021/04/Berry-Tres-Leches-Cake-Recipe-2.jpg",
     "desc": "Latin American sponge cake soaked in three milks, topped with cinnamon whipped cream."
   },
   {
     "name": "Matcha Green Tea",
     "price": 750,
     "cat": "cakes",
-    "img": "https://images.unsplash.com/photo-1565958011703-44f9829ba187",
+    "img": "https://www.thebakingspoon.com/wp-content/uploads/2015/09/IMG_3653-12.jpg",
     "desc": "Japanese-inspired layers with ceremonial grade matcha and white chocolate buttercream."
   },
   {
     "name": "Salted Caramel",
     "price": 720,
     "cat": "cakes",
-    "img": "https://images.unsplash.com/photo-1562440499-64c9a111f713",
+    "img": "https://www.bakedambrosia.com/wp-content/uploads/2023/11/Salted-Caramel-Cake-9.jpg",
     "desc": "Brown butter cake with salted caramel filling, caramel buttercream, and sea salt flakes."
   },
   {
     "name": "Princess Torte",
     "price": 880,
     "cat": "cakes",
-    "img": "https://images.unsplash.com/photo-1565958011703-44f9829ba187",
+    "img": "https://www.allrecipes.com/thmb/Xs9lwG0Tizl4jmIq98cuo5eOKy4=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/283216_Princesstrta_32122_MFS-21e0e25bb80d41b4a6f7cc29bdb0f985.jpg",
     "desc": "Swedish classic with layers of cake, jam, custard, and whipped cream under green marzipan."
   },
   {
     "name": "Hummingbird Cake",
     "price": 640,
     "cat": "cakes",
-    "img": "https://images.unsplash.com/photo-1621303837174-89787a7d4729",
+    "img": "https://www.thespruceeats.com/thmb/v-FYqHVCB6TmDQKfloftBR-cvM8=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/classic-hummingbird-cake-recipe-3051129-hero-01-2575c5862c7b4d36bd57778ea7bd9889.jpg",
     "desc": "Southern banana-pineapple cake with pecans, cream cheese frosting, and edible flowers."
   },
   {
     "name": "Earl Grey Lavender",
     "price": 780,
     "cat": "cakes",
-    "img": "https://images.unsplash.com/photo-1565958011703-44f9829ba187",
+    "img": "https://simplybeyondherbs.com/wp-content/uploads/2023/07/profile-2-735x735.jpg",
     "desc": "Sophisticated tea-infused cake with lavender buttercream and crystallized flower petals."
   },
   {
     "name": "Chocolate Peanut Butter",
     "price": 700,
     "cat": "cakes",
-    "img": "https://images.unsplash.com/photo-1578985545062-69928b1d9587",
+    "img": "https://juliemarieeats.com/wp-content/uploads/2024/08/Peanut-Butter-Chocolate-Cake-4-1-scaled.jpg",
     "desc": "Rich chocolate layers with peanut butter mousse, topped with chocolate ganache and peanut butter cups."
   },
   {
