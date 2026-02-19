@@ -261,5 +261,32 @@ body { font-family: 'Montserrat', sans-serif; background: #FAF9F6; color: #333; 
     border-radius: 8px;
     transition: 0.3s;
 }
+/* NAV REFINEMENT */
+.navbar {
+    padding: 10px 0;
+}
+
+.nav-container {
+    padding: 0 15px;
+}
+
+#searchInput {
+    width: 140px; /* Slimmer search for mobile */
+    font-size: 0.8rem;
+    border-color: #eee;
+}
+
+.hero-card {
+    width: 95%;
+    padding: 25px 15px;
+}
+
+.hero-card h1 {
+    font-size: 2rem;
+}
+.hero-card {
+    background-image: radial-gradient(#fff 70%, #FAF9F6 100%);
+    border: 1px solid rgba(130, 147, 126, 0.2);
+}
 
 
