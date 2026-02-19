@@ -1,18 +1,19 @@
 const products = [
     // --- COOKIES (34 Items) ---
-    { name: "Classic Choco Chip", price: 120, cat: "cookies", img: "https://images.unsplash.com/photo-1499636136210-6f4ee915583e?q=80&w=600", desc: "Signature soft-bake with Belgian chocolate chunks." },
+    // These IDs are the high-quality "Original" cookie images you wanted back
+    { name: "Classic Choco Chip", price: 120, cat: "cookies", img: "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?q=80&w=600", desc: "Signature soft-bake with Belgian chocolate chunks." },
     { name: "Red Velvet Cream", price: 140, cat: "cookies", img: "https://images.unsplash.com/photo-1610450938030-2f3086439002?q=80&w=600", desc: "Rich cocoa base with white chocolate chips." },
     { name: "Oatmeal Raisin", price: 110, cat: "cookies", img: "https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e?q=80&w=600", desc: "Chewy oats with organic sun-dried raisins." },
     { name: "Double Chocolate", price: 150, cat: "cookies", img: "https://images.unsplash.com/photo-1597733153203-a54d0fbc47df?q=80&w=600", desc: "Dark cocoa dough with milk chocolate chunks." },
     { name: "Pistachio Shortbread", price: 180, cat: "cookies", img: "https://images.unsplash.com/photo-1557089706-68d02dbda277?q=80&w=600", desc: "Buttery shortbread with premium pistachios." },
     { name: "Nutella Sea Salt", price: 160, cat: "cookies", img: "https://images.unsplash.com/photo-1559622314-f83c65644781?q=80&w=600", desc: "Stuffed with Nutella and topped with sea salt." },
-    { name: "Peanut Butter Blast", price: 130, cat: "cookies", img: "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?q=80&w=600", desc: "Creamy peanut butter baked to perfection." },
-    { name: "Lemon Sugar Glaze", price: 100, cat: "cookies", img: "https://images.unsplash.com/photo-1499636136210-6f4ee915583e?q=80&w=600", desc: "Refreshing lemon zest in a sugar crust." },
+    { name: "Peanut Butter Blast", price: 130, cat: "cookies", img: "https://images.unsplash.com/photo-1499636136210-6f4ee915583e?q=80&w=600", desc: "Creamy peanut butter baked to perfection." },
+    { name: "Lemon Sugar Glaze", price: 100, cat: "cookies", img: "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?q=80&w=600", desc: "Refreshing lemon zest in a sugar crust." },
     { name: "White Choco Macadamia", price: 195, cat: "cookies", img: "https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e?q=80&w=600", desc: "Crunchy nuts with smooth white chocolate." },
     { name: "Ginger Molasses", price: 115, cat: "cookies", img: "https://images.unsplash.com/photo-1557089706-68d02dbda277?q=80&w=600", desc: "Warm spices and organic molasses." },
     { name: "Coffee Bean Crunch", price: 145, cat: "cookies", img: "https://images.unsplash.com/photo-1559622314-f83c65644781?q=80&w=600", desc: "Infused with real ground espresso." },
-    { name: "Matcha Softbake", price: 170, cat: "cookies", img: "https://images.unsplash.com/photo-1557089706-68d02dbda277?q=80&w=600", desc: "Fine Japanese Matcha green tea flavor." },
-    { name: "Snickerdoodle", price: 110, cat: "cookies", img: "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?q=80&w=600", desc: "Soft cookie rolled in cinnamon sugar." },
+    { name: "Matcha Softbake", price: 170, cat: "cookies", img: "https://images.unsplash.com/photo-1515037893149-de7f840978e2?q=80&w=600", desc: "Fine Japanese Matcha green tea flavor." },
+    { name: "Snickerdoodle", price: 110, cat: "cookies", img: "https://images.unsplash.com/photo-1499636136210-6f4ee915583e?q=80&w=600", desc: "Soft cookie rolled in cinnamon sugar." },
     { name: "Coconut Macaroon", price: 135, cat: "cookies", img: "https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e?q=80&w=600", desc: "Toasted coconut with a honey drizzle." },
     { name: "Pumpkin Spice", price: 140, cat: "cookies", img: "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?q=80&w=600", desc: "Seasonal favorite with nutmeg and clove." },
     { name: "Dark Chocolate Rye", price: 165, cat: "cookies", img: "https://images.unsplash.com/photo-1559622314-f83c65644781?q=80&w=600", desc: "Earthy rye flour with 70% dark chocolate." },
@@ -20,7 +21,6 @@ const products = [
     { name: "M&M Rainbow", price: 125, cat: "cookies", img: "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?q=80&w=600", desc: "Colorful milk chocolate candies in every bite." },
     { name: "Earl Grey Butter", price: 145, cat: "cookies", img: "https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e?q=80&w=600", desc: "Infused with Earl Grey tea leaves." },
     { name: "Espresso Biscotti", price: 90, cat: "cookies", img: "https://images.unsplash.com/photo-1559622314-f83c65644781?q=80&w=600", desc: "Crunchy Italian style, perfect for dipping." },
-    // Adding variety to reach 34 cookies
     { name: "Lavender Honey", price: 160, cat: "cookies", img: "https://images.unsplash.com/photo-1557089706-68d02dbda277?q=80&w=600", desc: "Floral lavender notes with a honey glaze." },
     { name: "S'mores Cookie", price: 175, cat: "cookies", img: "https://images.unsplash.com/photo-1559622314-f83c65644781?q=80&w=600", desc: "Marshmallow, graham cracker, and chocolate." },
     { name: "Cranberry White Choco", price: 150, cat: "cookies", img: "https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e?q=80&w=600", desc: "Tart dried cranberries with sweet white chips." },
