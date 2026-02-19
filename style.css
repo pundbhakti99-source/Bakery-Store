@@ -40,5 +40,45 @@ body { font-family: 'Montserrat', sans-serif; background: #FAF9F6; color: #2D2D2
 .cart-items-container { flex: 1; overflow-y: auto; padding: 20px; }
 .total-row { display: flex; justify-content: space-between; font-weight: 700; font-size: 1.2rem; margin-bottom: 20px; }
 .checkout-btn { width: 100%; padding: 15px; background: #82937E; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 1rem; }
+/* Category Selection Cards */
+.category-jump-container {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+.cat-card {
+    width: 150px;
+    cursor: pointer;
+    transition: 0.3s;
+    border-radius: 10px;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.cat-card img {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+}
+
+.cat-card span {
+    display: block;
+    padding: 10px;
+    font-weight: 600;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+}
+
+.cat-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 25px rgba(130,147,126,0.3);
+}
+
+/* Adjust Hero for cards */
+.hero { height: auto; min-height: 70vh; padding: 100px 20px; }
 
 footer { background: #2D2D2D; color: #FAF9F6; padding: 40px; text-align: center; letter-spacing: 2px; font-size: 0.8rem; }
