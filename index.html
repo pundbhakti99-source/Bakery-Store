@@ -84,7 +84,6 @@
 
 <section class="products" id="menu">
     <h2>The Morning Selection</h2>
-
     <div class="filter-container">
         <button class="filter-btn active" onclick="filterCategory('all', event)">All</button>
         <button class="filter-btn" onclick="filterCategory('cookies', event)">Cookies</button>
@@ -92,73 +91,9 @@
         <button class="filter-btn" onclick="filterCategory('cakes', event)">Cakes</button>
     </div>
 
-    <div class="product-grid" id="productGrid">
-        <div class="product-card" data-category="cookies" onclick="openProductDetail('Classic Choco Chip', 120, 'Our signature soft-bake made with premium Belgian chocolate chunks and organic flour.', 'https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format&fit=crop&w=600&q=80')">
-            <img src="https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format&fit=crop&w=600&q=80">
-            <h3>Classic Choco Chip</h3>
-            <p class="price">₹120.00</p>
-            <button class="add-to-cart">View Details</button>
-        </div>
-
-        <div class="product-card" data-category="cookies" onclick="openProductDetail('Red Velvet Cream', 140, 'Rich cocoa base with a vibrant red hue, filled with white chocolate chips.', 'https://images.unsplash.com/photo-1610450938030-2f3086439002?auto=format&fit=crop&w=600&q=80')">
-    <img src="https://images.unsplash.com/photo-1610450938030-2f3086439002?auto=format&fit=crop&w=600&q=80">
-    <h3>Red Velvet Cream</h3>
-    <p class="price">₹140.00</p>
-    <button class="add-to-cart">View Details</button>
-        </div>
-        
-        
-
-        <div class="product-card" data-category="cookies" onclick="openProductDetail('Oatmeal Raisin', 110, 'Chewy oats and sun-dried raisins with a hint of cinnamon spice.', 'https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e?auto=format&fit=crop&w=600&q=80')">
-            <img src="https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e?auto=format&fit=crop&w=600&q=80">
-            <h3>Oatmeal Raisin</h3>
-            <p class="price">₹110.00</p>
-            <button class="add-to-cart">View Details</button>
-        </div>
-
-        <div class="product-card" data-category="pastries" onclick="openProductDetail('Classic Croissant', 150, 'Pure French butter and 24 layers of delicate, flaky puff pastry.', 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=600&q=80')">
-            <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=600&q=80">
-            <h3>Classic Croissant</h3>
-            <p class="price">₹150.00</p>
-            <button class="add-to-cart">View Details</button>
-        </div>
-
-        <div class="product-card" data-category="pastries" onclick="openProductDetail('Cinnamon Swirl', 180, 'Warm, gooey cinnamon filling wrapped in soft dough with vanilla glaze.', 'https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=600&q=80')">
-            <img src="https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=600&q=80">
-            <h3>Cinnamon Swirl</h3>
-            <p class="price">₹180.00</p>
-            <button class="add-to-cart">View Details</button>
-        </div>
-
-        <div class="product-card" data-category="pastries" onclick="openProductDetail('Artisan Sourdough', 220, 'Traditional 48-hour fermented sourdough with a thick, crunchy crust.', 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=600&q=80')">
-            <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=600&q=80">
-            <h3>Artisan Sourdough</h3>
-            <p class="price">₹220.00</p>
-            <button class="add-to-cart">View Details</button>
-        </div>
-
-        <div class="product-card" data-category="cakes" onclick="openProductDetail('Midnight Velvet', 950, 'Intense dark chocolate layers with a silky smooth Belgian ganache.', 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=600&q=80')">
-            <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=600&q=80">
-            <h3>Midnight Velvet</h3>
-            <p class="price">₹950.00</p>
-            <button class="add-to-cart">View Details</button>
-        </div>
-
-        <div class="product-card" data-category="cakes" onclick="openProductDetail('Berry Cheesecake', 1200, 'Classic New York style cheesecake topped with hand-picked strawberries.', 'https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?auto=format&fit=crop&w=600&q=80')">
-            <img src="https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?auto=format&fit=crop&w=600&q=80">
-            <h3>Berry Cheesecake</h3>
-            <p class="price">₹1200.00</p>
-            <button class="add-to-cart">View Details</button>
-        </div>
-
-        <div class="product-card" data-category="cakes" onclick="openProductDetail('Birthday Funfetti', 850, 'Fluffy vanilla sponge with colorful sprinkles and airy buttercream.', 'https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?auto=format&fit=crop&w=600&q=80')">
-            <img src="https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?auto=format&fit=crop&w=600&q=80">
-            <h3>Birthday Funfetti</h3>
-            <p class="price">₹850.00</p>
-            <button class="add-to-cart">View Details</button>
-        </div>
-    </div>
+    <div class="product-grid" id="productGrid"></div>
 </section>
+    
 
 <footer>
     <p>© 2026 THE GOLDEN WHISK</p>
