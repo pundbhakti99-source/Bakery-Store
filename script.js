@@ -17,6 +17,18 @@ function renderGrid(items) {
             <button class="add-to-cart">View Details</button>
         </div>
     `).join('');
+    // In your renderGrid function inside script.js
+card.innerHTML = `
+    <div class="image-container">
+        <img src="${p.img}" alt="${p.name}" loading="lazy">
+    </div>
+    <div class="card-info">
+        <h3>${p.name}</h3>
+        <p class="price">₹${p.price.toFixed(2)}</p>
+        <button class="view-detail-btn">View Details</button>
+    </div>
+`;
+    
 }
 
 // 2. MODAL & AUTH LOGIC
@@ -129,4 +141,24 @@ function jumpToCategory(cat) {
 window.onload = () => {
     // We don't call renderGrid(products) here anymore 
     // so the page stays empty/clean until a category is clicked.
+};
+function openProductDetail(name, price, desc, img) {
+    document.getElementById("pp-name").innerText = name;
+    document.getElementById("pp-price").innerText = `₹${price}`;
+    document.getElementById("pp-desc").innerText = desc;
+    document.getElementById("pp-main-img").src = img;
+    
+    document.getElementById("productPageModal").style.display = "block";
+    document.body.style.overflow = "hidden"; // Prevent background scroll
+}
+
+function closeProductPage() {
+    document.getElementById("productPageModal").style.display = "none";
+    document.body.style.overflow = "auto";
+}
+
+// Update your card click in renderGrid to use this:
+card.querySelector('.view-detail-btn').onclick = (e) => {
+    e.stopPropagation(); // Prevent card click
+    openProductDetail(p.name, p.price, p.desc, p.img);
 };
