@@ -109,133 +109,133 @@ const products = [
     "name": "Butter Pecan",
     "price": 125,
     "cat": "cookies",
-    "img": "https://unsplash.com/photos/chocolate-chip-cookies-with-pecans-and-pecans-on-top-KmP50MppuN4",
+    "img": "https://hips.hearstapps.com/hmg-prod/images/butter-pecan-cookies-horizontal-1-1549055080.png?crop=0.8893333333333334xw:1xh;center,top&resize=1200:*",
     "desc": "Brown butter cookies loaded with caramelized pecans and a touch of vanilla for Southern-inspired sweetness."
   },
   {
     "name": "Strawberry Cheesecake",
     "price": 150,
     "cat": "cookies",
-    "img": "https://inbloombakery.com/strawberry-cheesecake-cookies/",
+    "img": "https://theseasidebaker.com/wp-content/uploads/2023/06/strawberry-cheesecake-cookies.jpg",
     "desc": "Cream cheese cookie dough swirled with strawberry jam and topped with graham cracker crumbles."
   },
   {
     "name": "M&M Rainbow",
     "price": 105,
     "cat": "cookies",
-    "img": "https://unsplash.com/photos/a-cookie-with-m-m-on-it-sitting-on-a-table-uljC6HyyEJM",
+    "img": "https://sallysbakingaddiction.com/wp-content/uploads/2012/03/oatmeal-mm-cookies-7.jpg",
     "desc": "Colorful and fun cookies packed with candy-coated chocolate pieces that appeal to kids of all ages."
   },
   {
     "name": "Tahini Sesame",
     "price": 135,
     "cat": "cookies",
-    "img": "https://comfybelly.com/2023/07/tahini-cookies/",
+    "img": "https://noshingwiththenolands.com/wp-content/uploads/2022/02/Sesame-Tahini-Cookies-1200-x-1200.jpg",
     "desc": "Nutty tahini cookies coated in toasted sesame seeds, offering a sophisticated Middle Eastern twist."
   },
   {
     "name": "Matcha White Chocolate",
     "price": 155,
     "cat": "cookies",
-    "img": "https://images.unsplash.com/photo-1563729784474-d77dbb933a9e",
+    "img": "https://www.spatuladesserts.com/wp-content/uploads/2022/03/Matcha-cookies-3050623.1.1.jpg",
     "desc": "Earthy Japanese matcha dough studded with creamy white chocolate chips for a zen-inspired treat."
   },
   {
     "name": "Brown Butter Walnut",
     "price": 130,
     "cat": "cookies",
-    "img": "https://images.unsplash.com/photo-1558312657-b2dead03d494",
+    "img": "https://yummynotes.net/wp-content/uploads/2023/01/Brown-Butter-Walnut-Cookies.jpg",
     "desc": "Nutty browned butter cookie dough with toasted walnut pieces and a hint of pure maple syrup."
   },
   {
     "name": "Cranberry Orange",
     "price": 115,
     "cat": "cookies",
-    "img": "https://images.unsplash.com/photo-1590080876351-941da357f1b0",
+    "img": "https://sallysbakingaddiction.com/wp-content/uploads/2022/12/cranberry-orange-icebox-cookies-3.jpg",
     "desc": "Zesty orange cookies studded with tart dried cranberries, perfect for autumn and winter gatherings."
   },
   {
     "name": "Triple Ginger",
     "price": 125,
     "cat": "cookies",
-    "img": "https://images.unsplash.com/photo-1607114910421-e8d5b5e11b87",
+    "img": "https://www.loveandoliveoil.com/wp-content/uploads/2014/12/triple-ginger-snaps2.jpg",
     "desc": "Fresh, ground, and crystallized ginger combine for an intensely spiced cookie with serious kick."
   },
   {
     "name": "Chai Spice",
     "price": 120,
     "cat": "cookies",
-    "img": "https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e",
+    "img": "https://www.barleyandsage.com/wp-content/uploads/2022/11/chai-spice-cookies-1200x1200-1.jpg",
     "desc": "Warm cardamom, cinnamon, and clove infused cookies inspired by traditional masala chai flavors."
   },
   {
     "name": "S'mores",
     "price": 145,
     "cat": "cookies",
-    "img": "https://images.unsplash.com/photo-1499636136210-6f4ee915583e",
+    "img": "https://cookienameddesire.com/wp-content/uploads/2014/01/smores-stuffed-cookies-labeled.jpg",
     "desc": "Graham cracker cookie base topped with chocolate chunks and toasted mini marshmallows."
   },
   {
     "name": "Lavender Honey",
     "price": 140,
     "cat": "cookies",
-    "img": "https://images.unsplash.com/photo-1590080876351-941da357f1b0",
+    "img": "https://images.getrecipekit.com/20260108053732-chatgpt-20image-20jan-207-2c-202026-2c-2009_36_26-20pm.png?aspect_ratio=16:9&quality=90&",
     "desc": "Delicate cookies infused with culinary lavender and local wildflower honey for floral elegance."
   },
   {
     "name": "Pistachio Rose",
     "price": 165,
     "cat": "cookies",
-    "img": "https://images.unsplash.com/photo-1563729784474-d77dbb933a9e",
+    "img": "https://lentillovingfamily.com/wp-content/uploads/2025/08/rose-pistachio-shortbread-cookies-1.jpg",
     "desc": "Persian-inspired cookies with ground pistachios and rose water, topped with crushed nuts."
   },
   {
     "name": "Funfetti Birthday",
     "price": 110,
     "cat": "cookies",
-    "img": "https://images.unsplash.com/photo-1558312657-b2dead03d494",
+    "img": "https://www.crazyforcrust.com/wp-content/uploads/2021/05/cake-batter-cookies-6.jpg",
     "desc": "Vanilla bean cookies loaded with rainbow sprinkles, bringing birthday cake vibes to every celebration."
   },
   {
     "name": "Nutella Stuffed",
     "price": 175,
     "cat": "cookies",
-    "img": "https://images.unsplash.com/photo-1606313564200-e75d5e30476c",
+    "img": "https://sugargeekshow.com/wp-content/uploads/2021/10/nutella_stuffed_cookies_FEATURED.jpg",
     "desc": "Thick chocolate cookies with a molten hazelnut spread center that oozes with each bite."
   },
   {
     "name": "Apple Pie",
     "price": 130,
     "cat": "cookies",
-    "img": "https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e",
+    "img": "https://krollskorner.com/wp-content/uploads/2025/10/ApplePie-0029-2.jpg",
     "desc": "Cinnamon-spiced cookies with dried apple pieces and a brown sugar streusel topping."
   },
   {
     "name": "Black Forest",
     "price": 155,
     "cat": "cookies",
-    "img": "https://images.unsplash.com/photo-1606313564200-e75d5e30476c",
+    "img": "https://www.3yummytummies.com/wp-content/uploads/2017/12/Chocolate-Cherry-Thumbprint-Cookies-f--735x1024.jpg",
     "desc": "Dark chocolate cookies with dried cherries and white chocolate chips, inspired by the classic German cake."
   },
   {
     "name": "Toffee Crunch",
     "price": 135,
     "cat": "cookies",
-    "img": "https://images.unsplash.com/photo-1499636136210-6f4ee915583e",
+    "img": "https://images.squarespace-cdn.com/content/v1/5ce42a21a905680001ab10c8/99ee3b38-6afd-4d13-9008-dde176b7c4c3/Cover+Photo+-+Cornflake+Toffee+Cookies.jpg",
     "desc": "Buttery cookies studded with English toffee bits that add irresistible caramelized crunch."
   },
   {
     "name": "Earl Grey",
     "price": 145,
     "cat": "cookies",
-    "img": "https://images.unsplash.com/photo-1590080876351-941da357f1b0",
+    "img": "https://sparklecakerie.com/wp-content/uploads/2024/10/earl-grey-sugar-cookies-hero-feature.jpg",
     "desc": "Sophisticated shortbread infused with bergamot-scented Earl Grey tea and a light lemon glaze."
   },
   {
     "name": "Mexican Hot Chocolate",
     "price": 140,
     "cat": "cookies",
-    "img": "https://images.unsplash.com/photo-1606313564200-e75d5e30476c",
+    "img": "https://static01.nyt.com/images/2023/11/29/multimedia/29cookieweek6-hotchoc-fktb/29cookieweek6-hotchoc-fktb-facebookJumbo.jpg",
     "desc": "Spiced chocolate cookies with cinnamon and a hint of cayenne pepper for gentle warmth."
   },
   {
