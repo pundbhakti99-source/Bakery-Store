@@ -11,126 +11,126 @@ const products = [
     "name": "Double Chocolate Fudge",
     "price": 110,
     "cat": "cookies",
-    "img": "https://images.unsplash.com/photo-1606313564200-e75d5e30476c",
+    "img": "https://unsplash.com/s/photos/chocolate-cookies",
     "desc": "Intensely rich cocoa cookies studded with chocolate chunks, delivering a deep, decadent chocolate experience in every bite."
   },
   {
     "name": "Oatmeal Raisin",
     "price": 90,
     "cat": "cookies",
-    "img": "https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e",
+    "img": "https://unsplash.com/s/photos/oatmeal-cookies",
     "desc": "Wholesome rolled oats blended with plump California raisins and warm cinnamon spices for a comforting, homestyle treat."
   },
   {
     "name": "Peanut Butter Bliss",
     "price": 105,
     "cat": "cookies",
-    "img": "https://images.unsplash.com/photo-1558961363-fa8fdf82db35",
+    "img": "https://unsplash.com/photos/a-plate-of-cookies-and-a-bowl-of-peanut-butter-JTt5pqUs4sE",
     "desc": "Creamy peanut butter cookies with that signature fork-pressed pattern, perfectly balanced between sweet and savory."
   },
   {
     "name": "Snickerdoodle",
     "price": 95,
     "cat": "cookies",
-    "img": "https://images.unsplash.com/photo-1548848221-0c2e497ed557",
+    "img": "https://unsplash.com/s/photos/snickerdoodle",
     "desc": "Soft, pillowy cookies rolled in cinnamon sugar, creating a crackled top with an irresistibly tender interior."
   },
   {
     "name": "White Chocolate Macadamia",
     "price": 140,
     "cat": "cookies",
-    "img": "https://images.unsplash.com/photo-1619149651268-5cc902485eb2",
+    "img": "https://www.justsotasty.com/bakery-style-white-chocolate-macadamia-cookies/",
     "desc": "Buttery Hawaiian macadamia nuts paired with creamy white chocolate in a golden, slightly crisp cookie base."
   },
   {
     "name": "Salted Caramel Swirl",
     "price": 135,
     "cat": "cookies",
-    "img": "https://images.unsplash.com/photo-1585023068178-d57c79c1cb51",
+    "img": "https://www.istockphoto.com/photos/caramel-cookies",
     "desc": "Luscious caramel ribbons swirled through brown butter cookie dough, finished with flaky Maldon sea salt."
   },
   {
     "name": "Lemon Sugar",
     "price": 100,
     "cat": "cookies",
-    "img": "https://images.unsplash.com/photo-1590080876351-941da357f1b0",
+    "img": "https://unsplash.com/photos/lemon-cookies-are-artfully-arranged-on-a-white-surface-DgoIL3GhDlY",
     "desc": "Bright, zesty lemon cookies with a delicate sugar coating, offering a refreshing citrus burst in every bite."
   },
   {
     "name": "Red Velvet Cream Cheese",
     "price": 125,
     "cat": "cookies",
-    "img": "https://images.unsplash.com/photo-1612201142855-7873bc1661b4",
+    "img": "https://littlesunnykitchen.com/red-velvet-cream-cheese-cookies/",
     "desc": "Vibrant crimson cookies with swirls of tangy cream cheese, combining cake-like texture with classic flavor."
   },
   {
     "name": "Espresso Chocolate Chunk",
     "price": 130,
     "cat": "cookies",
-    "img": "https://images.unsplash.com/photo-1599599810694-b5b37304c041",
+    "img": "https://unsplash.com/photos/a-table-topped-with-chocolate-cookies-and-coffee-beans-OHyJWdHRdb0",
     "desc": "Robust espresso-infused dough loaded with dark chocolate chunks for coffee lovers seeking an afternoon pick-me-up."
   },
   {
     "name": "Maple Pecan Shortbread",
     "price": 145,
     "cat": "cookies",
-    "img": "https://images.unsplash.com/photo-1558312657-b2dead03d494",
+    "img": "https://www.littlespicejar.com/pecan-shortbread-cookies/",
     "desc": "Buttery shortbread enriched with pure maple syrup and studded with toasted Georgia pecans."
   },
   {
     "name": "Ginger Molasses",
     "price": 105,
     "cat": "cookies",
-    "img": "https://images.unsplash.com/photo-1607114910421-e8d5b5e11b87",
+    "img": "https://unsplash.com/photos/a-group-of-gingerbread-cookies-ca2IdvwD0ZQ",
     "desc": "Chewy molasses cookies with crystallized ginger pieces and warm holiday spices that melt on your tongue."
   },
   {
     "name": "Coconut Macaroon",
     "price": 115,
     "cat": "cookies",
-    "img": "https://images.unsplash.com/photo-1548365328-8c6db3220e4c",
+    "img": "https://unsplash.com/s/photos/macaroons",
     "desc": "Crispy-edged, chewy-centered coconut mounds with golden toasted peaks and a hint of vanilla."
   },
   {
     "name": "Almond Biscotti",
     "price": 120,
     "cat": "cookies",
-    "img": "https://images.unsplash.com/photo-1558961363-fa8fdf82db35",
+    "img": "https://stock.adobe.com/search?k=biscotti",
     "desc": "Twice-baked Italian cookies with whole roasted almonds, perfect for dunking in coffee or espresso."
   },
   {
     "name": "Chocolate Crinkle",
     "price": 110,
     "cat": "cookies",
-    "img": "https://images.unsplash.com/photo-1481391319762-47dff72954d9",
+    "img": "https://unsplash.com/s/photos/chocolate-cookies",
     "desc": "Fudgy chocolate cookies with dramatic powdered sugar cracks, revealing a rich, brownie-like interior."
   },
   {
     "name": "Butter Pecan",
     "price": 125,
     "cat": "cookies",
-    "img": "https://images.unsplash.com/photo-1499636136210-6f4ee915583e",
+    "img": "https://unsplash.com/photos/chocolate-chip-cookies-with-pecans-and-pecans-on-top-KmP50MppuN4",
     "desc": "Brown butter cookies loaded with caramelized pecans and a touch of vanilla for Southern-inspired sweetness."
   },
   {
     "name": "Strawberry Cheesecake",
     "price": 150,
     "cat": "cookies",
-    "img": "https://images.unsplash.com/photo-1590080876351-941da357f1b0",
+    "img": "https://inbloombakery.com/strawberry-cheesecake-cookies/",
     "desc": "Cream cheese cookie dough swirled with strawberry jam and topped with graham cracker crumbles."
   },
   {
     "name": "M&M Rainbow",
     "price": 105,
     "cat": "cookies",
-    "img": "https://images.unsplash.com/photo-1558312657-b2dead03d494",
+    "img": "https://unsplash.com/photos/a-cookie-with-m-m-on-it-sitting-on-a-table-uljC6HyyEJM",
     "desc": "Colorful and fun cookies packed with candy-coated chocolate pieces that appeal to kids of all ages."
   },
   {
     "name": "Tahini Sesame",
     "price": 135,
     "cat": "cookies",
-    "img": "https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e",
+    "img": "https://comfybelly.com/2023/07/tahini-cookies/",
     "desc": "Nutty tahini cookies coated in toasted sesame seeds, offering a sophisticated Middle Eastern twist."
   },
   {
