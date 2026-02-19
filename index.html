@@ -12,15 +12,30 @@
 <div id="authModal" class="modal">
     <div class="modal-content">
         <span class="close-modal" onclick="closeAuthModal()">&times;</span>
-        <h2 style="font-family: 'Cormorant Garamond', serif;">Welcome Back</h2>
-        <div style="display: flex; flex-direction: column; gap: 15px; margin-top: 20px;">
-            <input type="email" id="email" placeholder="Email Address" style="padding: 12px; border: 1px solid #ddd; border-radius: 5px;">
-            <input type="password" id="password" placeholder="Password" style="padding: 12px; border: 1px solid #ddd; border-radius: 5px;">
-            <button class="checkout-btn" onclick="handleAuth()">Sign In</button>
+        
+        <div id="signInView">
+            <h2 style="font-family: 'Cormorant Garamond', serif;">Welcome Back</h2>
+            <div style="display: flex; flex-direction: column; gap: 15px; margin-top: 20px;">
+                <input type="email" id="loginEmail" placeholder="Email Address" style="padding: 12px; border: 1px solid #ddd; border-radius: 5px;">
+                <input type="password" id="loginPassword" placeholder="Password" style="padding: 12px; border: 1px solid #ddd; border-radius: 5px;">
+                <button class="checkout-btn" onclick="handleAuth('login')">Sign In</button>
+                <p style="font-size: 0.85rem;">New here? <a href="javascript:void(0)" onclick="toggleAuthView('signup')" style="color: #82937E; font-weight: 600;">Create an Account</a></p>
+            </div>
+        </div>
+
+        <div id="signUpView" style="display: none;">
+            <h2 style="font-family: 'Cormorant Garamond', serif;">Join the Whisk</h2>
+            <div style="display: flex; flex-direction: column; gap: 15px; margin-top: 20px;">
+                <input type="text" id="regName" placeholder="Full Name" style="padding: 12px; border: 1px solid #ddd; border-radius: 5px;">
+                <input type="email" id="regEmail" placeholder="Email Address" style="padding: 12px; border: 1px solid #ddd; border-radius: 5px;">
+                <input type="password" id="regPassword" placeholder="Create Password" style="padding: 12px; border: 1px solid #ddd; border-radius: 5px;">
+                <button class="checkout-btn" onclick="handleAuth('signup')">Register</button>
+                <p style="font-size: 0.85rem;">Already have an account? <a href="javascript:void(0)" onclick="toggleAuthView('signin')" style="color: #82937E; font-weight: 600;">Sign In</a></p>
+            </div>
         </div>
     </div>
 </div>
-
+    
 <div id="productModal" class="modal">
     <div class="modal-content" style="max-width: 450px;">
         <span class="close-modal" onclick="closeProductModal()">&times;</span>
