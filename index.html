@@ -100,7 +100,23 @@
         </div>
     </div>
 </div>
-
+<div id="cartOverlay" class="cart-overlay" onclick="toggleCart()"></div>
+<div id="cartSidebar" class="cart-sidebar">
+    <div class="cart-header">
+        <h2>Your Basket</h2>
+        <span class="close-cart" onclick="toggleCart()">&times;</span>
+    </div>
+    <div id="cartItemsList" class="cart-body">
+        </div>
+    <div class="cart-footer">
+        <div class="total-row">
+            <span>Total Amount:</span>
+            <span id="cartTotal">₹0</span>
+        </div>
+        <button class="checkout-btn" onclick="proceedToCheckout()">Checkout Now</button>
+    </div>
+</div>
+    
 <script src="product.js"></script>
 <script src="script.js"></script>
 </body>
