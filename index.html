@@ -12,13 +12,11 @@
 <nav class="navbar">
     <div class="nav-container">
         <a href="#" class="logo">G<span>W</span></a>
-        <div class="search-wrapper">
-            <input type="text" id="searchInput" placeholder="Search our bakery...">
-        </div>
+        <input type="text" id="searchInput" placeholder="Search our bakery...">
         <ul class="nav-links">
             <li><a href="#menu" onclick="jumpToCategory('all')">Menu</a></li>
-            <li id="userLink" onclick="openAuthModal()"><a href="#">Sign In</a></li>
-            <li onclick="toggleCart()"><a href="#" class="cart-link">Cart (<span id="cartCount">0</span>)</a></li>
+            <li id="userLink"><a href="#">Sign In</a></li>
+            <li><a href="#">Cart (<span id="cartCount">0</span>)</a></li>
         </ul>
     </div>
 </nav>
@@ -71,7 +69,7 @@
 
                 <div class="pp-option-group">
                     <label>Select Weight</label>
-                    <div class="weight-selector" id="weightSelector">
+                    <div class="weight-selector">
                         <button class="w-btn active" data-mult="1">0.5 Kg</button>
                         <button class="w-btn" data-mult="1.8">1 Kg</button>
                         <button class="w-btn" data-mult="3.5">2 Kg</button>
@@ -92,15 +90,16 @@
                     <p id="pincodeMsg"></p>
                 </div>
 
-                <div class="action-buttons">
-                    <button class="add-cart-btn" onclick="addToCartFromPage(false)">Add to Cart</button>
-                    <button class="buy-now-btn" onclick="addToCartFromPage(true)">Buy Now | <span id="pp-btn-price">₹0</span></button>
+                <div class="pp-actions">
+                    <button class="add-to-cart-btn" onclick="addToCart(false)">Add to Cart</button>
+                    <button class="buy-now-btn" onclick="addToCart(true)">Buy Now | <span id="pp-btn-price">₹0</span></button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
+<script src="product.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
