@@ -75,24 +75,36 @@ function updateCartUI() {
     document.getElementById("cartTotal").innerText = `₹${total.toFixed(2)}`;
 }
 
-// 4. FILTER & SEARCH
+// 4. FILTER & SEARCH (Restored Logic)
 function filterCategory(cat, e) {
+    // 1. Reset all buttons
     document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
-    e.target.classList.add("active");
-    renderGrid(cat === 'all' ? products : products.filter(p => p.cat === cat));
+    
+    // 2. Add active class to clicked button
+    if (e && e.target) {
+        e.target.classList.add("active");
+    } else {
+        // Fallback if called via code without an event
+        document.querySelector('.filter-btn[onclick*="' + cat + '"]').classList.add("active");
+    }
+
+    // 3. Filter the array
+    const filtered = (cat === 'all') ? products : products.filter(p => p.cat === cat);
+    renderGrid(filtered);
 }
 
 document.getElementById("searchInput").addEventListener("input", (e) => {
     const term = e.target.value.toLowerCase();
-    renderGrid(products.filter(p => p.name.toLowerCase().includes(term)));
+    const matches = products.filter(p => p.name.toLowerCase().includes(term));
+    renderGrid(matches);
 });
 
-function proceedToCheckout() {
-    if (cart.length === 0) return alert("Basket is empty!");
-    if (!isLoggedIn) { alert("Please Sign In first."); return openAuthModal(); }
-    alert(`Order of ₹${total.toFixed(2)} placed!`);
+// Initial Run: Now uses the filterCategory function to ensure buttons match state
+window.onload = () => filterCategory('all');
+
+window.onclick = (e) => { 
+    if (e.target.className === 'modal') { 
+        e.target.style.display = "none"; 
+    } 
 }
 
-// Initial Run
-window.onload = () => renderGrid(products);
-window.onclick = (e) => { if (e.target.className === 'modal') { e.target.style.display = "none"; } }
