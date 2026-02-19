@@ -18,7 +18,7 @@ const products = [
     "name": "Oatmeal Raisin",
     "price": 90,
     "cat": "cookies",
-    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFEicA-MDDgnp9pL3weIZJNU6o9sHDdC3vLg&s",
+    "img": "https://www.recipetineats.com/tachyon/2016/07/Oatmeal-Raisin-Cookies_3-SQ.jpg",
     "desc": "Wholesome rolled oats blended with plump California raisins and warm cinnamon spices for a comforting, homestyle treat."
   },
   {
@@ -32,14 +32,14 @@ const products = [
     "name": "Snickerdoodle",
     "price": 95,
     "cat": "cookies",
-    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHru64OWbRFIkOmlN5tdehzQCkT_2KvGnHZA&s",
+    "img": "https://lilluna.com/wp-content/uploads/2024/09/snickerdoodle-recipe-resize-14.jpg",
     "desc": "Soft, pillowy cookies rolled in cinnamon sugar, creating a crackled top with an irresistibly tender interior."
   },
   {
     "name": "White Chocolate Macadamia",
     "price": 140,
     "cat": "cookies",
-    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSnvhWShzqHXuWDPGftI7EB4ayVob313G1Tg&s",
+    "img": "https://www.modernhoney.com/wp-content/uploads/2025/10/Levain-Bakery-White-Chocolate-Macadamia-Cookies-9.jpg",
     "desc": "Buttery Hawaiian macadamia nuts paired with creamy white chocolate in a golden, slightly crisp cookie base."
   },
   {
@@ -53,14 +53,14 @@ const products = [
     "name": "Lemon Sugar",
     "price": 100,
     "cat": "cookies",
-    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbb_TsglfVUyZqBvB1yaC3lxZP3KPnsa3Epg&s",
+    "img": "https://www.bunsenburnerbakery.com/wp-content/uploads/2017/06/lemon-sugar-cookies-square-14-720x720.jpg",
     "desc": "Bright, zesty lemon cookies with a delicate sugar coating, offering a refreshing citrus burst in every bite."
   },
   {
     "name": "Red Velvet Cream Cheese",
     "price": 125,
     "cat": "cookies",
-    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeDH0mA2TZjYC6I7CdN_BwvtdkH8Xtu35sgA&s",
+    "img": "https://sallysbakingaddiction.com/wp-content/uploads/2017/11/cream-cheese-stuffed-red-velvet-cookies.jpg",
     "desc": "Vibrant crimson cookies with swirls of tangy cream cheese, combining cake-like texture with classic flavor."
   },
   {
@@ -74,7 +74,7 @@ const products = [
     "name": "Maple Pecan Shortbread",
     "price": 145,
     "cat": "cookies",
-    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnh1sziYXbSNhSEgRjdFZgNKtfZ1D40SV5Rw&s",
+    "img": "https://gritsandgouda.com/wp-content/uploads/2023/11/Maple-Pecan-Cookies-Iced-stack-low-view.jpeg",
     "desc": "Buttery shortbread enriched with pure maple syrup and studded with toasted Georgia pecans."
   },
   {
@@ -95,14 +95,14 @@ const products = [
     "name": "Almond Biscotti",
     "price": 120,
     "cat": "cookies",
-    "img": "https://stock.adobe.com/search?k=biscotti",
+    "img": "https://seasonsinthekitchen.com/wp-content/uploads/2025/10/Italian-almond-biscotti-4.jpg",
     "desc": "Twice-baked Italian cookies with whole roasted almonds, perfect for dunking in coffee or espresso."
   },
   {
     "name": "Chocolate Crinkle",
     "price": 110,
     "cat": "cookies",
-    "img": "https://unsplash.com/s/photos/chocolate-cookies",
+    "img": "https://krollskorner.com/wp-content/uploads/2024/11/Chocolate-Crinkle-Cookies_LowRes-023.jpg",
     "desc": "Fudgy chocolate cookies with dramatic powdered sugar cracks, revealing a rich, brownie-like interior."
   },
   {
