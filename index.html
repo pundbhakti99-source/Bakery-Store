@@ -9,108 +9,14 @@
 </head>
 <body>
 
-<div id="authModal" class="modal">
-    <div class="modal-content">
-        <span class="close-modal" onclick="closeAuthModal()">&times;</span>
-        <div id="signInView">
-            <h2 style="font-family: 'Cormorant Garamond', serif;">Welcome Back</h2>
-            <div style="display: flex; flex-direction: column; gap: 15px; margin-top: 20px;">
-                <input type="email" id="loginEmail" placeholder="Email Address">
-                <input type="password" id="loginPassword" placeholder="Password">
-                <button class="checkout-btn" onclick="handleAuth('login')">Sign In</button>
-                <p style="font-size: 0.85rem;">New here? <a href="javascript:void(0)" onclick="toggleAuthView('signup')" style="color: #82937E; font-weight: 600;">Create an Account</a></p>
-            </div>
-        </div>
-        <div id="signUpView" style="display: none;">
-            <h2 style="font-family: 'Cormorant Garamond', serif;">Join the Whisk</h2>
-            <div style="display: flex; flex-direction: column; gap: 15px; margin-top: 20px;">
-                <input type="text" id="regName" placeholder="Full Name">
-                <input type="email" id="regEmail" placeholder="Email Address">
-                <input type="password" id="regPassword" placeholder="Create Password">
-                <button class="checkout-btn" onclick="handleAuth('signup')">Register</button>
-                <p style="font-size: 0.85rem;">Already have an account? <a href="javascript:void(0)" onclick="toggleAuthView('signin')" style="color: #82937E; font-weight: 600;">Sign In</a></p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div id="productModal" class="modal">
-    <div class="modal-content" style="max-width: 450px;">
-        <span class="close-modal" onclick="closeProductModal()">&times;</span>
-        <div id="modalBody"></div>
-    </div>
-</div>
-<div id="productPageModal" class="product-page-modal">
-    <div class="pp-content">
-        <span class="pp-close" onclick="closeProductPage()">&times;</span>
-        <div class="pp-grid">
-            <div class="pp-image">
-                <img id="pp-main-img" src="" alt="">
-            </div>
-            <div class="pp-details">
-                <h1 id="pp-name">Product Name</h1>
-                <div class="pp-price-row">
-                    <span id="pp-price">₹00</span>
-                    <span class="tax-hint">(Inclusive of GST)</span>
-                </div>
-                
-                <p id="pp-desc" class="pp-description"></p>
-
-                <div class="pp-section">
-                    <label>Select Weight</label>
-                    <div class="weight-options">
-                        <button class="w-btn active">0.5 Kg</button>
-                        <button class="w-btn">1 Kg</button>
-                        <button class="w-btn">1.5 Kg</button>
-                        <button class="w-btn">2 Kg</button>
-                    </div>
-                </div>
-
-                <div class="pp-section">
-                    <label>Cake Message (Optional)</label>
-                    <input type="text" placeholder="Write A Sweet Wish!" id="pp-message">
-                </div>
-
-                <div class="pp-section">
-                    <div class="location-box">
-                        <input type="text" placeholder="Enter Pincode for Delivery">
-                        <button>Check</button>
-                    </div>
-                </div>
-
-                <button class="buy-now-btn" onclick="addToCartFromPage()">Buy Now</button>
-            </div>
-        </div>
-    </div>
-</div>
-    
-<div id="cartDrawer" class="cart-drawer">
-    <div class="cart-header">
-        <h2>Your Basket</h2>
-        <button onclick="toggleCart()" class="close-btn">&times;</button>
-    </div>
-    <div id="cartItems" class="cart-items-container">
-        <p class="empty-msg">Your basket is empty.</p>
-    </div>
-    <div class="cart-footer">
-        <div class="total-row">
-            <span>Total:</span>
-            <span id="cartTotal">₹0.00</span>
-        </div>
-        <button class="checkout-btn" onclick="proceedToCheckout()">Checkout</button>
-    </div>
-</div>
-
 <nav class="navbar">
     <div class="nav-container">
         <a href="#" class="logo">G<span>W</span></a>
-        <input type="text" id="searchInput" placeholder="Search pastries...">
+        <input type="text" id="searchInput" placeholder="Search our bakery...">
         <ul class="nav-links">
-            <li><a href="#menu">Menu</a></li>
-            <li id="userLink" onclick="openAuthModal()"><a href="javascript:void(0)">Sign In</a></li>
-            <li class="cart-link" onclick="toggleCart()">
-                <a href="#">Cart (<span id="cartCount">0</span>)</a>
-            </li>
+            <li><a href="#menu" onclick="showMenu()">Menu</a></li>
+            <li id="userLink" onclick="openAuthModal()"><a href="#">Sign In</a></li>
+            <li onclick="toggleCart()"><a href="#">Cart (<span id="cartCount">0</span>)</a></li>
         </ul>
     </div>
 </nav>
@@ -119,36 +25,74 @@
     <div class="hero-text">
         <h1>Soft Bakes, Early Mornings.</h1>
         <p>Select a category to explore our fresh bakes.</p>
-        
         <div class="category-jump-container">
             <div class="cat-card" onclick="jumpToCategory('cookies')">
-                <img src="https://images.unsplash.com/photo-1499636136210-6f4ee915583e?q=80&w=400" alt="Cookies">
+                <img src="https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=400" alt="Cookies">
                 <span>Cookies</span>
             </div>
             <div class="cat-card" onclick="jumpToCategory('pastries')">
-                <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?q=80&w=400" alt="Pastries">
+                <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=400" alt="Pastries">
                 <span>Pastries</span>
             </div>
             <div class="cat-card" onclick="jumpToCategory('cakes')">
-                <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=400" alt="Cakes">
+                <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400" alt="Cakes">
                 <span>Cakes</span>
             </div>
         </div>
     </div>
 </header>
 
-<section class="products" id="menu" style="display: none;"> <div class="filter-container">
-        <button class="filter-btn" onclick="filterCategory('all', event)">All</button>
+<section class="products" id="menu" style="display: none;">
+    <div class="filter-container">
+        <button class="filter-btn" id="btn-all" onclick="filterCategory('all', event)">All</button>
         <button class="filter-btn" id="btn-cookies" onclick="filterCategory('cookies', event)">Cookies</button>
         <button class="filter-btn" id="btn-pastries" onclick="filterCategory('pastries', event)">Pastries</button>
         <button class="filter-btn" id="btn-cakes" onclick="filterCategory('cakes', event)">Cakes</button>
     </div>
     <div class="product-grid" id="productGrid"></div>
 </section>
-    
-<footer>
-    <p>© 2026 THE GOLDEN WHISK</p>
-</footer>
+
+<div id="productPageModal" class="pp-modal">
+    <div class="pp-content">
+        <span class="pp-close" onclick="closeProductPage()">&times;</span>
+        <div class="pp-grid">
+            <div class="pp-image-side">
+                <img id="pp-main-img" src="" alt="">
+            </div>
+            <div class="pp-info-side">
+                <h1 id="pp-name">Product Name</h1>
+                <div class="pp-price-tag">
+                    <span id="pp-price">₹0</span>
+                    <span class="tax-info">(Inclusive of GST)</span>
+                </div>
+                <p id="pp-desc" class="pp-description"></p>
+
+                <div class="pp-option-group">
+                    <label>Select Weight</label>
+                    <div class="weight-selector">
+                        <button class="w-btn active">0.5 Kg</button>
+                        <button class="w-btn">1 Kg</button>
+                        <button class="w-btn">2 Kg</button>
+                    </div>
+                </div>
+
+                <div class="pp-option-group">
+                    <label>Cake Message (Optional)</label>
+                    <input type="text" id="pp-msg" placeholder="Write A Sweet Wish!">
+                </div>
+
+                <div class="pp-option-group">
+                    <div class="delivery-check">
+                        <input type="text" placeholder="Enter Pincode">
+                        <button>Check</button>
+                    </div>
+                </div>
+
+                <button class="buy-now-btn" onclick="addToCartFromPage()">Buy Now | <span id="pp-btn-price">₹0</span></button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script src="product.js"></script>
 <script src="script.js"></script>
