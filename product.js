@@ -1,5 +1,5 @@
 
-const product = [
+const products = [
   {
     "name": "Classic Chocolate Chip",
     "price": 95,
