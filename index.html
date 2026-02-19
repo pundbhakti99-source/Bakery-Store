@@ -1,145 +1,324 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <title>The Golden Whisk | Artisan Bakery</title>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="style.css">
+
 </head>
+
 <body>
 
+
+
 <nav class="navbar">
+
     <div class="nav-container">
+
         <a href="#" class="logo">G<span>W</span></a>
+
         <div class="search-box">
+
             <input type="text" id="searchInput" placeholder="Search our bakery..." onkeyup="handleSearch()">
+
         </div>
+
         <ul class="nav-links">
+
             <li><a href="#menu" onclick="jumpToCategory('all')">Menu</a></li>
-            <li><a href="#" onclick="openSignIn()">Sign In</a></li>
-            <li class="cart-status" onclick="toggleCart()" style="cursor:pointer">Cart (<span id="cartCount">0</span>)</li>
+
+            <li><a href="#">Sign In</a></li>
+
+            <li class="cart-status">Cart (<span id="cartCount">0</span>)</li>
+
         </ul>
+
     </div>
+
 </nav>
 
+
+
 <header class="hero">
+
     <div class="hero-overlay"></div>
+
     <div class="hero-content">
+
         <div class="hero-card">
+
             <h1>Soft Bakes, Early Mornings.</h1>
+
             <p>Handcrafted treats delivered to your door.</p>
+
+            
+
             <div class="cat-stack">
+
                 <div class="cat-item" onclick="jumpToCategory('cookies')">
+
                     <img src="https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=200" alt="Cookies">
+
                     <span>Explore Cookies</span>
+
                 </div>
+
                 <div class="cat-item" onclick="jumpToCategory('pastries')">
+
                     <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=200" alt="Pastries">
+
                     <span>Fresh Pastries</span>
+
                 </div>
+
                 <div class="cat-item" onclick="jumpToCategory('cakes')">
+
                     <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=200" alt="Cakes">
+
                     <span>Artisan Cakes</span>
+
                 </div>
+
             </div>
+
         </div>
+
     </div>
+
 </header>
 
+
+
 <section id="menu" class="product-section">
+
     <div class="filters">
+
         <button class="f-btn active" id="btn-all" onclick="filterCategory('all', event)">All Bakes</button>
+
         <button class="f-btn" id="btn-cookies" onclick="filterCategory('cookies', event)">Cookies</button>
+
         <button class="f-btn" id="btn-pastries" onclick="filterCategory('pastries', event)">Pastries</button>
+
         <button class="f-btn" id="btn-cakes" onclick="filterCategory('cakes', event)">Cakes</button>
+
     </div>
+
     <div class="product-grid" id="productGrid"></div>
+
 </section>
 
-<div id="productModal" class="modal">
-    <div class="modal-content">
-        <span class="close-modal" onclick="closeModal()">&times;</span>
-        <div class="modal-body">
-            <div class="modal-img"><img id="m-img" src="" alt=""></div>
-            <div class="modal-info">
-                <h2 id="m-name"></h2>
-                <div class="m-price-row"><span id="m-price">₹0</span> <small>Inc. GST</small></div>
-                <p id="m-desc"></p>
-                <div class="m-options">
-                    <label>Weight Selection</label>
-                    <div class="weight-row">
-                        <button class="w-btn active" data-mult="1">0.5 Kg</button>
-                        <button class="w-btn" data-mult="1.8">1 Kg</button>
-                        <button class="w-btn" data-mult="3.5">2 Kg</button>
-                    </div>
-                    <label>Gift Message</label>
-                    <input type="text" id="m-msg" placeholder="Happy Birthday!">
-                    <label>Check Delivery</label>
-                    <div class="pin-row">
-                        <input type="text" id="pinInput" placeholder="Pincode">
-                        <button onclick="checkPin()">Check</button>
-                    </div>
-                    <p id="pinStatus"></p>
-                </div>
-                <div class="m-actions">
-                    <button class="add-btn" onclick="addToCart(false)">Add to Cart</button>
-                    <button class="buy-btn" onclick="addToCart(true)">Buy Now | <span id="m-buy-price">₹0</span></button>
-                </div>
-                <div class="recommendations">
-                    <h3>Complete Your Treat</h3>
-                    <div id="recGrid" class="rec-grid"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
-<div id="signInModal" class="modal">
-    <div class="modal-content" style="max-width: 400px;">
-        <span class="close-modal" onclick="closeSignIn()">&times;</span>
-        <div class="auth-container">
-            <h2 style="font-family: 'Cormorant Garamond', serif; font-size: 2rem;">Welcome Back</h2>
-            <form onsubmit="handleSignIn(event)">
-                <label style="display:block; margin-top:15px; font-size:0.8rem;">Email Address</label>
-                <input type="email" class="auth-input" placeholder="baker@example.com" required>
-                <label style="display:block; font-size:0.8rem;">Password</label>
-                <input type="password" class="auth-input" placeholder="••••••••" required>
-                <button type="submit" class="buy-btn" style="width:100%">Sign In</button>
-            </form>
+
+<div id="productModal" class="modal">
+
+    <div class="modal-content">
+
+        <span class="close-modal" onclick="closeModal()">&times;</span>
+
+        <div class="modal-body">
+
+            <div class="modal-img">
+
+                <img id="m-img" src="" alt="">
+
+            </div>
+
+            <div class="modal-info">
+
+                <h2 id="m-name">Product Name</h2>
+
+                <div class="m-price-row">
+
+                    <span id="m-price">₹0</span>
+
+                    <small>Inc. GST</small>
+
+                </div>
+
+                <p id="m-desc"></p>
+
+                
+
+                <div class="m-options">
+
+                    <label>Weight Selection</label>
+
+                    <div class="weight-row">
+
+                        <button class="w-btn active" data-mult="1">0.5 Kg</button>
+
+                        <button class="w-btn" data-mult="1.8">1 Kg</button>
+
+                        <button class="w-btn" data-mult="3.5">2 Kg</button>
+
+                    </div>
+
+                    
+
+                    <label>Gift Message</label>
+
+                    <input type="text" id="m-msg" placeholder="Happy Birthday!">
+
+                    
+
+                    <label>Check Delivery</label>
+
+                    <div class="pin-row">
+
+                        <input type="text" id="pinInput" placeholder="Pincode">
+
+                        <button onclick="checkPin()">Check</button>
+
+                    </div>
+
+                    <p id="pinStatus"></p>
+
+                </div>
+
+
+
+                <div class="m-actions">
+
+                    <button class="add-btn" onclick="addToCart(false)">Add to Cart</button>
+
+                    <button class="buy-btn" onclick="addToCart(true)">Buy Now | <span id="m-buy-price">₹0</span></button>
+
+                </div>
+
+                <div class="recommendations">
+
+    <h3>Complete Your Treat</h3>
+
+    <div id="recGrid" class="rec-grid">
+
         </div>
+
+                </div>
+
+                
+
+            </div>
+
+        </div>
+
     </div>
+
 </div>
 
 <div id="cartOverlay" class="cart-overlay" onclick="toggleCart()"></div>
+
 <div id="cartSidebar" class="cart-sidebar">
+
     <div class="cart-header">
+
         <h2>Your Basket</h2>
+
         <span class="close-cart" onclick="toggleCart()">&times;</span>
+
     </div>
-    <div id="cartItemsList" class="cart-body"></div>
+
+    <div id="cartItemsList" class="cart-body">
+
+        </div>
+
     <div class="cart-footer">
-        <div class="total-row"><span>Total:</span> <span id="cartTotal">₹0</span></div>
+
+        <div class="total-row">
+
+            <span>Total Amount:</span>
+
+            <span id="cartTotal">₹0</span>
+
+        </div>
+
         <button class="checkout-btn" onclick="proceedToCheckout()">Checkout Now</button>
+
     </div>
+
 </div>
 
-<div id="successOverlay" class="success-popup">
-    <div class="success-content">
-        <div class="check-icon">✓</div>
-        <h2>Baking in Progress!</h2>
-        <button onclick="closeSuccess()" class="buy-btn" style="width: auto; padding: 10px 30px;">Sweet!</button>
-    </div>
-</div>
+    <footer class="main-footer">
 
-<footer class="main-footer">
     <div class="footer-container">
-        <div class="footer-brand"><a href="#" class="logo">G<span>W</span></a><p>Handcrafting joy since 2012.</p></div>
-        <div class="footer-links"><h4>Quick Links</h4><ul><li><a href="#menu">Menu</a></li><li><a href="#">Privacy</a></li></ul></div>
+
+        <div class="footer-brand">
+
+            <a href="#" class="logo">G<span>W</span></a>
+
+            <p>Handcrafting joy since 2012. Every bake tells a story of quality ingredients and early mornings.</p>
+
+        </div>
+
+        <div class="footer-links">
+
+            <h4>Quick Links</h4>
+
+            <ul>
+
+                <li><a href="#menu">Our Menu</a></li>
+
+                <li><a href="#">Track Order</a></li>
+
+                <li><a href="#">Privacy Policy</a></li>
+
+            </ul>
+
+        </div>
+
+        <div class="footer-links">
+
+            <h4>Contact</h4>
+
+            <ul>
+
+                <li>Baker's Lane, Mumbai</li>
+
+                <li>hello@goldenwhisk.com</li>
+
+                <li>+91 98765 43210</li>
+
+            </ul>
+
+        </div>
+
     </div>
+
 </footer>
 
+
+
+<div id="successOverlay" class="success-popup">
+
+    <div class="success-content">
+
+        <div class="check-icon">✓</div>
+
+        <h2>Baking in Progress!</h2>
+
+        <p>Your treats are being prepared with love.</p>
+
+        <button onclick="closeSuccess()" class="buy-btn" style="width: auto; padding: 10px 30px;">Sweet!</button>
+
+    </div>
+
+</div>
+
+    
+
 <script src="product.js"></script>
+
 <script src="script.js"></script>
+
 </body>
+
 </html>
+
