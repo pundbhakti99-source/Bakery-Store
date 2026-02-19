@@ -57,20 +57,33 @@ function openModal(name) {
     if(!p) return;
     activeItem = p;
 
+    // ... (Your existing modal text updates: name, img, desc, price) ...
     document.getElementById("m-name").innerText = p.name;
     document.getElementById("m-img").src = p.img;
     document.getElementById("m-desc").innerText = p.desc;
     document.getElementById("m-price").innerText = `₹${p.price}`;
     document.getElementById("m-buy-price").innerText = `₹${p.price}`;
 
-    // Reset weights
-    document.querySelectorAll('.w-btn').forEach((b, i) => {
-        i === 0 ? b.classList.add('active') : b.classList.remove('active');
-    });
+    // --- NEW: RECOMMENDATION LOGIC ---
+    const recGrid = document.getElementById("recGrid");
+    // Filter items in the same category, excluding the current one
+    const suggestions = products
+        .filter(item => item.cat === p.cat && item.name !== p.name)
+        .sort(() => 0.5 - Math.random()) // Shuffle
+        .slice(0, 3); // Take top 3
+
+    recGrid.innerHTML = suggestions.map(s => `
+        <div class="rec-item" onclick="openModal('${s.name.replace(/'/g, "\\'")}')">
+            <img src="${s.img}" alt="${s.name}">
+            <p>${s.name}</p>
+        </div>
+    `).join('');
+    // ---------------------------------
 
     document.getElementById("productModal").style.display = "block";
     document.body.style.overflow = "hidden";
 }
+
 
 function closeModal() {
     document.getElementById("productModal").style.display = "none";
