@@ -12,39 +12,44 @@
 <nav class="navbar">
     <div class="nav-container">
         <a href="#" class="logo">G<span>W</span></a>
-        <input type="text" id="searchInput" placeholder="Search our bakery...">
+        <div class="nav-search">
+            <input type="text" id="searchInput" placeholder="Search our bakery..." onkeyup="handleSearch(event)">
+        </div>
         <ul class="nav-links">
             <li><a href="#menu" onclick="jumpToCategory('all')">Menu</a></li>
             <li id="userLink"><a href="#">Sign In</a></li>
-            <li><a href="#">Cart (<span id="cartCount">0</span>)</a></li>
+            <li class="cart-btn"><a href="#">Cart (<span id="cartCount">0</span>)</a></li>
         </ul>
     </div>
 </nav>
 
 <header class="hero">
-    <div class="hero-overlay"></div> <div class="hero-text">
-        <h1>Soft Bakes, Early Mornings.</h1>
-        <p>Select a category to explore our fresh bakes.</p>
-        <div class="category-jump-container">
-            <div class="cat-card" onclick="jumpToCategory('cookies')">
-                <img src="https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=400" alt="Cookies">
-                <span>Cookies</span>
-            </div>
-            <div class="cat-card" onclick="jumpToCategory('pastries')">
-                <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=400" alt="Pastries">
-                <span>Pastries</span>
-            </div>
-            <div class="cat-card" onclick="jumpToCategory('cakes')">
-                <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400" alt="Cakes">
-                <span>Cakes</span>
+    <div class="hero-overlay"></div> 
+    <div class="hero-content">
+        <div class="hero-card">
+            <h1>Soft Bakes, Early Mornings.</h1>
+            <p>Handcrafted with love, delivered to your doorstep.</p>
+            <div class="category-jump">
+                <div class="cat-item" onclick="jumpToCategory('cookies')">
+                    <img src="https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=200" alt="Cookies">
+                    <span>Cookies</span>
+                </div>
+                <div class="cat-item" onclick="jumpToCategory('pastries')">
+                    <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=200" alt="Pastries">
+                    <span>Pastries</span>
+                </div>
+                <div class="cat-item" onclick="jumpToCategory('cakes')">
+                    <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=200" alt="Cakes">
+                    <span>Cakes</span>
+                </div>
             </div>
         </div>
     </div>
 </header>
 
-<section class="products" id="menu" style="display: none;">
-    <div class="filter-container">
-        <button class="filter-btn" id="btn-all" onclick="filterCategory('all', event)">All</button>
+<section class="products-section" id="menu" style="display: none;">
+    <div class="filter-bar">
+        <button class="filter-btn active" id="btn-all" onclick="filterCategory('all', event)">All Bakes</button>
         <button class="filter-btn" id="btn-cookies" onclick="filterCategory('cookies', event)">Cookies</button>
         <button class="filter-btn" id="btn-pastries" onclick="filterCategory('pastries', event)">Pastries</button>
         <button class="filter-btn" id="btn-cakes" onclick="filterCategory('cakes', event)">Cakes</button>
@@ -53,46 +58,48 @@
 </section>
 
 <div id="productPageModal" class="pp-modal">
-    <div class="pp-content">
+    <div class="pp-container">
         <span class="pp-close" onclick="closeProductPage()">&times;</span>
-        <div class="pp-grid">
-            <div class="pp-image-side">
+        <div class="pp-layout">
+            <div class="pp-image">
                 <img id="pp-main-img" src="" alt="">
             </div>
-            <div class="pp-info-side">
+            <div class="pp-details">
                 <h1 id="pp-name">Product Name</h1>
-                <div class="pp-price-tag">
+                <div class="pp-price-box">
                     <span id="pp-price">₹0</span>
-                    <span class="tax-info">(Inclusive of GST)</span>
+                    <small>Inclusive of all taxes</small>
                 </div>
-                <p id="pp-desc" class="pp-description"></p>
+                <p id="pp-desc" class="pp-text"></p>
 
-                <div class="pp-option-group">
-                    <label>Select Weight</label>
-                    <div class="weight-selector">
-                        <button class="w-btn active" data-mult="1">0.5 Kg</button>
-                        <button class="w-btn" data-mult="1.8">1 Kg</button>
-                        <button class="w-btn" data-mult="3.5">2 Kg</button>
+                <div class="pp-options">
+                    <div class="option-row">
+                        <label>Select Weight</label>
+                        <div class="weight-btns">
+                            <button class="w-btn active" data-mult="1">0.5 Kg</button>
+                            <button class="w-btn" data-mult="1.8">1 Kg</button>
+                            <button class="w-btn" data-mult="3.5">2 Kg</button>
+                        </div>
+                    </div>
+
+                    <div class="option-row">
+                        <label>Custom Message</label>
+                        <input type="text" id="pp-msg" placeholder="Happy Birthday..." maxlength="30">
+                    </div>
+
+                    <div class="option-row">
+                        <label>Delivery Check</label>
+                        <div class="pincode-box">
+                            <input type="text" id="pincodeInput" placeholder="Pincode">
+                            <button onclick="checkPincode()">Check</button>
+                        </div>
+                        <p id="pincodeMsg"></p>
                     </div>
                 </div>
 
-                <div class="pp-option-group">
-                    <label>Cake Message (Optional)</label>
-                    <input type="text" id="pp-msg" placeholder="Write A Sweet Wish!" maxlength="25">
-                </div>
-
-                <div class="pp-option-group">
-                    <label>Pincode Check</label>
-                    <div class="delivery-check">
-                        <input type="text" id="pincodeInput" placeholder="Enter Pincode">
-                        <button type="button" onclick="checkPincode()">Check</button>
-                    </div>
-                    <p id="pincodeMsg"></p>
-                </div>
-
-                <div class="pp-actions">
-                    <button class="add-to-cart-btn" onclick="addToCart(false)">Add to Cart</button>
-                    <button class="buy-now-btn" onclick="addToCart(true)">Buy Now | <span id="pp-btn-price">₹0</span></button>
+                <div class="pp-footer">
+                    <button class="btn-secondary" onclick="addToCart(false)">Add to Cart</button>
+                    <button class="btn-primary" onclick="addToCart(true)">Buy Now | <span id="pp-btn-price">₹0</span></button>
                 </div>
             </div>
         </div>
