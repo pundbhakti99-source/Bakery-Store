@@ -13,11 +13,20 @@ function jumpToCategory(cat) {
     menu.scrollIntoView({ behavior: 'smooth' });
     filterCategory(cat);
 }
-
 function handleSearch() {
     const term = document.getElementById("searchInput").value.toLowerCase();
+    
+    // 1. Show the menu
     document.getElementById("menu").style.display = "block";
-    const matches = products.filter(p => p.name.toLowerCase().includes(term));
+    
+    // 2. Remove 'active' highlight from category buttons since we are searching everything
+    document.querySelectorAll('.f-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('btn-all').classList.add('active');
+
+    const matches = products.filter(p => 
+        p.name.toLowerCase().includes(term) || 
+        p.cat.toLowerCase().includes(term)
+    );
     renderProducts(matches);
 }
 
