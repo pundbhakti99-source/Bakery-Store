@@ -289,4 +289,54 @@ body { font-family: 'Montserrat', sans-serif; background: #FAF9F6; color: #333; 
     border: 1px solid rgba(130, 147, 126, 0.2);
 }
 
+/* HORIZONTAL SCROLL FOR RECOMMENDATIONS */
+.rec-grid {
+    display: flex;
+    overflow-x: auto;
+    gap: 15px;
+    padding: 10px 5px;
+    scrollbar-width: none; /* Hides scrollbar for Firefox */
+    -ms-overflow-style: none; /* Hides scrollbar for IE/Edge */
+    scroll-snap-type: x mandatory; /* Makes the swipe feel snappy */
+}
 
+.rec-grid::-webkit-scrollbar {
+    display: none; /* Hides scrollbar for Chrome/Safari */
+}
+
+.rec-item {
+    flex: 0 0 100px; /* Each item takes 100px width and won't shrink */
+    scroll-snap-align: center;
+}
+
+.rec-item img {
+    width: 100px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* MOBILE MODAL ADJUSTMENTS */
+@media (max-width: 768px) {
+    .modal-body {
+        padding-bottom: 80px; /* Space for the fixed buttons if needed */
+    }
+
+    .m-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        position: sticky;
+        bottom: 0;
+        background: white;
+        padding-top: 15px;
+        border-top: 1px solid #eee;
+    }
+
+    .m-actions button {
+        width: 100%;
+        font-size: 1rem;
+        padding: 12px;
+    }
+}
