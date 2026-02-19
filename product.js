@@ -18,77 +18,77 @@ const products = [
     "name": "Oatmeal Raisin",
     "price": 90,
     "cat": "cookies",
-    "img": "https://unsplash.com/s/photos/oatmeal-cookies",
+    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFEicA-MDDgnp9pL3weIZJNU6o9sHDdC3vLg&s",
     "desc": "Wholesome rolled oats blended with plump California raisins and warm cinnamon spices for a comforting, homestyle treat."
   },
   {
     "name": "Peanut Butter Bliss",
     "price": 105,
     "cat": "cookies",
-    "img": "https://unsplash.com/photos/a-plate-of-cookies-and-a-bowl-of-peanut-butter-JTt5pqUs4sE",
+    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDGq7tIpSKJtjITy_VhuFPG7I2whm3aJTRyw&s",
     "desc": "Creamy peanut butter cookies with that signature fork-pressed pattern, perfectly balanced between sweet and savory."
   },
   {
     "name": "Snickerdoodle",
     "price": 95,
     "cat": "cookies",
-    "img": "https://unsplash.com/s/photos/snickerdoodle",
+    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHru64OWbRFIkOmlN5tdehzQCkT_2KvGnHZA&s",
     "desc": "Soft, pillowy cookies rolled in cinnamon sugar, creating a crackled top with an irresistibly tender interior."
   },
   {
     "name": "White Chocolate Macadamia",
     "price": 140,
     "cat": "cookies",
-    "img": "https://www.justsotasty.com/bakery-style-white-chocolate-macadamia-cookies/",
+    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSnvhWShzqHXuWDPGftI7EB4ayVob313G1Tg&s",
     "desc": "Buttery Hawaiian macadamia nuts paired with creamy white chocolate in a golden, slightly crisp cookie base."
   },
   {
     "name": "Salted Caramel Swirl",
     "price": 135,
     "cat": "cookies",
-    "img": "https://www.istockphoto.com/photos/caramel-cookies",
+    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4M3TGLpTjcWhIfBR9oyS5TxXdqaWF9aqBjQ&s",
     "desc": "Luscious caramel ribbons swirled through brown butter cookie dough, finished with flaky Maldon sea salt."
   },
   {
     "name": "Lemon Sugar",
     "price": 100,
     "cat": "cookies",
-    "img": "https://unsplash.com/photos/lemon-cookies-are-artfully-arranged-on-a-white-surface-DgoIL3GhDlY",
+    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbb_TsglfVUyZqBvB1yaC3lxZP3KPnsa3Epg&s",
     "desc": "Bright, zesty lemon cookies with a delicate sugar coating, offering a refreshing citrus burst in every bite."
   },
   {
     "name": "Red Velvet Cream Cheese",
     "price": 125,
     "cat": "cookies",
-    "img": "https://littlesunnykitchen.com/red-velvet-cream-cheese-cookies/",
+    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeDH0mA2TZjYC6I7CdN_BwvtdkH8Xtu35sgA&s",
     "desc": "Vibrant crimson cookies with swirls of tangy cream cheese, combining cake-like texture with classic flavor."
   },
   {
     "name": "Espresso Chocolate Chunk",
     "price": 130,
     "cat": "cookies",
-    "img": "https://unsplash.com/photos/a-table-topped-with-chocolate-cookies-and-coffee-beans-OHyJWdHRdb0",
+    "img": "https://plus.unsplash.com/premium_photo-1675435646468-5c3b3e550331?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE4fHx8ZW58MHx8fHx8",
     "desc": "Robust espresso-infused dough loaded with dark chocolate chunks for coffee lovers seeking an afternoon pick-me-up."
   },
   {
     "name": "Maple Pecan Shortbread",
     "price": 145,
     "cat": "cookies",
-    "img": "https://www.littlespicejar.com/pecan-shortbread-cookies/",
+    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnh1sziYXbSNhSEgRjdFZgNKtfZ1D40SV5Rw&s",
     "desc": "Buttery shortbread enriched with pure maple syrup and studded with toasted Georgia pecans."
   },
   {
     "name": "Ginger Molasses",
     "price": 105,
     "cat": "cookies",
-    "img": "https://unsplash.com/photos/a-group-of-gingerbread-cookies-ca2IdvwD0ZQ",
+    "img": "https://plus.unsplash.com/premium_photo-1669831177967-c0dab4cf4bb5?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE2fHx8ZW58MHx8fHx8",
     "desc": "Chewy molasses cookies with crystallized ginger pieces and warm holiday spices that melt on your tongue."
   },
   {
     "name": "Coconut Macaroon",
     "price": 115,
     "cat": "cookies",
-    "img": "https://unsplash.com/s/photos/macaroons",
+    "img": "https://plus.unsplash.com/premium_photo-1698172419856-b9202ac64dce?q=80&w=388&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "desc": "Crispy-edged, chewy-centered coconut mounds with golden toasted peaks and a hint of vanilla."
   },
   {
