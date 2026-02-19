@@ -183,16 +183,31 @@ function removeItem(index) {
     renderCart();
 }
 
+// Replace your proceedToCheckout with this:
 function proceedToCheckout() {
-    if(cart.length === 0) return alert("Basket is empty!");
-    alert("Redirecting to secure payment gateway...");
+    if(cart.length === 0) return alert("Your basket is empty!");
+
+    // Close cart and show success
+    const sidebar = document.getElementById("cartSidebar");
+    const overlay = document.getElementById("cartOverlay");
+    sidebar.classList.remove("open");
+    overlay.style.display = "none";
+    
+    document.getElementById("successOverlay").style.display = "flex";
+
+    // Clear data
+    cart = [];
+    updateCartCount();
 }
 
-// Add a random rating to your render function for visual flair
+function closeSuccess() {
+    document.getElementById("successOverlay").style.display = "none";
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 function renderProducts(items) {
     const grid = document.getElementById("productGrid");
     grid.innerHTML = items.map(p => {
-        // Mock rating between 4.5 and 5.0 for premium feel
         const rate = (Math.random() * (5 - 4.5) + 4.5).toFixed(1);
         return `
             <div class="p-card" onclick="openModal('${p.name.replace(/'/g, "\\'")}')">
@@ -204,5 +219,3 @@ function renderProducts(items) {
         `;
     }).join('');
 }
-
-// Ensure the footer is added to your index.html as well!
