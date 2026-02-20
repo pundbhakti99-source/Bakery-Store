@@ -466,7 +466,7 @@ const products = [
     "name": "Classic Chocolate Layer",
     "price": 650,
     "cat": "cakes",
-    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQglgMgLg7k4zXX5c5BhRdYvP2aADXl2WvzvA&s",
+    "img": "https://healthyhappylife.com/wp-content/uploads/2020/04/chocolate-layer-cake-IMG_7993.jpg",
     "desc": "Three layers of rich chocolate cake with silky chocolate buttercream and dark chocolate ganache drip."
   },
   {
@@ -613,21 +613,21 @@ const products = [
     "name": "Italian Cream",
     "price": 720,
     "cat": "cakes",
-    "img": "https://images.unsplash.com/photo-1464349095431-e9a21285b5f3",
+    "img": "https://feastandfarm.com/wp-content/uploads/italiancreamcake2.jpg",
     "desc": "Buttery coconut-pecan cake with cream cheese frosting and toasted coconut decoration."
   },
   {
     "name": "Mango Passion",
     "price": 760,
     "cat": "cakes",
-    "img": "https://images.unsplash.com/photo-1565958011703-44f9829ba187",
+    "img": "https://i.ytimg.com/vi/vetFXMrSvvQ/sddefault.jpg",
     "desc": "Tropical sponge with mango mousse, passion fruit curd, and fresh exotic fruit topping."
   },
   {
     "name": "Chocolate Truffle",
     "price": 950,
     "cat": "cakes",
-    "img": "https://images.unsplash.com/photo-1606890737304-57a1ca8a5b62",
+    "img": "https://scientificallysweet.com/wp-content/uploads/2024/08/IMG_4344-feature.jpg",
     "desc": "Dense, flourless chocolate cake with truffle ganache and gold leaf accents."
   },
   {
@@ -641,28 +641,28 @@ const products = [
     "name": "Honey Almond",
     "price": 650,
     "cat": "cakes",
-    "img": "https://images.unsplash.com/photo-1562440499-64c9a111f713",
+    "img": "https://www.cakeskart.com/web/image/product.template/160/image_1024?unique=29d9324",
     "desc": "Delicate almond sponge with wildflower honey buttercream and candied almond decoration."
   },
   {
     "name": "Biscoff Caramelized",
     "price": 720,
     "cat": "cakes",
-    "img": "https://images.unsplash.com/photo-1578985545062-69928b1d9587",
+    "img": "https://richanddelish.com/wp-content/uploads/2022/03/biscoff-drip-cake-669x1024.jpg",
     "desc": "Cookie butter lovers dream with speculoos sponge, Biscoff buttercream, and cookie crumb coating."
   },
   {
     "name": "Blackberry Violet",
     "price": 850,
     "cat": "cakes",
-    "img": "https://images.unsplash.com/photo-1565958011703-44f9829ba187",
+    "img": "https://easyfamilycakes.com/wp-content/uploads/2025/12/blackberry-velvet-gothic-cake-2025-12-23-225411.webp",
     "desc": "Elegant violet-scented cake with blackberry compote and Swiss meringue buttercream."
   },
   {
     "name": "Banoffee",
     "price": 580,
     "cat": "cakes",
-    "img": "https://images.unsplash.com/photo-1562440499-64c9a111f713",
+    "img": "https://yeyfood.com/wp-content/uploads/2025/08/WEB1easybanoffeepie-720x720.jpg",
     "desc": "British classic with banana cake layers, toffee sauce, and fresh whipped cream topping."
   },
   {
@@ -676,21 +676,21 @@ const products = [
     "name": "Chocolate Raspberry Dream",
     "price": 780,
     "cat": "cakes",
-    "img": "https://images.unsplash.com/photo-1606890737304-57a1ca8a5b62",
+    "img": "https://mealswithgrandma.com/wp-content/uploads/2025/06/white-chocolate-raspberry-dream-cake-buttercream-hero.jpg",
     "desc": "Dark chocolate layers with raspberry ganache, topped with fresh raspberries and chocolate curls."
   },
   {
     "name": "Caramel Apple Spice",
     "price": 680,
     "cat": "cakes",
-    "img": "https://images.unsplash.com/photo-1621303837174-89787a7d4729",
+    "img": "https://thefirstyearblog.com/wp-content/uploads/2015/09/apple-spice-cake-1B.jpg",
     "desc": "Autumn-inspired apple cake with caramel filling, cinnamon buttercream, and apple chip garnish."
   },
   {
     "name": "Grand Marnier Orange",
     "price": 920,
     "cat": "cakes",
-    "img": "https://images.unsplash.com/photo-1562440499-64c9a111f713",
+    "img": "https://adventureswithsugar.com/wp-content/uploads/2022/06/Orange-Cream-Chiffon-Cake-1-of-13-scaled-1.jpg",
     "desc": "Sophisticated orange cake soaked in Grand Marnier with orange curd and candied orange peel."
   }
 ];
