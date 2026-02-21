@@ -380,7 +380,8 @@ function handleSearch() {
         if (mainContent) {
             mainContent.style.display = 'none';
         }
-
+        // Hide the main product section
+        document.getElementById('menu').style.display = 'none';
         // Remove 'active' highlight from category buttons
         document.querySelectorAll('.f-btn').forEach(b => b.classList.remove('active'));
         document.getElementById('btn-all').classList.add('active');
@@ -405,6 +406,8 @@ function clearSearch() {
     if (mainContent) {
         mainContent.style.display = 'block';
     }
+    // Show the main product section
+    document.getElementById('menu').style.display = 'block';
     // Show all products or default view
     renderProducts(products);
 }
