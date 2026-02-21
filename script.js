@@ -63,6 +63,58 @@ function jumpToCategory(cat) {
 }
 
 // 5. Clear Search Button
+function openModal(name) {
+    const p = products.find(item => item.name === name);
+    if (!p) return;
+
+    activeItem = p;
+
+    // Fill the modal data
+    document.getElementById("m-name").innerText = p.name;
+    document.getElementById("m-img").src = p.img;
+    document.getElementById("m-img").alt = p.name;
+    document.getElementById("m-price").innerText = `₹${p.price}`;
+    document.getElementById("m-buy-price").innerText = `₹${p.price}`;
+    document.getElementById("m-desc").innerText = p.desc;
+
+    // --- MOBILE UX FIXES START ---
+    
+    // 1. Show the modal
+    const modal = document.getElementById("productModal");
+    modal.style.display = "block";
+
+    // 2. Lock the body scroll (Prevents the "Desktop Zoom/Shift" feel)
+    document.body.style.overflow = "hidden";
+
+    // 3. Reset Modal scroll position to the top
+    modal.scrollTop = 0;
+
+    // --- MOBILE UX FIXES END ---
+
+    // Render Recommendations
+    const recGrid = document.getElementById("recGrid");
+    recGrid.scrollLeft = 0; 
+    const suggestions = products
+        .filter(item => item.cat === p.cat && item.name !== p.name)
+        .sort(() => 0.5 - Math.random())
+        .slice(0, 5);
+
+    recGrid.innerHTML = suggestions.map(s => `
+        <div class="rec-item" onclick="openModal('${s.name.replace(/'/g, "\\'")}')">
+            <img src="${s.img}" alt="${s.name}">
+            <p>${s.name}</p>
+        </div>
+    `).join('');
+}
+
+function closeModal() {
+    document.getElementById("productModal").style.display = "none";
+    
+    // Release the body scroll lock
+    document.body.style.overflow = "auto";
+}
+
+
 function clearSearch() {
     document.getElementById("searchInput").value = '';
     showStorefront(false); // Return to Homepage
@@ -87,80 +139,6 @@ function filterCategory(cat, event) {
 
 }
 // 3. Modal Logic
-
-function openModal(name) {
-
-    const p = products.find(item => item.name === name);
-    document.getElementById("m-name").innerText = p.name;
-document.getElementById("m-img").src = p.img;
-document.getElementById("m-img").alt = p.name;
-document.getElementById("m-price").innerText = `₹${p.price}`;
-document.getElementById("m-buy-price").innerText = `₹${p.price}`;
-document.getElementById("m-desc").innerText = p.desc;
-
-    if(!p) return;
-
-    activeItem = p;
-
-
-
-    // ... your existing text updates (name, img, price, etc.) ...
-
-
-
-    // Reset Recommendation Scroll to start
-
-    const recGrid = document.getElementById("recGrid");
-
-    recGrid.scrollLeft = 0; 
-
-
-
-    // Filter and Render Recommendations (Updated for swipe)
-
-    const suggestions = products
-
-        .filter(item => item.cat === p.cat && item.name !== p.name)
-
-        .sort(() => 0.5 - Math.random())
-
-        .slice(0, 5); // Increased to 5 to make the scroll visible
-
-
-
-    recGrid.innerHTML = suggestions.map(s => `
-
-        <div class="rec-item" onclick="openModal('${s.name.replace(/'/g, "\\'")}')">
-
-            <img src="${s.img}" alt="${s.name}">
-
-            <p>${s.name}</p>
-
-        </div>
-
-    `).join('');
-
-
-
-    document.getElementById("productModal").style.display = "block";
-
-    document.body.style.overflow = "hidden";
-
-}
-
-
-
-
-
-
-
-function closeModal() {
-
-    document.getElementById("productModal").style.display = "none";
-
-    document.body.style.overflow = "auto";
-
-}
 
 
 
@@ -401,24 +379,28 @@ window.onload = () => {
     renderProducts(products);
     updateCartCount();
 };
-
 function renderProducts(items, searchTerm = "") {
     const grid = document.getElementById("productGrid");
-    grid.innerHTML = ""; // Clear existing
+    grid.innerHTML = ""; // Clear existing grid content
 
     if (items.length === 0) {
-        grid.innerHTML = `<div style="grid-column: 1/-1; padding: 40px; color: #888;">
-                            No bakes found matching "${searchTerm}"
-                          </div>`;
+        grid.innerHTML = `
+            <div style="grid-column: 1/-1; padding: 40px; color: #888; text-align: center;">
+                No bakes found matching "${searchTerm}"
+            </div>`;
         return;
     }
 
     grid.innerHTML = items.map(p => {
-        // Generate a random stable rating for demo purposes
+        // Generate a random stable rating for the high-end look
         const rate = (4.5 + Math.random() * 0.5).toFixed(1);
+        
+        // Use a safe string for the onclick event to handle names with apostrophes
+        const safeName = p.name.replace(/'/g, "\\'");
+
         return `
-            <div class="p-card" onclick="openModal('${p.name.replace(/'/g, "\\'")}')">
-                <img src="${p.img}" alt="${p.name}">
+            <div class="p-card" onclick="document.getElementById('searchInput').blur(); openModal('${safeName}')">
+                <img src="${p.img}" alt="${p.name}" loading="lazy">
                 <div class="rating">★★★★★ <span>(${rate})</span></div>
                 <h3>${highlightText(p.name, searchTerm)}</h3>
                 <p class="p-price">₹${p.price}</p>
@@ -426,6 +408,7 @@ function renderProducts(items, searchTerm = "") {
         `;
     }).join('');
 }
+
 
 function highlightText(text, term) {
     if (!term.trim()) return text;
