@@ -367,38 +367,61 @@ function closeSuccess() {
 
 let debounceTimeout;
 
-function handleSearch() {
-    clearTimeout(searchTimeout);
-    searchTimeout = setTimeout(() => {
-        const term = document.getElementById("searchInput").value.toLowerCase();
+// Ensure Menu section and products load correctly
+window.onload = () => {
+    const menu = document.getElementById("menu");
+    menu.style.display = "block"; // Changed to block so products are visible on load
+    renderProducts(products);
+    updateCartCount();
+};
 
-        // Show the menu
-        document.getElementById("menu").style.display = "block";
+function renderProducts(items, searchTerm = "") {
+    const grid = document.getElementById("productGrid");
+    grid.innerHTML = ""; // Clear existing
 
-        // Hide main content (homepage)
-        const mainContent = document.getElementById('mainContent');
-        if (mainContent) {
-            mainContent.style.display = 'none';
-        }
-        // Hide the main product section
-        document.getElementById('menu').style.display = 'none';
-        // Remove 'active' highlight from category buttons
-        document.querySelectorAll('.f-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById('btn-all').classList.add('active');
+    if (items.length === 0) {
+        grid.innerHTML = `<div style="grid-column: 1/-1; padding: 40px; color: #888;">
+                            No bakes found matching "${searchTerm}"
+                          </div>`;
+        return;
+    }
 
-        // Filter products based on search term
-        const matches = products.filter(p => 
-            p.name.toLowerCase().includes(term) || 
-            p.cat.toLowerCase().includes(term)
-        );
-
-        // Render only the filtered products
-        renderProducts(matches);
-
-        // Highlight matched text
-        highlightText(term);
-    }, 300); // debounce delay
+    grid.innerHTML = items.map(p => {
+        // Generate a random stable rating for demo purposes
+        const rate = (4.5 + Math.random() * 0.5).toFixed(1);
+        return `
+            <div class="p-card" onclick="openModal('${p.name.replace(/'/g, "\\'")}')">
+                <img src="${p.img}" alt="${p.name}">
+                <div class="rating">★★★★★ <span>(${rate})</span></div>
+                <h3>${highlightText(p.name, searchTerm)}</h3>
+                <p class="p-price">₹${p.price}</p>
+            </div>
+        `;
+    }).join('');
 }
+
+function handleSearch() {
+    const term = document.getElementById("searchInput").value.toLowerCase();
+    
+    // Filter logic
+    const matches = products.filter(p => 
+        p.name.toLowerCase().includes(term) || 
+        p.cat.toLowerCase().includes(term)
+    );
+
+    // Reset filters visual state
+    document.querySelectorAll('.f-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('btn-all').classList.add('active');
+
+    renderProducts(matches, term);
+}
+
+function highlightText(text, term) {
+    if (!term.trim()) return text;
+    const regex = new RegExp(`(${term})`, 'gi');
+    return text.replace(regex, `<span style="background: #fdf2a4;">$1</span>`);
+}
+
 function clearSearch() {
     document.getElementById("searchInput").value = '';
     // Show the homepage or main content again
@@ -417,21 +440,3 @@ function highlightText(text, term) {
   return text.replace(regex, '<mark>$1</mark>');
 }
 
-function renderProducts(items, searchTerm = "") {
-  const grid = document.getElementById("productGrid");
-  if (items.length === 0) {
-    grid.innerHTML = `<p style="text-align:center; color:#888;">No results found.</p>`;
-    return;
-  }
-  grid.innerHTML = items.map(p => {
-    const rate = (Math.random() * (5 - 4.5) + 4.5).toFixed(1);
-    return `
-      <div class="p-card" onclick="openModal('${p.name.replace(/'/g, "\\'")}')">
-        <img src="${p.img}" alt="${p.name}">
-        <div class="rating">★★★★★ <span>(${rate})</span></div>
-        <h3>${highlightText(p.name, searchTerm)}</h3>
-        <p class="p-price">₹${p.price}</p>
-      </div>
-    `;
-  }).join('');
-}
