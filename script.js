@@ -42,39 +42,33 @@ function jumpToCategory(cat) {
 
 }
 
+let searchTimeout = null;
+
 function handleSearch() {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => {
+        const term = document.getElementById("searchInput").value.toLowerCase();
 
-    const term = document.getElementById("searchInput").value.toLowerCase();
+        // Show the menu
+        document.getElementById("menu").style.display = "block";
 
-    
+        // Remove 'active' highlight from category buttons
+        document.querySelectorAll('.f-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById('btn-all').classList.add('active');
 
-    // 1. Show the menu
+        // Filter products based on search term
+        const matches = products.filter(p => 
+            p.name.toLowerCase().includes(term) || 
+            p.cat.toLowerCase().includes(term)
+        );
 
-    document.getElementById("menu").style.display = "block";
+        // Render filtered products
+        renderProducts(matches);
 
-    
-
-    // 2. Remove 'active' highlight from category buttons since we are searching everything
-
-    document.querySelectorAll('.f-btn').forEach(b => b.classList.remove('active'));
-
-    document.getElementById('btn-all').classList.add('active');
-
-
-
-    const matches = products.filter(p => 
-
-        p.name.toLowerCase().includes(term) || 
-
-        p.cat.toLowerCase().includes(term)
-
-    );
-
-    renderProducts(matches);
-
+        // Optional: highlight matched text in product names
+        highlightText(term);
+    }, 300); // debounce delay
 }
-
-
 
 // 2. Filter & Render
 
@@ -429,3 +423,58 @@ function renderProducts(items) {
 
 }
 
+let debounceTimeout;
+
+function handleSearch() {
+  clearTimeout(debounceTimeout);
+  debounceTimeout = setTimeout(() => {
+    const term = document.getElementById("searchInput").value.toLowerCase();
+
+    // Show the menu
+    document.getElementById("menu").style.display = "block";
+
+    // Reset category buttons
+    document.querySelectorAll('.f-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('btn-all').classList.add('active');
+
+    // Filter products based on name, category, description
+    const matches = products.filter(p => 
+      p.name.toLowerCase().includes(term) ||
+      p.cat.toLowerCase().includes(term) ||
+      p.desc.toLowerCase().includes(term)
+    );
+
+    // Render products with highlighted matches
+    renderProducts(matches, term);
+  }, 300); // debounce delay
+}
+
+function clearSearch() {
+  document.getElementById("searchInput").value = "";
+  handleSearch(); // Reset to show all products
+}
+
+function highlightText(text, term) {
+  if (!term) return text;
+  const regex = new RegExp(`(${term})`, 'gi');
+  return text.replace(regex, '<mark>$1</mark>');
+}
+
+function renderProducts(items, searchTerm = "") {
+  const grid = document.getElementById("productGrid");
+  if (items.length === 0) {
+    grid.innerHTML = `<p style="text-align:center; color:#888;">No results found.</p>`;
+    return;
+  }
+  grid.innerHTML = items.map(p => {
+    const rate = (Math.random() * (5 - 4.5) + 4.5).toFixed(1);
+    return `
+      <div class="p-card" onclick="openModal('${p.name.replace(/'/g, "\\'")}')">
+        <img src="${p.img}" alt="${p.name}">
+        <div class="rating">★★★★★ <span>(${rate})</span></div>
+        <h3>${highlightText(p.name, searchTerm)}</h3>
+        <p class="p-price">₹${p.price}</p>
+      </div>
+    `;
+  }).join('');
+}
