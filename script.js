@@ -64,6 +64,7 @@ function jumpToCategory(cat) {
 function clearSearch() {
     document.getElementById("searchInput").value = '';
     showStorefront(false); // Return to Homepage
+    window.scrollTo({top: 0, behavior:'smooth' }); //smooth scroll to top
 }
 
 let searchTimeout = null;
