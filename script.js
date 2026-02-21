@@ -21,7 +21,9 @@ catItems.forEach(item => {
 window.onload = () => {
     document.getElementById("menu").classList.add("hidden");
     updateCartCount();
+    renderUserNav(); // Add this line here
 };
+
 
 // 2. The Toggle Controller
 function showStorefront(isSearching) {
@@ -435,5 +437,88 @@ function highlightText(text, term) {
   if (!term) return text;
   const regex = new RegExp(`(${term})`, 'gi');
   return text.replace(regex, '<mark>$1</mark>');
+}
+let isSignUpMode = false;
+
+function openAuth() {
+    document.getElementById("authModal").style.display = "flex";
+}
+
+function closeAuth() {
+    document.getElementById("authModal").style.display = "none";
+}
+
+function toggleAuth(mode) {
+    isSignUpMode = (mode === 'signup');
+    document.getElementById("tab-login").classList.toggle("active", !isSignUpMode);
+    document.getElementById("tab-signup").classList.toggle("active", isSignUpMode);
+    document.getElementById("signupFields").classList.toggle("hidden", !isSignUpMode);
+    document.getElementById("authBtnText").innerText = isSignUpMode ? "Create Account" : "Sign In";
+}
+
+async function handleAuthSubmit(event) {
+    event.preventDefault();
+    const btnText = document.getElementById("authBtnText");
+    const loader = document.getElementById("authLoader");
+    
+    // UI Loading State
+    btnText.classList.add("hidden");
+    loader.classList.remove("hidden");
+
+    const email = document.getElementById("authEmail").value;
+    const pass = document.getElementById("authPass").value;
+    const name = document.getElementById("authName").value;
+
+    // Simulate Server Request (1.5s delay)
+    await new Promise(res => setTimeout(res, 1500));
+
+    if (isSignUpMode) {
+        const newUser = { name, email, pass };
+        localStorage.setItem(email, JSON.stringify(newUser));
+        loginUser(newUser);
+    } else {
+        const user = JSON.parse(localStorage.getItem(email));
+        if (user && user.pass === pass) {
+            loginUser(user);
+        } else {
+            alert("Invalid email or password. Hint: Sign up first!");
+        }
+    }
+
+    btnText.classList.remove("hidden");
+    loader.classList.add("hidden");
+}
+
+function loginUser(user) {
+    localStorage.setItem("activeSession", JSON.stringify(user));
+    closeAuth();
+    renderUserNav();
+}
+
+function renderUserNav() {
+    const session = JSON.parse(localStorage.getItem("activeSession"));
+    const container = document.getElementById("userAuthSection");
+
+    if (session) {
+        const firstName = session.name.split(' ')[0];
+        // Uses a free UI avatar service for the high-end look
+        const avatarUrl = `https://ui-avatars.com/api/?name=${firstName}&background=82937E&color=fff`;
+        
+        container.innerHTML = `
+            <div class="user-profile" onclick="handleLogout()">
+                <img src="${avatarUrl}" style="width:24px; border-radius:50%;">
+                <span style="font-size: 0.85rem;">Hi, ${firstName}</span>
+            </div>
+        `;
+    } else {
+        container.innerHTML = `<a href="javascript:void(0)" onclick="openAuth()">Sign In</a>`;
+    }
+}
+
+function handleLogout() {
+    if(confirm("Would you like to sign out?")) {
+        localStorage.removeItem("activeSession");
+        renderUserNav();
+    }
 }
 
