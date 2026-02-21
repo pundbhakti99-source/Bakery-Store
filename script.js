@@ -44,34 +44,6 @@ function jumpToCategory(cat) {
 
 let searchTimeout = null;
 
-function handleSearch() {
-    clearTimeout(searchTimeout);
-    searchTimeout = setTimeout(() => {
-        const term = document.getElementById("searchInput").value.toLowerCase();
-
-        // Show the menu
-        document.getElementById("menu").style.display = "block";
-
-        // Remove 'active' highlight from category buttons
-        document.querySelectorAll('.f-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById('btn-all').classList.add('active');
-
-        // Filter products based on search term
-        const matches = products.filter(p => 
-            p.name.toLowerCase().includes(term) || 
-            p.cat.toLowerCase().includes(term)
-        );
-
-        // Render filtered products
-        renderProducts(matches);
-
-        // Optional: highlight matched text in product names
-        highlightText(term);
-    }, 300); // debounce delay
-}
-
-// 2. Filter & Render
-
 function filterCategory(cat, event) {
 
     document.querySelectorAll('.f-btn').forEach(b => b.classList.remove('active'));
@@ -390,36 +362,6 @@ function closeSuccess() {
     document.getElementById("successOverlay").style.display = "none";
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
-
-}
-
-
-
-function renderProducts(items) {
-
-    const grid = document.getElementById("productGrid");
-
-    grid.innerHTML = items.map(p => {
-
-        const rate = (Math.random() * (5 - 4.5) + 4.5).toFixed(1);
-
-        return `
-
-            <div class="p-card" onclick="openModal('${p.name.replace(/'/g, "\\'")}')">
-
-                <img src="${p.img}" alt="${p.name}">
-
-                <div class="rating">★★★★★ <span>(${rate})</span></div>
-
-                <h3>${p.name}</h3>
-
-                <p class="p-price">₹${p.price}</p>
-
-            </div>
-
-        `;
-
-    }).join('');
 
 }
 
