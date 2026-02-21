@@ -17,29 +17,53 @@ catItems.forEach(item => {
         jumpToCategory(category);
     });
 });
-
-// Ensure Menu section stays hidden until triggered
-
+// 1. Initial State: Show Homepage, Hide Menu
 window.onload = () => {
-
-    document.getElementById("menu").style.display = "none";
-
+    document.getElementById("menu").classList.add("hidden");
+    updateCartCount();
 };
 
-
-
-// 1. Navigation & Search
-
-function jumpToCategory(cat) {
-
+// 2. The Toggle Controller
+function showStorefront(isSearching) {
+    const hero = document.querySelector(".hero");
     const menu = document.getElementById("menu");
 
-    menu.style.display = "block";
+    if (isSearching) {
+        hero.classList.add("hidden");   // Hide Homepage
+        menu.classList.remove("hidden"); // Show Products
+    } else {
+        hero.classList.remove("hidden"); // Show Homepage
+        menu.classList.add("hidden");    // Hide Products
+    }
+}
 
-    menu.scrollIntoView({ behavior: 'smooth' });
+// 3. Search Logic
+function handleSearch() {
+    const term = document.getElementById("searchInput").value.toLowerCase();
+    
+    if (term.length > 0) {
+        showStorefront(true); // Switch view to products
+        const matches = products.filter(p => 
+            p.name.toLowerCase().includes(term) || 
+            p.cat.toLowerCase().includes(term)
+        );
+        renderProducts(matches, term);
+    } else {
+        showStorefront(false); // Go back home if search is cleared
+    }
+}
 
+// 4. Category Button Logic
+function jumpToCategory(cat) {
+    showStorefront(true); // Switch view
     filterCategory(cat);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 
+// 5. Clear Search Button
+function clearSearch() {
+    document.getElementById("searchInput").value = '';
+    showStorefront(false); // Return to Homepage
 }
 
 let searchTimeout = null;
@@ -400,40 +424,12 @@ function renderProducts(items, searchTerm = "") {
     }).join('');
 }
 
-function handleSearch() {
-    const term = document.getElementById("searchInput").value.toLowerCase();
-    
-    // Filter logic
-    const matches = products.filter(p => 
-        p.name.toLowerCase().includes(term) || 
-        p.cat.toLowerCase().includes(term)
-    );
-
-    // Reset filters visual state
-    document.querySelectorAll('.f-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById('btn-all').classList.add('active');
-
-    renderProducts(matches, term);
-}
-
 function highlightText(text, term) {
     if (!term.trim()) return text;
     const regex = new RegExp(`(${term})`, 'gi');
     return text.replace(regex, `<span style="background: #fdf2a4;">$1</span>`);
 }
 
-function clearSearch() {
-    document.getElementById("searchInput").value = '';
-    // Show the homepage or main content again
-    const mainContent = document.getElementById('mainContent');
-    if (mainContent) {
-        mainContent.style.display = 'block';
-    }
-    // Show the main product section
-    document.getElementById('menu').style.display = 'block';
-    // Show all products or default view
-    renderProducts(products);
-}
 function highlightText(text, term) {
   if (!term) return text;
   const regex = new RegExp(`(${term})`, 'gi');
