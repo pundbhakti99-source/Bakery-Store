@@ -42,6 +42,15 @@ body { font-family: 'Montserrat', sans-serif; background: #FAF9F6; color: #333; 
 
 }
 
+/* hide elements smoothly */
+.hidden {
+    display: none !important;
+}
+
+/* Ensure the menu section takes up enough space when active */
+.product-section {
+    min-height: 60vh;
+}
 
 
 .hero-overlay { 
