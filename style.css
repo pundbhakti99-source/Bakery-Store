@@ -157,6 +157,16 @@ body { font-family: 'Montserrat', sans-serif; background: #FAF9F6; color: #333; 
 .cat-item span { font-weight: 600; font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; }
 
 
+#searchInput {
+    transition: width 0.3s ease, border-color 0.3s ease;
+}
+
+#searchInput:focus {
+    width: 220px;
+    outline: none;
+    border-color: #82937E;
+    box-shadow: 0 0 8px rgba(130, 147, 126, 0.2);
+}
 
 /* PRODUCT GRID */
 
