@@ -19,9 +19,15 @@ catItems.forEach(item => {
 });
 // 1. Initial State: Show Homepage, Hide Menu
 window.onload = () => {
+    // 1. Hide the menu section by default
     document.getElementById("menu").classList.add("hidden");
+    
+    // 2. Load the products into the grid (hidden for now)
+    renderProducts(products);
+    
+    // 3. Update cart and user UI
     updateCartCount();
-    renderUserNav(); // Add this line here
+    renderUserNav(); 
 };
 
 
@@ -373,12 +379,7 @@ function closeSuccess() {
 let debounceTimeout;
 
 // Ensure Menu section and products load correctly
-window.onload = () => {
-    const menu = document.getElementById("menu");
-    menu.style.display = "block"; // Changed to block so products are visible on load
-    renderProducts(products);
-    updateCartCount();
-};
+
 function renderProducts(items, searchTerm = "") {
     const grid = document.getElementById("productGrid");
     grid.innerHTML = ""; // Clear existing grid content
