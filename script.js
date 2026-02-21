@@ -426,34 +426,46 @@ function renderProducts(items) {
 let debounceTimeout;
 
 function handleSearch() {
-  clearTimeout(debounceTimeout);
-  debounceTimeout = setTimeout(() => {
-    const term = document.getElementById("searchInput").value.toLowerCase();
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => {
+        const term = document.getElementById("searchInput").value.toLowerCase();
 
-    // Show the menu
-    document.getElementById("menu").style.display = "block";
+        // Show the menu
+        document.getElementById("menu").style.display = "block";
 
-    // Reset category buttons
-    document.querySelectorAll('.f-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById('btn-all').classList.add('active');
+        // Hide main content (homepage)
+        const mainContent = document.getElementById('mainContent');
+        if (mainContent) {
+            mainContent.style.display = 'none';
+        }
 
-    // Filter products based on name, category, description
-    const matches = products.filter(p => 
-      p.name.toLowerCase().includes(term) ||
-      p.cat.toLowerCase().includes(term) ||
-      p.desc.toLowerCase().includes(term)
-    );
+        // Remove 'active' highlight from category buttons
+        document.querySelectorAll('.f-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById('btn-all').classList.add('active');
 
-    // Render products with highlighted matches
-    renderProducts(matches, term);
-  }, 300); // debounce delay
+        // Filter products based on search term
+        const matches = products.filter(p => 
+            p.name.toLowerCase().includes(term) || 
+            p.cat.toLowerCase().includes(term)
+        );
+
+        // Render only the filtered products
+        renderProducts(matches);
+
+        // Highlight matched text
+        highlightText(term);
+    }, 300); // debounce delay
 }
-
 function clearSearch() {
-  document.getElementById("searchInput").value = "";
-  handleSearch(); // Reset to show all products
+    document.getElementById("searchInput").value = '';
+    // Show the homepage or main content again
+    const mainContent = document.getElementById('mainContent');
+    if (mainContent) {
+        mainContent.style.display = 'block';
+    }
+    // Show all products or default view
+    renderProducts(products);
 }
-
 function highlightText(text, term) {
   if (!term) return text;
   const regex = new RegExp(`(${term})`, 'gi');
