@@ -26,11 +26,13 @@
 
         <a href="#" class="logo">G<span>W</span></a>
 
-        <div class="search-box">
-
-            <input type="text" id="searchInput" placeholder="Search our bakery..." onkeyup="handleSearch()">
-
-        </div>
+       <div class="search-box" style="position: relative; width: 300px;">
+            
+           <input type="text" id="searchInput" placeholder="Search our bakery..." onkeyup="handleSearch()" style="width: 100%; padding: 8px 30px 8px 8px; box-sizing: border-box;">
+            
+            <button onclick="clearSearch()" style="position: absolute; right: 5px; top: 50%; transform: translateY(-50%); border: none; background: transparent; font-size: 1.2rem; cursor: pointer;">&times;</button>
+       
+       </div>
 
         <ul class="nav-links">
 
