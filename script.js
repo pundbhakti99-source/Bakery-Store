@@ -5,7 +5,18 @@ let activeItem = null;
 localStorage.setItem("cart", JSON.stringify(cart));
 cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-document.querySelectorAll('.cat-item').addEventListener('click', ...)
+// Get all elements with the class 'cat-item'
+const catItems = document.querySelectorAll('.cat-item');
+
+// Loop through the NodeList and add the event listener to each item
+catItems.forEach(item => {
+    item.addEventListener('click', () => {
+        // Your event handling logic goes here
+        // For example, you can still call the existing function:
+        const category = item.getAttribute('onclick').match(/'([^']+)'/)[1];
+        jumpToCategory(category);
+    });
+});
 
 // Ensure Menu section stays hidden until triggered
 
