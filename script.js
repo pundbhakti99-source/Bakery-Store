@@ -5,7 +5,7 @@ let activeItem = null;
 localStorage.setItem("cart", JSON.stringify(cart));
 cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-document.querySelector('.cat-item').addEventListener('click', ...)
+document.querySelectorAll('.cat-item').addEventListener('click', ...)
 
 // Ensure Menu section stays hidden until triggered
 
