@@ -2,7 +2,10 @@ let cart = [];
 
 let activeItem = null;
 
+localStorage.setItem("cart", JSON.stringify(cart));
+cart = JSON.parse(localStorage.getItem("cart")) || [];
 
+document.querySelector('.cat-item').addEventListener('click', ...)
 
 // Ensure Menu section stays hidden until triggered
 
@@ -79,36 +82,17 @@ function filterCategory(cat, event) {
     renderProducts(filtered);
 
 }
-
-
-
-function renderProducts(items) {
-
-    const grid = document.getElementById("productGrid");
-
-    grid.innerHTML = items.map(p => `
-
-        <div class="p-card" onclick="openModal('${p.name.replace(/'/g, "\\'")}')">
-
-            <img src="${p.img}" alt="${p.name}">
-
-            <h3>${p.name}</h3>
-
-            <p class="p-price">₹${p.price}</p>
-
-        </div>
-
-    `).join('');
-
-}
-
-
-
 // 3. Modal Logic
 
 function openModal(name) {
 
     const p = products.find(item => item.name === name);
+    document.getElementById("m-name").innerText = p.name;
+document.getElementById("m-img").src = p.img;
+document.getElementById("m-img").alt = p.name;
+document.getElementById("m-price").innerText = `₹${p.price}`;
+document.getElementById("m-buy-price").innerText = `₹${p.price}`;
+document.getElementById("m-desc").innerText = p.desc;
 
     if(!p) return;
 
