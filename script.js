@@ -487,20 +487,16 @@ function handleLogout() {
 }
 
 let selectedPayment = 'UPI'; // Default
+
 function setPayment(method, event) {
     selectedPayment = method;
-    
-    // Toggle Button Active Class
     document.querySelectorAll('.p-method').forEach(btn => btn.classList.remove('active'));
     event.target.classList.add('active');
 
-    // Show/Hide UPI Details
-    const upiDiv = document.getElementById("upiDetail");
-    if (method === 'UPI') {
-        upiDiv.style.display = "block";
-    } else {
-        upiDiv.style.display = "none";
-    }
+    // Toggle visibility of specific payment details
+    // Ensure these IDs (upiDetail, cardDetail) match your HTML exactly
+    document.getElementById("upiDetail").style.display = (method === 'UPI') ? "block" : "none";
+    document.getElementById("cardDetail").style.display = (method === 'Card') ? "block" : "none";
 }
 
 
