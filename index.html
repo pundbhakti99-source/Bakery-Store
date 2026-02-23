@@ -231,43 +231,49 @@
 
         </div>
 
-<div class="cart-footer">
-    <div class="delivery-details" style="margin-bottom: 15px;">
-        <label style="font-size: 0.8rem; font-weight: 600; color: #666;">Delivery Details</label>
-        <input type="text" id="checkoutName" placeholder="Recipient Name" style="width:100%; padding:10px; margin-top:5px; border:1px solid #ddd; border-radius:8px;">
-        <input type="tel" id="checkoutPhone" placeholder="Phone Number" style="width:100%; padding:10px; margin-top:5px; border:1px solid #ddd; border-radius:8px;">
-        <textarea id="checkoutAddress" placeholder="Full Delivery Address" style="width:100%; padding:10px; margin-top:5px; border:1px solid #ddd; border-radius:8px; height:60px; font-family:inherit;"></textarea>
-    </div>
+    <div class="cart-footer">
 
-    <div class="payment-selection" style="border-top: 1px solid #eee; padding-top: 15px;">
-        <label style="font-size: 0.8rem; font-weight: 600; color: #666;">Payment Method</label>
-        <div class="pay-options" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 8px; margin-bottom: 15px;">
-            <button class="p-method active" onclick="setPayment('UPI', event)">UPI</button>
-            <button class="p-method" onclick="setPayment('Card', event)">Card</button>
-            <button class="p-method" onclick="setPayment('COD', event)">Cash</button>
-        </div>
-
-        <div id="upiDetail" style="display: block; text-align: center; margin-bottom: 15px; background: #f9f9f9; padding: 15px; border-radius: 10px;">
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa=goldenwhisk@bank&pn=TheGoldenWhisk&cu=INR" style="width: 100px;">
-            <p style="font-size: 0.7rem; margin-top: 5px; color: #666;">Scan to Pay</p>
-        </div>
-
-        <div id="cardDetail" style="display: none; background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 15px;">
-            <input type="text" placeholder="Card Number" style="width:100%; padding:8px; margin-bottom:8px; border:1px solid #ccc; border-radius:5px;">
-            <div style="display: flex; gap: 5px;">
-                <input type="text" placeholder="MM/YY" style="width:50%; padding:8px; border:1px solid #ccc; border-radius:5px;">
-                <input type="password" placeholder="CVV" style="width:50%; padding:8px; border:1px solid #ccc; border-radius:5px;">
+        <div class="payment-selection" style="margin-top: 15px; border-top: 1px solid #eee; padding-top: 15px;">
+ 
+            <label style="font-size: 0.8rem; font-weight: 600; color: #666;">Payment Method</label>
+   
+            <div class="pay-options" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 8px; margin-bottom: 15px;">
+      
+                <button class="p-method active" onclick="setPayment('UPI', event)">UPI</button>
+    
+                <button class="p-method" onclick="setPayment('Card', event)">Card</button>
+       
+                <button class="p-method" onclick="setPayment('COD', event)">Cash</button>
+  
             </div>
+          
+            <div id="upiDetail" style="display: none; text-align: center; margin-bottom: 15px; background: #f9f9f9; padding: 15px; border-radius: 10px;">
+
+                <p style="font-size: 0.7rem; margin-bottom: 10px; color: #666;">Scan to pay via any UPI App</p>
+   
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa=goldenwhisk@bank&pn=TheGoldenWhisk&cu=INR" alt="UPI QR Code" style="width: 120px; height: 120px; border: 4px solid #fff; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
+   
+                <p style="font-size: 0.75rem; font-weight: 700; margin-top: 8px; color: #82937E;">UPI ID: goldenwhisk@bank</p>
+          
+            </div>
+            
+    
         </div>
+        
+
+        <div class="total-row">
+
+            <span>Total Amount:</span>
+
+            <span id="cartTotal">₹0</span>
+
+        </div>
+
+        <button class="checkout-btn" onclick="proceedToCheckout()">Checkout Now</button>
+
     </div>
 
-    <div class="total-row">
-        <span>Total:</span>
-        <span id="cartTotal">₹0</span>
-    </div>
-    <button class="checkout-btn" onclick="proceedToCheckout()">Confirm Order</button>
 </div>
-
 
     <footer class="main-footer">
 
@@ -378,4 +384,40 @@
 </body>
 
 </html>
+In this where to add
+<div class="cart-footer">
+    <div class="delivery-details" style="margin-bottom: 15px;">
+        <label style="font-size: 0.8rem; font-weight: 600; color: #666;">Delivery Details</label>
+        <input type="text" id="checkoutName" placeholder="Recipient Name" style="width:100%; padding:10px; margin-top:5px; border:1px solid #ddd; border-radius:8px;">
+        <input type="tel" id="checkoutPhone" placeholder="Phone Number" style="width:100%; padding:10px; margin-top:5px; border:1px solid #ddd; border-radius:8px;">
+        <textarea id="checkoutAddress" placeholder="Full Delivery Address" style="width:100%; padding:10px; margin-top:5px; border:1px solid #ddd; border-radius:8px; height:60px; font-family:inherit;"></textarea>
+    </div>
 
+    <div class="payment-selection" style="border-top: 1px solid #eee; padding-top: 15px;">
+        <label style="font-size: 0.8rem; font-weight: 600; color: #666;">Payment Method</label>
+        <div class="pay-options" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 8px; margin-bottom: 15px;">
+            <button class="p-method active" onclick="setPayment('UPI', event)">UPI</button>
+            <button class="p-method" onclick="setPayment('Card', event)">Card</button>
+            <button class="p-method" onclick="setPayment('COD', event)">Cash</button>
+        </div>
+
+        <div id="upiDetail" style="display: block; text-align: center; margin-bottom: 15px; background: #f9f9f9; padding: 15px; border-radius: 10px;">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa=goldenwhisk@bank" style="width: 100px;">
+            <p style="font-size: 0.7rem; margin-top: 5px;">Scan to Pay</p>
+        </div>
+
+        <div id="cardDetail" style="display: none; background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+            <input type="text" placeholder="Card Number" style="width:100%; padding:8px; margin-bottom:8px; border:1px solid #ccc; border-radius:5px;">
+            <div style="display: flex; gap: 5px;">
+                <input type="text" placeholder="MM/YY" style="width:50%; padding:8px; border:1px solid #ccc; border-radius:5px;">
+                <input type="password" placeholder="CVV" style="width:50%; padding:8px; border:1px solid #ccc; border-radius:5px;">
+            </div>
+        </div>
+    </div>
+
+    <div class="total-row">
+        <span>Total:</span>
+        <span id="cartTotal">₹0</span>
+    </div>
+    <button class="checkout-btn" onclick="proceedToCheckout()">Confirm Order</button>
+</div>
