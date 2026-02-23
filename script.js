@@ -486,3 +486,46 @@ function handleLogout() {
     }
 }
 
+let selectedPayment = 'UPI'; // Default
+
+function setPayment(method, event) {
+    selectedPayment = method;
+    // UI toggle
+    document.querySelectorAll('.p-method').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+}
+
+// Update your proceedToCheckout function to include the payment check
+function proceedToCheckout() {
+    const name = document.getElementById("checkoutName").value;
+    const address = document.getElementById("checkoutAddress").value;
+
+    if (cart.length === 0) return alert("Your basket is empty!");
+    if (!name || !address) return alert("Please fill in delivery details.");
+
+    // Simulate a "Processing" state on the button
+    const btn = document.querySelector('.checkout-btn');
+    const originalText = btn.innerText;
+    btn.innerText = "Processing Payment...";
+    btn.disabled = true;
+
+    setTimeout(() => {
+        // Hide cart
+        toggleCart();
+        
+        // Custom success message based on payment
+        const successMsg = document.querySelector('#successOverlay p');
+        successMsg.innerHTML = `Your treats are being prepared!<br><strong>Method: ${selectedPayment}</strong>`;
+        
+        document.getElementById("successOverlay").style.display = "flex";
+
+        // Reset
+        cart = [];
+        btn.innerText = originalText;
+        btn.disabled = false;
+        document.getElementById("checkoutName").value = "";
+        document.getElementById("checkoutAddress").value = "";
+        updateCartCount();
+    }, 1500); // 1.5 second "Processing" delay
+}
+
