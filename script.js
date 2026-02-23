@@ -339,11 +339,6 @@ function highlightText(text, term) {
     return text.replace(regex, `<span style="background: #fdf2a4;">$1</span>`);
 }
 
-function highlightText(text, term) {
-  if (!term) return text;
-  const regex = new RegExp(`(${term})`, 'gi');
-  return text.replace(regex, '<mark>$1</mark>');
-}
 let isSignUpMode = false;
 
 function openAuth() {
