@@ -1,4 +1,4 @@
-let cart = [];
+Let cart = [];
 
 let activeItem = null;
 
@@ -214,77 +214,92 @@ function toggleCart() {
 
 }
 
+
+
 function addToCart(isBuyNow) {
     const priceText = document.getElementById("m-price").innerText.replace('₹', '');
     const priceNum = parseInt(priceText);
     const weight = document.querySelector('.w-btn.active').innerText;
-    const itemName = `${activeItem.name} (${weight})`;
+    
+    const entry = {
+        name: `${activeItem.name} (${weight})`,
+        price: priceNum,
+        img: activeItem.img
+    };
 
-    // Check if item already exists in cart to increment quantity
-    const existingItem = cart.find(item => item.name === itemName);
-
-    if (existingItem) {
-        existingItem.quantity += 1;
-    } else {
-        cart.push({
-            name: itemName,
-            price: priceNum,
-            quantity: 1,
-            img: activeItem.img
-        });
-    }
-
+    cart.push(entry);
     updateCartCount();
+
     if(isBuyNow) {
-        toggleCart();
+        toggleCart(); // Opens sidebar immediately
     } else {
         closeModal();
-        toggleCart();
+        toggleCart(); // Also open sidebar here so user sees the success!
     }
 }
+
+
+
+function updateCartCount() {
+
+    document.getElementById("cartCount").innerText = cart.length;
+
+}
+
+
 
 function renderCart() {
+
     const list = document.getElementById("cartItemsList");
+
     const totalEl = document.getElementById("cartTotal");
+
     let total = 0;
 
+
+
     if (cart.length === 0) {
-        list.innerHTML = "<p style='text-align:center; color:#888; margin-top:20px;'>Your basket is empty.</p>";
+
+        list.innerHTML = "<p style='text-align:center; color:#888;'>Your basket is empty.</p>";
+
         totalEl.innerText = "₹0";
+
         return;
+
     }
+
+
 
     list.innerHTML = cart.map((item, index) => {
-        const itemTotal = item.price * item.quantity;
-        total += itemTotal;
+
+        total += item.price;
+
         return `
-            <div class="cart-item" style="display:flex; align-items:center; gap:10px; margin-bottom:15px; padding-bottom:10px; border-bottom:1px solid #eee;">
-                <img src="${item.img}" style="width:50px; height:50px; border-radius:5px; object-fit:cover;">
-                <div style="flex:1;">
-                    <strong style="font-size:0.85rem;">${item.name}</strong>
-                    <p style="font-size:0.8rem; color:#666;">₹${item.price} x ${item.quantity}</p>
+
+            <div class="cart-item">
+
+                <div>
+
+                    <strong>${item.name}</strong>
+
+                    <p>₹${item.price}</p>
+
                 </div>
-                <div style="display:flex; align-items:center; gap:8px;">
-                    <button onclick="changeQty(${index}, -1)" style="padding:2px 8px; border:1px solid #ddd; background:#fff; cursor:pointer;">-</button>
-                    <span style="font-size:0.9rem; min-width:15px; text-align:center;">${item.quantity}</span>
-                    <button onclick="changeQty(${index}, 1)" style="padding:2px 8px; border:1px solid #ddd; background:#fff; cursor:pointer;">+</button>
-                </div>
+
+                <button onclick="removeItem(${index})" style="background:none; border:none; color:red; cursor:pointer;">Remove</button>
+
             </div>
+
         `;
+
     }).join('');
 
+
+
     totalEl.innerText = `₹${total}`;
+
 }
 
-// ADD this new helper function:
-function changeQty(index, delta) {
-    cart[index].quantity += delta;
-    if (cart[index].quantity <= 0) {
-        cart.splice(index, 1);
-    }
-    updateCartCount();
-    renderCart();
-}
 
 
 function removeItem(index) {
@@ -297,6 +312,49 @@ function removeItem(index) {
 
 }
 
+
+
+// Replace your proceedToCheckout with this:
+
+function proceedToCheckout() {
+
+    if(cart.length === 0) return alert("Your basket is empty!");
+
+
+
+    // Close cart and show success
+
+    const sidebar = document.getElementById("cartSidebar");
+
+    const overlay = document.getElementById("cartOverlay");
+
+    sidebar.classList.remove("open");
+
+    overlay.style.display = "none";
+
+    
+
+    document.getElementById("successOverlay").style.display = "flex";
+
+
+
+    // Clear data
+
+    cart = [];
+
+    updateCartCount();
+
+}
+
+
+
+function closeSuccess() {
+
+    document.getElementById("successOverlay").style.display = "none";
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+}
 
 let debounceTimeout;
 
@@ -339,6 +397,11 @@ function highlightText(text, term) {
     return text.replace(regex, `<span style="background: #fdf2a4;">$1</span>`);
 }
 
+function highlightText(text, term) {
+  if (!term) return text;
+  const regex = new RegExp(`(${term})`, 'gi');
+  return text.replace(regex, '<mark>$1</mark>');
+}
 let isSignUpMode = false;
 
 function openAuth() {
@@ -424,47 +487,48 @@ function handleLogout() {
 }
 
 let selectedPayment = 'UPI'; // Default
-
 function setPayment(method, event) {
     selectedPayment = method;
+    
+    // Toggle Button Active Class
     document.querySelectorAll('.p-method').forEach(btn => btn.classList.remove('active'));
     event.target.classList.add('active');
 
-    // Toggle visibility of specific payment details
-    // Ensure these IDs (upiDetail, cardDetail) match your HTML exactly
-    document.getElementById("upiDetail").style.display = (method === 'UPI') ? "block" : "none";
-    document.getElementById("cardDetail").style.display = (method === 'Card') ? "block" : "none";
+    // Show/Hide UPI Details
+    const upiDiv = document.getElementById("upiDetail");
+    if (method === 'UPI') {
+        upiDiv.style.display = "block";
+    } else {
+        upiDiv.style.display = "none";
+    }
 }
 
 
 function proceedToCheckout() {
     const name = document.getElementById("checkoutName").value;
-    const phone = document.getElementById("checkoutPhone").value;
     const address = document.getElementById("checkoutAddress").value;
 
-    if (cart.length === 0) return alert("Basket is empty!");
-    if (!name || !phone || !address) return alert("Please fill in all delivery details (Name, Phone, and Address).");
+    if (cart.length === 0) return alert("Your basket is empty!");
+    if (!name || !address) return alert("Please fill in delivery details.");
 
+    // 1. Get the button and start the "Processing" state
     const btn = document.querySelector('.checkout-btn');
-    btn.innerText = "Verifying Details...";
+    btn.innerText = "Processing Payment...";
     btn.disabled = true;
 
-    // Simulate Payment/Server delay
+    // 2. Wait 1.5 seconds to simulate a bank connection
     setTimeout(() => {
-        simulatePaymentSuccess();
+        // 3. Call the helper for the "Verified" animation
+        simulatePaymentSuccess(); 
         
-        // Data Reset
+        // 4. Reset form and cart data
         cart = [];
-        updateCartCount();
-        
-        // Reset Button & Clear fields
-        btn.disabled = false;
         document.getElementById("checkoutName").value = "";
-        document.getElementById("checkoutPhone").value = "";
         document.getElementById("checkoutAddress").value = "";
+        updateCartCount();
+        btn.disabled = false; // Re-enable for next time
     }, 1500);
 }
-
 
 // Add the helper function anywhere at the bottom of script.js
 function simulatePaymentSuccess() {
@@ -481,4 +545,109 @@ function simulatePaymentSuccess() {
         btn.innerHTML = "Confirm Order";
         btn.style.background = "#82937E";
     }, 1000);
+} 
+In this where to add
+// 1. Updated setPayment to handle Card form
+function setPayment(method, event) {
+    selectedPayment = method;
+    document.querySelectorAll('.p-method').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+
+    // Toggle visibility of specific payment details
+    document.getElementById("upiDetail").style.display = (method === 'UPI') ? "block" : "none";
+    document.getElementById("cardDetail").style.display = (method === 'Card') ? "block" : "none";
 }
+
+// 2. Updated addToCart to handle existing items (Quantity)
+function addToCart(isBuyNow) {
+    const priceText = document.getElementById("m-price").innerText.replace('₹', '');
+    const priceNum = parseInt(priceText);
+    const weight = document.querySelector('.w-btn.active').innerText;
+    const itemName = `${activeItem.name} (${weight})`;
+
+    // Check if item already exists in cart
+    const existingItem = cart.find(item => item.name === itemName);
+
+    if (existingItem) {
+        existingItem.quantity += 1;
+    } else {
+        cart.push({
+            name: itemName,
+            price: priceNum,
+            quantity: 1,
+            img: activeItem.img
+        });
+    }
+
+    updateCartCount();
+    if(isBuyNow) toggleCart(); else { closeModal(); toggleCart(); }
+}
+
+// 3. Updated renderCart to show Quantity controls
+function renderCart() {
+    const list = document.getElementById("cartItemsList");
+    const totalEl = document.getElementById("cartTotal");
+    let total = 0;
+
+    if (cart.length === 0) {
+        list.innerHTML = "<p style='text-align:center; color:#888; margin-top:20px;'>Your basket is empty.</p>";
+        totalEl.innerText = "₹0";
+        return;
+    }
+
+    list.innerHTML = cart.map((item, index) => {
+        const itemTotal = item.price * item.quantity;
+        total += itemTotal;
+        return `
+            <div class="cart-item" style="display:flex; align-items:center; gap:10px; margin-bottom:15px;">
+                <img src="${item.img}" style="width:50px; hieght:50px; border-radius:5px; object-fit:cover;">
+                <div style="flex:1;">
+                    <strong style="font-size:0.85rem;">${item.name}</strong>
+                    <p style="font-size:0.8rem; color:#666;">₹${item.price} x ${item.quantity}</p>
+                </div>
+                <div style="display:flex; align-items:center; gap:5px;">
+                    <button onclick="changeQty(${index}, -1)" style="padding:2px 8px; border:1px solid #ddd;">-</button>
+                    <span>${item.quantity}</span>
+                    <button onclick="changeQty(${index}, 1)" style="padding:2px 8px; border:1px solid #ddd;">+</button>
+                </div>
+            </div>
+        `;
+    }).join('');
+
+    totalEl.innerText = `₹${total}`;
+}
+
+// Helper for Quantity buttons
+function changeQty(index, delta) {
+    cart[index].quantity += delta;
+    if (cart[index].quantity <= 0) {
+        cart.splice(index, 1);
+    }
+    updateCartCount();
+    renderCart();
+}
+
+// 4. Final Checkout Validation
+function proceedToCheckout() {
+    const name = document.getElementById("checkoutName").value;
+    const phone = document.getElementById("checkoutPhone").value;
+    const address = document.getElementById("checkoutAddress").value;
+
+    if (cart.length === 0) return alert("Basket is empty!");
+    if (!name || !phone || !address) return alert("Please fill in all delivery details.");
+
+    const btn = document.querySelector('.checkout-btn');
+    btn.innerText = "Verifying Details...";
+    btn.disabled = true;
+
+    setTimeout(() => {
+        simulatePaymentSuccess();
+        cart = [];
+        updateCartCount();
+        btn.disabled = false;
+        // Clear fields
+        document.getElementById("checkoutName").value = "";
+        document.getElementById("checkoutPhone").value = "";
+        document.getElementById("checkoutAddress").value = "";
+    }, 1500);
+            }
