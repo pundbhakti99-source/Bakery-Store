@@ -487,15 +487,23 @@ function handleLogout() {
 }
 
 let selectedPayment = 'UPI'; // Default
-
 function setPayment(method, event) {
     selectedPayment = method;
-    // UI toggle
+    
+    // Toggle Button Active Class
     document.querySelectorAll('.p-method').forEach(btn => btn.classList.remove('active'));
     event.target.classList.add('active');
+
+    // Show/Hide UPI Details
+    const upiDiv = document.getElementById("upiDetail");
+    if (method === 'UPI') {
+        upiDiv.style.display = "block";
+    } else {
+        upiDiv.style.display = "none";
+    }
 }
 
-// Update your proceedToCheckout function to include the payment check
+
 function proceedToCheckout() {
     const name = document.getElementById("checkoutName").value;
     const address = document.getElementById("checkoutAddress").value;
@@ -503,29 +511,38 @@ function proceedToCheckout() {
     if (cart.length === 0) return alert("Your basket is empty!");
     if (!name || !address) return alert("Please fill in delivery details.");
 
-    // Simulate a "Processing" state on the button
+    // 1. Get the button and start the "Processing" state
     const btn = document.querySelector('.checkout-btn');
-    const originalText = btn.innerText;
     btn.innerText = "Processing Payment...";
     btn.disabled = true;
 
+    // 2. Wait 1.5 seconds to simulate a bank connection
     setTimeout(() => {
-        // Hide cart
-        toggleCart();
+        // 3. Call the helper for the "Verified" animation
+        simulatePaymentSuccess(); 
         
-        // Custom success message based on payment
-        const successMsg = document.querySelector('#successOverlay p');
-        successMsg.innerHTML = `Your treats are being prepared!<br><strong>Method: ${selectedPayment}</strong>`;
-        
-        document.getElementById("successOverlay").style.display = "flex";
-
-        // Reset
+        // 4. Reset form and cart data
         cart = [];
-        btn.innerText = originalText;
-        btn.disabled = false;
         document.getElementById("checkoutName").value = "";
         document.getElementById("checkoutAddress").value = "";
         updateCartCount();
-    }, 1500); // 1.5 second "Processing" delay
+        btn.disabled = false; // Re-enable for next time
+    }, 1500);
 }
 
+// Add the helper function anywhere at the bottom of script.js
+function simulatePaymentSuccess() {
+    const btn = document.querySelector('.checkout-btn');
+    btn.innerHTML = "Payment Verified ✓";
+    btn.style.background = "#4CAF50"; // Turn green for success
+    
+    setTimeout(() => {
+        // Now trigger the final success overlay
+        toggleCart();
+        document.getElementById("successOverlay").style.display = "flex";
+        
+        // Reset button for next time
+        btn.innerHTML = "Confirm Order";
+        btn.style.background = "#82937E";
+    }, 1000);
+}
