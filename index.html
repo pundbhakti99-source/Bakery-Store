@@ -233,6 +233,23 @@
 
     <div class="cart-footer">
 
+        <div class="payment-selection" style="margin-top: 15px; border-top: 1px solid #eee; padding-top: 15px;">
+ 
+            <label style="font-size: 0.8rem; font-weight: 600; color: #666;">Payment Method</label>
+   
+            <div class="pay-options" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 8px; margin-bottom: 15px;">
+      
+                <button class="p-method active" onclick="setPayment('UPI', event)">UPI</button>
+    
+                <button class="p-method" onclick="setPayment('Card', event)">Card</button>
+       
+                <button class="p-method" onclick="setPayment('COD', event)">Cash</button>
+  
+            </div>
+    
+        </div>
+        
+
         <div class="total-row">
 
             <span>Total Amount:</span>
