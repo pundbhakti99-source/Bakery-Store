@@ -313,49 +313,6 @@ function removeItem(index) {
 }
 
 
-
-// Replace your proceedToCheckout with this:
-
-function proceedToCheckout() {
-
-    if(cart.length === 0) return alert("Your basket is empty!");
-
-
-
-    // Close cart and show success
-
-    const sidebar = document.getElementById("cartSidebar");
-
-    const overlay = document.getElementById("cartOverlay");
-
-    sidebar.classList.remove("open");
-
-    overlay.style.display = "none";
-
-    
-
-    document.getElementById("successOverlay").style.display = "flex";
-
-
-
-    // Clear data
-
-    cart = [];
-
-    updateCartCount();
-
-}
-
-
-
-function closeSuccess() {
-
-    document.getElementById("successOverlay").style.display = "none";
-
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-
-}
-
 let debounceTimeout;
 
 // Ensure Menu section and products load correctly
@@ -502,29 +459,32 @@ function setPayment(method, event) {
 
 function proceedToCheckout() {
     const name = document.getElementById("checkoutName").value;
+    const phone = document.getElementById("checkoutPhone").value;
     const address = document.getElementById("checkoutAddress").value;
 
-    if (cart.length === 0) return alert("Your basket is empty!");
-    if (!name || !address) return alert("Please fill in delivery details.");
+    if (cart.length === 0) return alert("Basket is empty!");
+    if (!name || !phone || !address) return alert("Please fill in all delivery details (Name, Phone, and Address).");
 
-    // 1. Get the button and start the "Processing" state
     const btn = document.querySelector('.checkout-btn');
-    btn.innerText = "Processing Payment...";
+    btn.innerText = "Verifying Details...";
     btn.disabled = true;
 
-    // 2. Wait 1.5 seconds to simulate a bank connection
+    // Simulate Payment/Server delay
     setTimeout(() => {
-        // 3. Call the helper for the "Verified" animation
-        simulatePaymentSuccess(); 
+        simulatePaymentSuccess();
         
-        // 4. Reset form and cart data
+        // Data Reset
         cart = [];
-        document.getElementById("checkoutName").value = "";
-        document.getElementById("checkoutAddress").value = "";
         updateCartCount();
-        btn.disabled = false; // Re-enable for next time
+        
+        // Reset Button & Clear fields
+        btn.disabled = false;
+        document.getElementById("checkoutName").value = "";
+        document.getElementById("checkoutPhone").value = "";
+        document.getElementById("checkoutAddress").value = "";
     }, 1500);
 }
+
 
 // Add the helper function anywhere at the bottom of script.js
 function simulatePaymentSuccess() {
