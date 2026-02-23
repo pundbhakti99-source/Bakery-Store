@@ -217,45 +217,25 @@ function toggleCart() {
 
 
 function addToCart(isBuyNow) {
-
     const priceText = document.getElementById("m-price").innerText.replace('₹', '');
-
     const priceNum = parseInt(priceText);
-
     const weight = document.querySelector('.w-btn.active').innerText;
-
     
-
     const entry = {
-
         name: `${activeItem.name} (${weight})`,
-
         price: priceNum,
-
         img: activeItem.img
-
     };
 
-
-
     cart.push(entry);
-
     updateCartCount();
 
-
-
     if(isBuyNow) {
-
-        toggleCart();
-
+        toggleCart(); // Opens sidebar immediately
     } else {
-
-        alert("Added to basket!");
-
         closeModal();
-
+        toggleCart(); // Also open sidebar here so user sees the success!
     }
-
 }
 
 
