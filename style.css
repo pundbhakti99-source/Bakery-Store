@@ -811,3 +811,26 @@ body { font-family: 'Montserrat', sans-serif; background: #FAF9F6; color: #333; 
     border: 1px solid #eee;
 }
 
+.p-method {
+    padding: 8px;
+    font-size: 0.75rem;
+    border: 1px solid #ddd;
+    background: #fff;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.p-method.active {
+    background: #82937E;
+    color: white;
+    border-color: #82937E;
+}
+
+.checkout-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
