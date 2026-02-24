@@ -1,423 +1,760 @@
 <!DOCTYPE html>
 
+
+
 <html lang="en">
+
+
 
 <head>
 
+
+
     <meta charset="UTF-8">
+
+
 
     <title>The Golden Whisk | Artisan Bakery</title>
 
+
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=no">
+
+
 
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
 
+
+
     <link rel="stylesheet" href="style.css">
+
+
 
 </head>
 
+
+
 <body>
+
     
+
 <nav class="navbar">
+
+
 
     <div class="nav-container">
 
+
+
         <a href="#" class="logo" onclick="clearSearch()">G<span>W</span></a>
 
+
+
        <div class="search-box" style="position: relative; width: 300px;">
+
             
+
            <input type="text" id="searchInput" placeholder="Search our bakery..." onkeyup="handleSearch()" style="width: 100%; padding: 8px 30px 8px 8px; box-sizing: border-box;">
+
             
+
             <button onclick="clearSearch()" style="position: absolute; right: 5px; top: 50%; transform: translateY(-50%); border: none; background: transparent; font-size: 1.2rem; cursor: pointer;">&times;</button>
+
        
+
        </div>
+
+
 
         <ul class="nav-links">
 
+
+
             <li><a href="#menu" onclick="jumpToCategory('all')">Menu</a></li>
 
+
+
             <li id="userAuthSection"><a href="javascript:void(0)" onclick="openAuth()">Sign In</a></li>
+
+
 
             <li class="cart-status" onclick="toggleCart()" style="cursor: pointer;">Cart (<span id="cartCount">0</span>)</li>
 
 
+
+
+
         </ul>
 
+
+
     </div>
+
+
 
 </nav>
 
 
 
+
+
+
+
 <header class="hero">
+
+
 
     <div class="hero-overlay"></div>
 
+
+
     <div class="hero-content">
+
+
 
         <div class="hero-card">
 
+
+
             <h1>Soft Bakes, Early Mornings.</h1>
+
+
 
             <p>Handcrafted treats delivered to your door.</p>
 
+
+
             
+
+
 
             <div class="cat-stack">
 
+
+
                 <div class="cat-item" onclick="jumpToCategory('cookies')">
+
+
 
                     <img src="https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w200" alt="Cookies">
 
+
+
                     <span>Explore Cookies</span>
 
+
+
                 </div>
+
+
 
                 <div class="cat-item" onclick="jumpToCategory('pastries')">
 
+
+
                     <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=200" alt="Pastries">
+
+
 
                     <span>Fresh Pastries</span>
 
+
+
                 </div>
+
+
 
                 <div class="cat-item" onclick="jumpToCategory('cakes')">
 
+
+
                     <img src="https://plus.unsplash.com/premium_photo-1690214491960-d447e38d0bd0?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Cakes">
+
+
 
                     <span>Artisan Cakes</span>
 
+
+
                 </div>
+
+
 
             </div>
 
+
+
         </div>
 
+
+
     </div>
+
+
 
 </header>
 
 
 
+
+
+
+
 <section id="menu" class="product-section">
+
+
 
     <div class="filters">
 
+
+
         <button class="f-btn active" id="btn-all" onclick="filterCategory('all', event)">All Bakes</button>
+
+
 
         <button class="f-btn" id="btn-cookies" onclick="filterCategory('cookies', event)">Cookies</button>
 
+
+
         <button class="f-btn" id="btn-pastries" onclick="filterCategory('pastries', event)">Pastries</button>
+
+
 
         <button class="f-btn" id="btn-cakes" onclick="filterCategory('cakes', event)">Cakes</button>
 
+
+
     </div>
 
+
+
     <div class="product-grid" id="productGrid"></div>
+
+
 
 </section>
 
 
 
+
+
+
+
 <div id="productModal" class="modal">
+
+
 
     <div class="modal-content">
 
+
+
         <span class="close-modal" onclick="closeModal()">&times;</span>
+
+
 
         <div class="modal-body">
 
+
+
             <div class="modal-img">
+
+
 
                 <img id="m-img" src="" alt="">
 
+
+
             </div>
+
+
 
             <div class="modal-info">
 
+
+
                 <h2 id="m-name">Product Name</h2>
+
+
 
                 <div class="m-price-row">
 
+
+
                     <span id="m-price">₹0</span>
+
+
 
                     <small>Inc. GST</small>
 
+
+
                 </div>
+
+
 
                 <p id="m-desc"></p>
 
+
+
                 
+
+
 
                 <div class="m-options">
 
+
+
                     <label>Weight Selection</label>
+
+
 
                     <div class="weight-row">
 
+
+
                         <button class="w-btn active" data-mult="1">0.5 Kg</button>
+
+
 
                         <button class="w-btn" data-mult="1.8">1 Kg</button>
 
+
+
                         <button class="w-btn" data-mult="3.5">2 Kg</button>
+
+
 
                     </div>
 
+
+
                     
+
+
 
                     <label>Gift Message</label>
 
+
+
                     <input type="text" id="m-msg" placeholder="Happy Birthday!">
+
+
 
                     
 
+
+
                     <label>Check Delivery</label>
+
+
 
                     <div class="pin-row">
 
+
+
                         <input type="text" id="pinInput" placeholder="Pincode">
+
+
 
                         <button onclick="checkPin()">Check</button>
 
+
+
                     </div>
+
+
 
                     <p id="pinStatus"></p>
 
+
+
                 </div>
+
+
+
+
 
 
 
                 <div class="m-actions">
 
+
+
                     <button class="add-btn" onclick="addToCart(false)">Add to Cart</button>
+
+
 
                     <button class="buy-btn" onclick="addToCart(true)">Buy Now | <span id="m-buy-price">₹0</span></button>
 
+
+
                 </div>
+
+
 
                 <div class="recommendations">
 
+
+
     <h3>Complete Your Treat</h3>
+
+
 
     <div id="recGrid" class="rec-grid">
 
+
+
         </div>
+
+
 
                 </div>
 
+
+
                 
+
+
 
             </div>
 
+
+
         </div>
+
+
 
     </div>
 
+
+
 </div>
+
+
 
 <div id="cartOverlay" class="cart-overlay" onclick="toggleCart()"></div>
 
+
+
 <div id="cartSidebar" class="cart-sidebar">
+
+
 
     <div class="cart-header">
 
+
+
         <h2>Your Basket</h2>
+
+
 
         <span class="close-cart" onclick="toggleCart()">&times;</span>
 
+
+
     </div>
+
+
 
     <div id="cartItemsList" class="cart-body">
 
-        </div>
 
-    <div class="cart-footer">
-
-        <div class="payment-selection" style="margin-top: 15px; border-top: 1px solid #eee; padding-top: 15px;">
- 
-            <label style="font-size: 0.8rem; font-weight: 600; color: #666;">Payment Method</label>
-   
-            <div class="pay-options" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 8px; margin-bottom: 15px;">
-      
-                <button class="p-method active" onclick="setPayment('UPI', event)">UPI</button>
-    
-                <button class="p-method" onclick="setPayment('Card', event)">Card</button>
-       
-                <button class="p-method" onclick="setPayment('COD', event)">Cash</button>
-  
-            </div>
-          
-            <div id="upiDetail" style="display: none; text-align: center; margin-bottom: 15px; background: #f9f9f9; padding: 15px; border-radius: 10px;">
-
-                <p style="font-size: 0.7rem; margin-bottom: 10px; color: #666;">Scan to pay via any UPI App</p>
-   
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa=goldenwhisk@bank&pn=TheGoldenWhisk&cu=INR" alt="UPI QR Code" style="width: 120px; height: 120px; border: 4px solid #fff; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
-   
-                <p style="font-size: 0.75rem; font-weight: 700; margin-top: 8px; color: #82937E;">UPI ID: goldenwhisk@bank</p>
-          
-            </div>
-            
-    
-        </div>
-        
-
-        <div class="total-row">
-
-            <span>Total Amount:</span>
-
-            <span id="cartTotal">₹0</span>
 
         </div>
 
-        <button class="checkout-btn" onclick="proceedToCheckout()">Checkout Now</button>
+
+
+<div class="cart-footer">
+
+    <div class="delivery-details" style="margin-bottom: 15px;">
+
+        <label style="font-size: 0.8rem; font-weight: 600; color: #666;">Delivery Details</label>
+
+        <input type="text" id="checkoutName" placeholder="Recipient Name" style="width:100%; padding:10px; margin-top:5px; border:1px solid #ddd; border-radius:8px;">
+
+        <input type="tel" id="checkoutPhone" placeholder="Phone Number" style="width:100%; padding:10px; margin-top:5px; border:1px solid #ddd; border-radius:8px;">
+
+        <textarea id="checkoutAddress" placeholder="Full Delivery Address" style="width:100%; padding:10px; margin-top:5px; border:1px solid #ddd; border-radius:8px; height:60px; font-family:inherit;"></textarea>
 
     </div>
+
+
+
+    <div class="payment-selection" style="border-top: 1px solid #eee; padding-top: 15px;">
+
+        <label style="font-size: 0.8rem; font-weight: 600; color: #666;">Payment Method</label>
+
+        <div class="pay-options" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 8px; margin-bottom: 15px;">
+
+            <button class="p-method active" onclick="setPayment('UPI', event)">UPI</button>
+
+            <button class="p-method" onclick="setPayment('Card', event)">Card</button>
+
+            <button class="p-method" onclick="setPayment('COD', event)">Cash</button>
+
+        </div>
+
+
+
+        <div id="upiDetail" style="display: block; text-align: center; margin-bottom: 15px; background: #f9f9f9; padding: 15px; border-radius: 10px;">
+
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa=goldenwhisk@bank&pn=TheGoldenWhisk&cu=INR" style="width: 100px;">
+
+            <p style="font-size: 0.7rem; margin-top: 5px; color: #666;">Scan to Pay</p>
+
+        </div>
+
+
+
+        <div id="cardDetail" style="display: none; background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+
+            <input type="text" placeholder="Card Number" style="width:100%; padding:8px; margin-bottom:8px; border:1px solid #ccc; border-radius:5px;">
+
+            <div style="display: flex; gap: 5px;">
+
+                <input type="text" placeholder="MM/YY" style="width:50%; padding:8px; border:1px solid #ccc; border-radius:5px;">
+
+                <input type="password" placeholder="CVV" style="width:50%; padding:8px; border:1px solid #ccc; border-radius:5px;">
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="total-row">
+
+        <span>Total:</span>
+
+        <span id="cartTotal">₹0</span>
+
+    </div>
+
+    <button class="checkout-btn" onclick="proceedToCheckout()">Confirm Order</button>
 
 </div>
 
+
+
+
+
     <footer class="main-footer">
+
+
 
     <div class="footer-container">
 
+
+
         <div class="footer-brand">
+
+
 
             <a href="#" class="logo" onclick="clearSearch()">G<span>W</span></a>
 
+
+
             <p>Handcrafting joy since 2012. Every bake tells a story of quality ingredients and early mornings.</p>
+
+
 
         </div>
 
+
+
         <div class="footer-links">
+
+
 
             <h4>Quick Links</h4>
 
+
+
             <ul>
+
+
 
                 <li><a href="#menu">Our Menu</a></li>
 
+
+
                 <li><a href="#">Track Order</a></li>
+
+
 
                 <li><a href="#">Privacy Policy</a></li>
 
+
+
             </ul>
 
+
+
         </div>
+
+
 
         <div class="footer-links">
 
+
+
             <h4>Contact</h4>
+
+
 
             <ul>
 
+
+
                 <li>Baker's Lane, Mumbai</li>
+
+
 
                 <li>hello@goldenwhisk.com</li>
 
+
+
                 <li>+91 98765 43210</li>
+
+
 
             </ul>
 
+
+
         </div>
 
+
+
     </div>
+
+
 
 </footer>
 
 
 
+
+
+
+
 <div id="successOverlay" class="success-popup">
+
+
 
     <div class="success-content">
 
+
+
         <div class="check-icon">✓</div>
+
+
 
         <h2>Baking in Progress!</h2>
 
+
+
         <p>Your treats are being prepared with love.</p>
+
+
 
         <button onclick="closeSuccess()" class="buy-btn" style="width: auto; padding: 10px 30px;">Sweet!</button>
 
+
+
     </div>
 
+
+
 </div>
+
+
 
 <div id="authModal" class="modal auth-overlay">
+
     <div class="auth-card">
+
         <button class="close-modal" onclick="closeAuth()" style="top: 10px; right: 20px;">&times;</button>
+
         
+
         <div class="auth-tabs">
+
             <button id="tab-login" class="active" onclick="toggleAuth('login')">Login</button>
+
             <button id="tab-signup" onclick="toggleAuth('signup')">Join Us</button>
+
         </div>
 
+
+
         <form id="authForm" onsubmit="handleAuthSubmit(event)">
+
             <div id="signupFields" class="hidden">
+
                 <div class="input-group">
+
                     <label>Full Name</label>
+
                     <input type="text" id="authName" placeholder="Enter your name">
+
                 </div>
-            </div>
-            
-            <div class="input-group">
-                <label>Email Address</label>
-                <input type="email" id="authEmail" required placeholder="chef@goldenwhisk.com">
-            </div>
-            
-            <div class="input-group">
-                <label>Password</label>
-                <input type="password" id="authPass" required placeholder="••••••••">
+
             </div>
 
+            
+
+            <div class="input-group">
+
+                <label>Email Address</label>
+
+                <input type="email" id="authEmail" required placeholder="chef@goldenwhisk.com">
+
+            </div>
+
+            
+
+            <div class="input-group">
+
+                <label>Password</label>
+
+                <input type="password" id="authPass" required placeholder="••••••••">
+
+            </div>
+
+
+
             <button type="submit" class="buy-btn auth-submit" style="width: 100%;">
+
                 <span id="authBtnText">Sign In</span>
+
                 <div id="authLoader" class="loader hidden"></div>
+
             </button>
+
         </form>
+
     </div>
+
 </div>
+
     
+
+
 
 <script src="product.js"></script>
 
+
+
 <script src="script.js"></script>
+
+
 
 </body>
 
+
+
 </html>
-In this where to add
-<div class="cart-footer">
-    <div class="delivery-details" style="margin-bottom: 15px;">
-        <label style="font-size: 0.8rem; font-weight: 600; color: #666;">Delivery Details</label>
-        <input type="text" id="checkoutName" placeholder="Recipient Name" style="width:100%; padding:10px; margin-top:5px; border:1px solid #ddd; border-radius:8px;">
-        <input type="tel" id="checkoutPhone" placeholder="Phone Number" style="width:100%; padding:10px; margin-top:5px; border:1px solid #ddd; border-radius:8px;">
-        <textarea id="checkoutAddress" placeholder="Full Delivery Address" style="width:100%; padding:10px; margin-top:5px; border:1px solid #ddd; border-radius:8px; height:60px; font-family:inherit;"></textarea>
-    </div>
 
-    <div class="payment-selection" style="border-top: 1px solid #eee; padding-top: 15px;">
-        <label style="font-size: 0.8rem; font-weight: 600; color: #666;">Payment Method</label>
-        <div class="pay-options" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 8px; margin-bottom: 15px;">
-            <button class="p-method active" onclick="setPayment('UPI', event)">UPI</button>
-            <button class="p-method" onclick="setPayment('Card', event)">Card</button>
-            <button class="p-method" onclick="setPayment('COD', event)">Cash</button>
-        </div>
-
-        <div id="upiDetail" style="display: block; text-align: center; margin-bottom: 15px; background: #f9f9f9; padding: 15px; border-radius: 10px;">
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa=goldenwhisk@bank" style="width: 100px;">
-            <p style="font-size: 0.7rem; margin-top: 5px;">Scan to Pay</p>
-        </div>
-
-        <div id="cardDetail" style="display: none; background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 15px;">
-            <input type="text" placeholder="Card Number" style="width:100%; padding:8px; margin-bottom:8px; border:1px solid #ccc; border-radius:5px;">
-            <div style="display: flex; gap: 5px;">
-                <input type="text" placeholder="MM/YY" style="width:50%; padding:8px; border:1px solid #ccc; border-radius:5px;">
-                <input type="password" placeholder="CVV" style="width:50%; padding:8px; border:1px solid #ccc; border-radius:5px;">
-            </div>
-        </div>
-    </div>
-
-    <div class="total-row">
-        <span>Total:</span>
-        <span id="cartTotal">₹0</span>
-    </div>
-    <button class="checkout-btn" onclick="proceedToCheckout()">Confirm Order</button>
-</div>
