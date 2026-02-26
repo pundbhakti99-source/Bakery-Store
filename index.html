@@ -525,122 +525,53 @@
 
     </div>
 
-    <div id="paypal-button-container"></div> <div class="total-row">
-
-    <div class="total-row">
-
-        <span>Total:</span>
-
+    
+<div id="paypal-button-container"></div> <div class="total-row"> <div class="total-row"> <span>Total:</span>
         <span id="cartTotal">₹0</span>
-
     </div>
-
     <button class="checkout-btn" onclick="proceedToCheckout()">Confirm Order</button>
-
-</div>
-
-
-</div>
-
-
-    <footer class="main-footer">
-
-
-
-    <div class="footer-container">
-
-
-
-        <div class="footer-brand">
-
-
-
-            <a href="#" class="logo" onclick="clearSearch()">G<span>W</span></a>
-
-
-
-            <p>Handcrafting joy since 2012. Every bake tells a story of quality ingredients and early mornings.</p>
-
-
-
-        </div>
-
-
-
-        <div class="footer-links">
-
-
-
-            <h4>Quick Links</h4>
-
-
-
-            <ul>
-
-
-
-                <li><a href="#menu">Our Menu</a></li>
-
-
-
-                <li><a href="#">Track Order</a></li>
-
-
-
-                <li><a href="#">Privacy Policy</a></li>
-
-
-
-            </ul>
-
-
-
-        </div>
-
-
-
-        <div class="footer-links">
-
-
-
-            <h4>Contact</h4>
-
-
-
-            <ul>
-
-
-
-                <li>Baker's Lane, Mumbai</li>
-
-
-
-                <li>hello@goldenwhisk.com</li>
-
-
-
-                <li>+91 98765 43210</li>
-
-
-
-            </ul>
-
-
-
-        </div>
-
-
-
+</div> ```
+
+---
+
+### The Fixed Code Section
+Replace the entire section from your `paypal-button-container` down to the `main-footer` with this corrected version. I have added the necessary closing tags to "exit" the sidebar before the footer starts.
+
+```html
+    <div id="paypal-button-container"></div> 
+    
+    <div class="total-row">
+        <span>Total:</span>
+        <span id="cartTotal">₹0</span>
     </div>
-
-
-
+    
+    <button class="checkout-btn" onclick="proceedToCheckout()">Confirm Order</button>
+    
+</div> </div> <footer class="main-footer">
+    <div class="footer-container">
+        <div class="footer-brand">
+            <a href="#" class="logo" onclick="clearSearch()">G<span>W</span></a>
+            <p>Handcrafting joy since 2012. Every bake tells a story of quality ingredients and early mornings.</p>
+        </div>
+        <div class="footer-links">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="#menu">Our Menu</a></li>
+                <li><a href="#">Track Order</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+            </ul>
+        </div>
+        <div class="footer-links">
+            <h4>Contact</h4>
+            <ul>
+                <li>Baker's Lane, Mumbai</li>
+                <li>hello@goldenwhisk.com</li>
+                <li>+91 98765 43210</li>
+            </ul>
+        </div>
+    </div>
 </footer>
-
-
-
-
-
+    
 
 
 <div id="successOverlay" class="success-popup">
