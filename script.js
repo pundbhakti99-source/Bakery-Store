@@ -147,3 +147,55 @@ function handleOrderSuccess(details) {
     // Optional: Redirect to a confirmation page
     // setTimeout(() => { window.location.href = "confirmation.html"; }, 3000);
 }
+
+function setPayment(method, event) {
+    // Remove active class from all buttons
+    document.querySelectorAll('.p-method').forEach(btn => btn.classList.remove('active'));
+    // Add to clicked
+    event.target.classList.add('active');
+    
+    // Toggle detail views
+    const upi = document.getElementById("upiDetail");
+    const card = document.getElementById("cardDetail");
+    
+    if(method === 'UPI') {
+        upi.style.display = "block";
+        card.style.display = "none";
+    } else if(method === 'Card') {
+        upi.style.display = "none";
+        card.style.display = "block";
+    } else {
+        upi.style.display = "none";
+        card.style.display = "none";
+    }
+}
+
+function checkPin() {
+    const pin = document.getElementById("pinInput").value;
+    const status = document.getElementById("pinStatus");
+    if(pin.length === 6) {
+        status.innerText = "✓ Delivery Available";
+        status.style.color = "#82937E";
+    } else {
+        status.innerText = "× Invalid Pincode";
+        status.style.color = "red";
+    }
+}
+
+function closeSuccess() {
+    document.getElementById("successOverlay").style.display = "none";
+    window.location.reload(); // Refresh to clear state
+}
+
+// Ensure products are rendered on load
+function renderProducts(items) {
+    const grid = document.getElementById("productGrid");
+    if(!grid) return;
+    grid.innerHTML = items.map(p => `
+        <div class="p-card" onclick="openModal('${p.name}')">
+            <img src="${p.img}">
+            <h3>${p.name}</h3>
+            <p>₹${p.price}</p>
+        </div>
+    `).join('');
+}
