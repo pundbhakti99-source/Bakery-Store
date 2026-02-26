@@ -199,3 +199,32 @@ function renderProducts(items) {
         </div>
     `).join('');
 }
+function proceedToCheckout() {
+    const name = document.getElementById("checkoutName").value;
+    if (!name) {
+        alert("Please enter your name for delivery.");
+        return;
+    }
+    // For now, simulate success if not using PayPal
+    handleOrderSuccess({payer: {name: {given_name: name}}});
+}
+function initPayPalButton(totalAmount) {
+    const usdAmount = (totalAmount / 83).toFixed(2); // Rough INR to USD conversion
+    const container = document.getElementById("paypal-button-container");
+    
+    if (!container) return;
+    container.innerHTML = ""; // Clear old buttons
+
+    paypal.Buttons({
+        createOrder: (data, actions) => {
+            return actions.order.create({
+                purchase_units: [{ amount: { value: usdAmount } }]
+            });
+        },
+        onApprove: (data, actions) => {
+            return actions.order.capture().then(details => {
+                handleOrderSuccess(details);
+            });
+        }
+    }).render('#paypal-button-container');
+}
