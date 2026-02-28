@@ -1,4 +1,4 @@
-Let cart = [];
+let cart = [];
 
 
 
@@ -864,11 +864,9 @@ function renderCart() {
  * 4. PAYPAL INTEGRATION
  */
 function initPayPalButton(totalAmount) {
-    [span_8](start_span)[span_9](start_span)// Convert INR to USD for the Sandbox API (approx 1 USD = 83 INR)[span_8](end_span)[span_9](end_span)
     const usdAmount = (totalAmount / 83).toFixed(2); 
 
-    const container = document.getElementById("paypal-button-container");
-    container.innerHTML = ""; // Clear old buttons to prevent duplicates
+    document.getElementById("paypal-button-container").innerHTML = "";
 
     paypal.Buttons({
         style: {
@@ -885,22 +883,20 @@ function initPayPalButton(totalAmount) {
             });
         },
         onApprove: function(data, actions) {
-            [span_10](start_span)[span_11](start_span)// Real Authorization & Capture flow[span_10](end_span)[span_11](end_span)
             return actions.order.capture().then(function(details) {
+                // This calls the success function below
                 handleOrderSuccess(details); 
             });
         },
-        onCancel: function(data) {
-            [span_12](start_span)// Objective: Simulate failed/cancelled transactions[span_12](end_span)
-            alert("Payment Cancelled. You can try a different payment method.");
-        },
         onError: function(err) {
-            [span_13](start_span)[span_14](start_span)// Objective: Simulate bank/gateway errors[span_13](end_span)[span_14](end_span)
-            alert("Payment Gateway Error: The transaction could not be processed.");
+            console.error('PayPal Error:', err);
+            alert("Payment Failed! The bank has declined the transaction.");
+        },
+        onCancel: function(data) {
+            alert("Payment Cancelled.");
         }
     }).render('#paypal-button-container');
 }
-
 
 /**
  * 5. POST-PURCHASE HANDLING
@@ -918,4 +914,3 @@ function handleOrderSuccess(details) {
 }
 
 
-This is my corrected code
