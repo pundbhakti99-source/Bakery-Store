@@ -941,19 +941,28 @@ function initPayPalButton(totalAmount) {
  * 5. POST-PURCHASE HANDLING
  */
 function handleOrderSuccess(details) {
-    // 1. Clear State
+    // 1. Capture final order data for the receipt
+    const orderData = {
+        orderID: `GW-${Math.floor(1000 + Math.random() * 9000)}`,
+        items: [...cart],
+        total: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0),
+        details: {
+            name: document.getElementById("checkoutName").value || "Valued Customer",
+            address: document.getElementById("checkoutAddress").value || "Hand-delivered"
+        }
+    };
+
+    // 2. Save to localStorage specifically for the confirmation page
+    localStorage.setItem('last_processed_order', JSON.stringify(orderData));
+
+    // 3. Clear existing Cart
     cart = [];
     saveCart();
     
-    // 2. UI Feedback
-    toggleCart();
-    document.getElementById("successOverlay").style.display = "flex";
-    
-    // 3. Redirect after delay (GitHub Pages compatible)
-    setTimeout(() => {
-        window.location.href = "confirmation.html";
-    }, 3000);
+    // 4. Redirect
+    window.location.href = "confirmation.html";
 }
+
 
 // Ensure UI stays in sync on page load
 window.addEventListener('DOMContentLoaded', () => {
