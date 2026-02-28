@@ -915,4 +915,4 @@ function handleOrderSuccess(details) {
     
     document.getElementById("cartOverlay").style.display = "none";
     document.getElementById("successOverlay").style.display = "flex";
-}
+                              }
