@@ -965,3 +965,39 @@ function handleOrderSuccess(details) {
 window.addEventListener('DOMContentLoaded', () => {
     updateCartCount();
 });
+function showDeliveryForm() {
+    if (cart.length === 0) {
+        alert("Your basket is empty!");
+        return;
+    }
+    // Hide product list and main button
+    document.getElementById("cartItemsList").style.display = "none";
+    document.getElementById("proceedToDeliveryBtn").style.display = "none";
+    
+    // Show delivery form
+    document.getElementById("checkoutSection").style.display = "block";
+}
+
+function hideDeliveryForm() {
+    // Show product list and main button
+    document.getElementById("cartItemsList").style.display = "block";
+    document.getElementById("proceedToDeliveryBtn").style.display = "block";
+    
+    // Hide delivery form
+    document.getElementById("checkoutSection").style.display = "none";
+}
+
+// Update your toggleCart to reset the view
+function toggleCart() {
+    const sidebar = document.getElementById("cartSidebar");
+    const overlay = document.getElementById("cartOverlay");
+    sidebar.classList.toggle("open");
+    overlay.style.display = sidebar.classList.contains("open") ? "block" : "none";
+
+    // Always reset to Step 1 (Basket) when opening
+    if (sidebar.classList.contains("open")) {
+        hideDeliveryForm();
+        renderCart();
+    }
+}
+
