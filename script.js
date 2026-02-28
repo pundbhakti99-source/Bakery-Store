@@ -926,10 +926,8 @@ function renderCart() {
  * 4. PAYPAL INTEGRATION
  */
 function initPayPalButton(totalAmount) {
-    // Convert INR to USD for Sandbox (since PayPal Sandbox defaults to USD)
     const usdAmount = (totalAmount / 83).toFixed(2); 
 
-    // Clear previous button to prevent duplicates
     document.getElementById("paypal-button-container").innerHTML = "";
 
     paypal.Buttons({
@@ -942,23 +940,27 @@ function initPayPalButton(totalAmount) {
         createOrder: function(data, actions) {
             return actions.order.create({
                 purchase_units: [{
-                    amount: {
-                        value: usdAmount
-                    }
+                    amount: { value: usdAmount }
                 }]
             });
         },
         onApprove: function(data, actions) {
             return actions.order.capture().then(function(details) {
-                handleOrderSuccess(details);
+                [span_3](start_span)handleOrderSuccess(details); // Simulate success[span_3](end_span)
             });
         },
+        [span_4](start_span)// NEW: Simulate Failed Transaction[span_4](end_span)
         onError: function(err) {
-            alert("Transaction Failed: Please check your payment details.");
             console.error('PayPal Error:', err);
+            alert("Payment Failed! The bank has declined the transaction. Please try another method.");
+        },
+        // NEW: Simulate User Cancellation
+        onCancel: function(data) {
+            alert("Payment Cancelled. Your treats are still waiting in the basket!");
         }
     }).render('#paypal-button-container');
 }
+
 
 /**
  * 5. POST-PURCHASE HANDLING
