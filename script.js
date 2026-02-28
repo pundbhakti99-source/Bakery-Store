@@ -1,15 +1,8 @@
-let cart = [];
+// Use ONE consistent key name
+const CART_KEY = "golden_whisk_cart";
 
-
-
-let activeItem = null;
-
-
-
-localStorage.setItem("cart", JSON.stringify(cart));
-
-cart = JSON.parse(localStorage.getItem("cart")) || [];
-
+// Load from storage immediately
+let cart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
 
 
 // Get all elements with the class 'cat-item'
