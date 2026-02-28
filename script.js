@@ -50,6 +50,7 @@ window.onload = () => {
     updateCartCount();
 
     renderUserNav(); 
+    renderCart();
 
 };
 
