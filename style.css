@@ -1667,4 +1667,23 @@ body { font-family: 'Montserrat', sans-serif; background: #FAF9F6; color: #333; 
     cursor: not-allowed;
 
 }
+/* Hide the checkout section by default */
+#checkoutSection {
+    display: none;
+    border-top: 2px solid #82937E;
+    padding-top: 20px;
+    margin-top: 20px;
+}
+
+/* Back button style */
+.back-to-cart {
+    background: none;
+    border: none;
+    color: #82937E;
+    font-size: 0.8rem;
+    cursor: pointer;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
 
