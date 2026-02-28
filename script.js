@@ -905,7 +905,6 @@ function renderCart() {
  * 4. PAYPAL INTEGRATION
  */
 function initPayPalButton(totalAmount) {
-
     // Clear previous button to prevent duplicates
     document.getElementById("paypal-button-container").innerHTML = "";
 
@@ -920,22 +919,25 @@ function initPayPalButton(totalAmount) {
             return actions.order.create({
                 purchase_units: [{
                     amount: {
-                        value: usdAmount
+                        currency_code: 'INR', // Ensure this matches your SDK currency
+                        value: totalAmount.toString() // FIX: Use totalAmount, not usdAmount
                     }
                 }]
             });
         },
         onApprove: function(data, actions) {
             return actions.order.capture().then(function(details) {
+                // This triggers your receipt logic
                 handleOrderSuccess(details);
             });
         },
         onError: function(err) {
-            alert("Transaction Failed: Please check your payment details.");
+            alert("Payment Gateway Error: Please check your Sandbox Client ID.");
             console.error('PayPal Error:', err);
         }
     }).render('#paypal-button-container');
 }
+
 
 /**
  * 5. POST-PURCHASE HANDLING
