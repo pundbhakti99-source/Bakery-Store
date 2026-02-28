@@ -1,687 +1,984 @@
-<!DOCTYPE html>
+let cart = [];
 
 
 
-<html lang="en">
+let activeItem = null;
 
 
 
-<head>
+localStorage.setItem("cart", JSON.stringify(cart));
 
-    <meta charset="UTF-8">
-
-
-
-    <title>The Golden Whisk | Artisan Bakery</title>
+cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=no">
+// Get all elements with the class 'cat-item'
+
+const catItems = document.querySelectorAll('.cat-item');
 
 
 
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+// Loop through the NodeList and add the event listener to each item
 
+catItems.forEach(item => {
 
+    item.addEventListener('click', () => {
 
-    <link rel="stylesheet" href="style.css">
+        // Your event handling logic goes here
 
+        // For example, you can still call the existing function:
+
+        const category = item.getAttribute('onclick').match(/'([^']+)'/)[1];
+
+        jumpToCategory(category);
+
+    });
+
+});
+
+// 1. Initial State: Show Homepage, Hide Menu
+
+window.onload = () => {
+
+    // 1. Hide the menu section by default
+
+    document.getElementById("menu").classList.add("hidden");
 
     
-    <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=USD"></script>
 
+    // 2. Load the products into the grid (hidden for now)
 
-
-</head>
-
-
-
-<body>
+    renderProducts(products);
 
     
 
-<nav class="navbar">
+    // 3. Update cart and user UI
 
+    updateCartCount();
 
+    renderUserNav(); 
 
-    <div class="nav-container">
+};
 
 
 
-        <a href="#" class="logo" onclick="clearSearch()">G<span>W</span></a>
 
 
+// 2. The Toggle Controller
 
-       <div class="search-box" style="position: relative; width: 300px;">
+function showStorefront(isSearching) {
 
-            
+    const hero = document.querySelector(".hero");
 
-           <input type="text" id="searchInput" placeholder="Search our bakery..." onkeyup="handleSearch()" style="width: 100%; padding: 8px 30px 8px 8px; box-sizing: border-box;">
+    const menu = document.getElementById("menu");
 
-            
 
-            <button onclick="clearSearch()" style="position: absolute; right: 5px; top: 50%; transform: translateY(-50%); border: none; background: transparent; font-size: 1.2rem; cursor: pointer;">&times;</button>
 
-       
+    if (isSearching) {
 
-       </div>
+        hero.classList.add("hidden");   // Hide Homepage
 
+        menu.classList.remove("hidden"); // Show Products
 
+    } else {
 
-        <ul class="nav-links">
+        hero.classList.remove("hidden"); // Show Homepage
 
+        menu.classList.add("hidden");    // Hide Products
 
+    }
 
-            <li><a href="#menu" onclick="jumpToCategory('all')">Menu</a></li>
+}
 
 
 
-            <li id="userAuthSection"><a href="javascript:void(0)" onclick="openAuth()">Sign In</a></li>
+// 3. Search Logic
 
+function handleSearch() {
 
-
-            <li class="cart-status" onclick="toggleCart()" style="cursor: pointer;">Cart (<span id="cartCount">0</span>)</li>
-
-
-
-
-
-        </ul>
-
-
-
-    </div>
-
-
-
-</nav>
-
-
-
-
-
-
-
-<header class="hero">
-
-
-
-    <div class="hero-overlay"></div>
-
-
-
-    <div class="hero-content">
-
-
-
-        <div class="hero-card">
-
-
-
-            <h1>Soft Bakes, Early Mornings.</h1>
-
-
-
-            <p>Handcrafted treats delivered to your door.</p>
-
-
-
-            
-
-
-
-            <div class="cat-stack">
-
-
-
-                <div class="cat-item" onclick="jumpToCategory('cookies')">
-
-
-
-                    <img src="https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w200" alt="Cookies">
-
-
-
-                    <span>Explore Cookies</span>
-
-
-
-                </div>
-
-
-
-                <div class="cat-item" onclick="jumpToCategory('pastries')">
-
-
-
-                    <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=200" alt="Pastries">
-
-
-
-                    <span>Fresh Pastries</span>
-
-
-
-                </div>
-
-
-
-                <div class="cat-item" onclick="jumpToCategory('cakes')">
-
-
-
-                    <img src="https://plus.unsplash.com/premium_photo-1690214491960-d447e38d0bd0?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Cakes">
-
-
-
-                    <span>Artisan Cakes</span>
-
-
-
-                </div>
-
-
-
-            </div>
-
-
-
-        </div>
-
-
-
-    </div>
-
-
-
-</header>
-
-
-
-
-
-
-
-<section id="menu" class="product-section">
-
-
-
-    <div class="filters">
-
-
-
-        <button class="f-btn active" id="btn-all" onclick="filterCategory('all', event)">All Bakes</button>
-
-
-
-        <button class="f-btn" id="btn-cookies" onclick="filterCategory('cookies', event)">Cookies</button>
-
-
-
-        <button class="f-btn" id="btn-pastries" onclick="filterCategory('pastries', event)">Pastries</button>
-
-
-
-        <button class="f-btn" id="btn-cakes" onclick="filterCategory('cakes', event)">Cakes</button>
-
-
-
-    </div>
-
-
-
-    <div class="product-grid" id="productGrid"></div>
-
-
-
-</section>
-
-
-
-
-
-
-
-<div id="productModal" class="modal">
-
-
-
-    <div class="modal-content">
-
-
-
-        <span class="close-modal" onclick="closeModal()">&times;</span>
-
-
-
-        <div class="modal-body">
-
-
-
-            <div class="modal-img">
-
-
-
-                <img id="m-img" src="" alt="">
-
-
-
-            </div>
-
-
-
-            <div class="modal-info">
-
-
-
-                <h2 id="m-name">Product Name</h2>
-
-
-
-                <div class="m-price-row">
-
-
-
-                    <span id="m-price">₹0</span>
-
-
-
-                    <small>Inc. GST</small>
-
-
-
-                </div>
-
-
-
-                <p id="m-desc"></p>
-
-
-
-                
-
-
-
-                <div class="m-options">
-
-
-
-                    <label>Weight Selection</label>
-
-
-
-                    <div class="weight-row">
-
-
-
-                        <button class="w-btn active" data-mult="1">0.5 Kg</button>
-
-
-
-                        <button class="w-btn" data-mult="1.8">1 Kg</button>
-
-
-
-                        <button class="w-btn" data-mult="3.5">2 Kg</button>
-
-
-
-                    </div>
-
-
-
-                    
-
-
-
-                    <label>Gift Message</label>
-
-
-
-                    <input type="text" id="m-msg" placeholder="Happy Birthday!">
-
-
-
-                    
-
-
-
-                    <label>Check Delivery</label>
-
-
-
-                    <div class="pin-row">
-
-
-
-                        <input type="text" id="pinInput" placeholder="Pincode">
-
-
-
-                        <button onclick="checkPin()">Check</button>
-
-
-
-                    </div>
-
-
-
-                    <p id="pinStatus"></p>
-
-
-
-                </div>
-
-
-
-
-
-
-
-                <div class="m-actions">
-
-
-
-                    <button class="add-btn" onclick="addToCart(false)">Add to Cart</button>
-
-
-
-                    <button class="buy-btn" onclick="addToCart(true)">Buy Now | <span id="m-buy-price">₹0</span></button>
-
-
-
-                </div>
-
-
-
-                <div class="recommendations">
-
-
-
-    <h3>Complete Your Treat</h3>
-
-
-
-    <div id="recGrid" class="rec-grid">
-
-
-
-        </div>
-
-
-
-                </div>
-
-
-
-                
-
-
-
-            </div>
-
-
-
-        </div>
-
-
-
-    </div>
-
-
-
-</div>
-
-
-
-<div id="cartOverlay" class="cart-overlay" onclick="toggleCart()"></div>
-
-
-
-<div id="cartSidebar" class="cart-sidebar">
-
-
-
-    <div class="cart-header">
-
-
-
-        <h2>Your Basket</h2>
-
-
-
-        <span class="close-cart" onclick="toggleCart()">&times;</span>
-
-
-
-    </div>
-
-
-
-    <div id="cartItemsList" class="cart-body">
-
-
-
-        </div>
-
-
-
-<div class="cart-footer">
+    const term = document.getElementById("searchInput").value.toLowerCase();
 
     
-    <div class="delivery-details" style="margin-bottom: 15px;">
 
-        <label style="font-size: 0.8rem; font-weight: 600; color: #666;">Delivery Details</label>
+    if (term.length > 0) {
 
-        <input type="text" id="checkoutName" placeholder="Recipient Name" style="width:100%; padding:10px; margin-top:5px; border:1px solid #ddd; border-radius:8px;">
+        showStorefront(true); // Switch view to products
 
-        <input type="tel" id="checkoutPhone" placeholder="Phone Number" style="width:100%; padding:10px; margin-top:5px; border:1px solid #ddd; border-radius:8px;">
+        const matches = products.filter(p => 
 
-        <textarea id="checkoutAddress" placeholder="Full Delivery Address" style="width:100%; padding:10px; margin-top:5px; border:1px solid #ddd; border-radius:8px; height:60px; font-family:inherit;"></textarea>
+            p.name.toLowerCase().includes(term) || 
 
-    </div>
+            p.cat.toLowerCase().includes(term)
 
+        );
 
+        renderProducts(matches, term);
 
-    <div class="payment-selection" style="border-top: 1px solid #eee; padding-top: 15px;">
+    } else {
 
-        <label style="font-size: 0.8rem; font-weight: 600; color: #666;">Payment Method</label>
+        showStorefront(false); // Go back home if search is cleared
 
-        <div class="pay-options" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 8px; margin-bottom: 15px;">
+    }
 
-            <button class="p-method active" onclick="setPayment('UPI', event)">UPI</button>
-
-            <button class="p-method" onclick="setPayment('Card', event)">Card</button>
-
-            <button class="p-method" onclick="setPayment('COD', event)">Cash</button>
-
-        </div>
+}
 
 
 
-        <div id="upiDetail" style="display: block; text-align: center; margin-bottom: 15px; background: #f9f9f9; padding: 15px; border-radius: 10px;">
+// 4. Category Button Logic
 
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa=goldenwhisk@bank&pn=TheGoldenWhisk&cu=INR" style="width: 100px;">
+function jumpToCategory(cat) {
 
-            <p style="font-size: 0.7rem; margin-top: 5px; color: #666;">Scan to Pay</p>
+    showStorefront(true); // Switch view
 
-        </div>
+    filterCategory(cat);
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+}
 
 
 
-        <div id="cardDetail" style="display: none; background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+// 5. Clear Search Button
 
-            <input type="text" placeholder="Card Number" style="width:100%; padding:8px; margin-bottom:8px; border:1px solid #ccc; border-radius:5px;">
+function openModal(name) {
 
-            <div style="display: flex; gap: 5px;">
+    const p = products.find(item => item.name === name);
 
-                <input type="text" placeholder="MM/YY" style="width:50%; padding:8px; border:1px solid #ccc; border-radius:5px;">
+    if (!p) return;
 
-                <input type="password" placeholder="CVV" style="width:50%; padding:8px; border:1px solid #ccc; border-radius:5px;">
 
-            </div>
 
-        </div>
+    activeItem = p;
 
-    </div>
+
+
+    // Fill the modal data
+
+    document.getElementById("m-name").innerText = p.name;
+
+    document.getElementById("m-img").src = p.img;
+
+    document.getElementById("m-img").alt = p.name;
+
+    document.getElementById("m-price").innerText = `₹${p.price}`;
+
+    document.getElementById("m-buy-price").innerText = `₹${p.price}`;
+
+    document.getElementById("m-desc").innerText = p.desc;
+
+
+
+    // --- MOBILE UX FIXES START ---
 
     
-<div id="paypal-button-container"></div> <div class="total-row"> <div class="total-row"> <span>Total:</span>
-        <span id="cartTotal">₹0</span>
-    </div>
-    <button class="checkout-btn" onclick="proceedToCheckout()">Confirm Order</button>
-</div> 
 
-    <div id="paypal-button-container"></div> 
-    
-    <div class="total-row">
-        <span>Total:</span>
-        <span id="cartTotal">₹0</span>
-    </div>
-    
-    <button class="checkout-btn" onclick="proceedToCheckout()">Confirm Order</button>
-    
-</div> </div> <footer class="main-footer">
-    <div class="footer-container">
-        <div class="footer-brand">
-            <a href="#" class="logo" onclick="clearSearch()">G<span>W</span></a>
-            <p>Handcrafting joy since 2012. Every bake tells a story of quality ingredients and early mornings.</p>
+    // 1. Show the modal
+
+    const modal = document.getElementById("productModal");
+
+    modal.style.display = "block";
+
+
+
+    // 2. Lock the body scroll (Prevents the "Desktop Zoom/Shift" feel)
+
+    document.body.style.overflow = "hidden";
+
+
+
+    // 3. Reset Modal scroll position to the top
+
+    modal.scrollTop = 0;
+
+
+
+    // --- MOBILE UX FIXES END ---
+
+
+
+    // Render Recommendations
+
+    const recGrid = document.getElementById("recGrid");
+
+    recGrid.scrollLeft = 0; 
+
+    const suggestions = products
+
+        .filter(item => item.cat === p.cat && item.name !== p.name)
+
+        .sort(() => 0.5 - Math.random())
+
+        .slice(0, 5);
+
+
+
+    recGrid.innerHTML = suggestions.map(s => `
+
+        <div class="rec-item" onclick="openModal('${s.name.replace(/'/g, "\\'")}')">
+
+            <img src="${s.img}" alt="${s.name}">
+
+            <p>${s.name}</p>
+
         </div>
-        <div class="footer-links">
-            <h4>Quick Links</h4>
-            <ul>
-                <li><a href="#menu">Our Menu</a></li>
-                <li><a href="#">Track Order</a></li>
-                <li><a href="#">Privacy Policy</a></li>
-            </ul>
-        </div>
-        <div class="footer-links">
-            <h4>Contact</h4>
-            <ul>
-                <li>Baker's Lane, Mumbai</li>
-                <li>hello@goldenwhisk.com</li>
-                <li>+91 98765 43210</li>
-            </ul>
-        </div>
-    </div>
-</footer>
+
+    `).join('');
+
+}
+
+
+
+function closeModal() {
+
+    document.getElementById("productModal").style.display = "none";
+
     
 
+    // Release the body scroll lock
 
-<div id="successOverlay" class="success-popup">
+    document.body.style.overflow = "auto";
 
-
-
-    <div class="success-content">
-
-
-
-        <div class="check-icon">✓</div>
+}
 
 
 
-        <h2>Baking in Progress!</h2>
+
+
+function clearSearch() {
+
+    document.getElementById("searchInput").value = '';
+
+    showStorefront(false); // Return to Homepage
+
+    window.scrollTo({top: 0, behavior:'smooth' }); //smooth scroll to top
+
+}
 
 
 
-        <p>Your treats are being prepared with love.</p>
+let searchTimeout = null;
 
 
 
-        <button onclick="closeSuccess()" class="buy-btn" style="width: auto; padding: 10px 30px;">Sweet!</button>
+function filterCategory(cat, event) {
 
 
 
-    </div>
+    document.querySelectorAll('.f-btn').forEach(b => b.classList.remove('active'));
 
 
 
-</div>
+    if(event) event.target.classList.add('active');
 
 
 
-<div id="authModal" class="modal auth-overlay">
+    else document.getElementById(`btn-${cat}`).classList.add('active');
 
-    <div class="auth-card">
 
-        <button class="close-modal" onclick="closeAuth()" style="top: 10px; right: 20px;">&times;</button>
+
+
+
+
+
+    const filtered = (cat === 'all') ? products : products.filter(p => p.cat === cat);
+
+
+
+    renderProducts(filtered);
+
+
+
+}
+
+// 3. Modal Logic
+
+
+
+
+
+
+
+// 4. Weight Multiplier
+
+
+
+document.addEventListener('click', (e) => {
+
+
+
+    if(e.target.classList.contains('w-btn')) {
+
+
+
+        document.querySelectorAll('.w-btn').forEach(b => b.classList.remove('active'));
+
+
+
+        e.target.classList.add('active');
+
+
 
         
 
-        <div class="auth-tabs">
 
-            <button id="tab-login" class="active" onclick="toggleAuth('login')">Login</button>
 
-            <button id="tab-signup" onclick="toggleAuth('signup')">Join Us</button>
-
-        </div>
+        const mult = parseFloat(e.target.dataset.mult);
 
 
 
-        <form id="authForm" onsubmit="handleAuthSubmit(event)">
+        const finalPrice = Math.round(activeItem.price * mult);
 
-            <div id="signupFields" class="hidden">
 
-                <div class="input-group">
 
-                    <label>Full Name</label>
+        document.getElementById("m-price").innerText = `₹${finalPrice}`;
 
-                    <input type="text" id="authName" placeholder="Enter your name">
 
-                </div>
+
+        document.getElementById("m-buy-price").innerText = `₹${finalPrice}`;
+
+
+
+    }
+
+
+
+});
+
+
+
+
+
+
+
+// 5. Pincode & Cart
+
+
+
+function checkPin() {
+
+
+
+    const pin = document.getElementById("pinInput").value;
+
+
+
+    const status = document.getElementById("pinStatus");
+
+
+
+    if(pin.length === 6 && !isNaN(pin)) {
+
+
+
+        status.innerText = "✓ Delivery Available!";
+
+
+
+        status.style.color = "green";
+
+
+
+    } else {
+
+
+
+        status.innerText = "× Invalid Pincode.";
+
+
+
+        status.style.color = "red";
+
+
+
+    }
+
+
+
+}
+
+
+
+// Toggle Sidebar visibility
+
+
+
+function toggleCart() {
+
+
+
+    const sidebar = document.getElementById("cartSidebar");
+
+
+
+    const overlay = document.getElementById("cartOverlay");
+
+
+
+    sidebar.classList.toggle("open");
+
+
+
+    overlay.style.display = sidebar.classList.contains("open") ? "block" : "none";
+
+
+
+    renderCart();
+
+
+
+}
+
+function removeItem(index) {
+
+
+
+    cart.splice(index, 1);
+
+
+
+    updateCartCount();
+
+
+
+    renderCart();
+
+
+
+}
+
+
+
+
+
+let debounceTimeout;
+
+
+
+// Ensure Menu section and products load correctly
+
+
+
+function renderProducts(items, searchTerm = "") {
+
+    const grid = document.getElementById("productGrid");
+
+    grid.innerHTML = ""; // Clear existing grid content
+
+
+
+    if (items.length === 0) {
+
+        grid.innerHTML = `
+
+            <div style="grid-column: 1/-1; padding: 40px; color: #888; text-align: center;">
+
+                No bakes found matching "${searchTerm}"
+
+            </div>`;
+
+        return;
+
+    }
+
+
+
+    grid.innerHTML = items.map(p => {
+
+        // Generate a random stable rating for the high-end look
+
+        const rate = (4.5 + Math.random() * 0.5).toFixed(1);
+
+        
+
+        // Use a safe string for the onclick event to handle names with apostrophes
+
+        const safeName = p.name.replace(/'/g, "\\'");
+
+
+
+        return `
+
+            <div class="p-card" onclick="document.getElementById('searchInput').blur(); openModal('${safeName}')">
+
+                <img src="${p.img}" alt="${p.name}" loading="lazy">
+
+                <div class="rating">★★★★★ <span>(${rate})</span></div>
+
+                <h3>${highlightText(p.name, searchTerm)}</h3>
+
+                <p class="p-price">₹${p.price}</p>
 
             </div>
 
-            
+        `;
 
-            <div class="input-group">
+    }).join('');
 
-                <label>Email Address</label>
-
-                <input type="email" id="authEmail" required placeholder="chef@goldenwhisk.com">
-
-            </div>
-
-            
-
-            <div class="input-group">
-
-                <label>Password</label>
-
-                <input type="password" id="authPass" required placeholder="••••••••">
-
-            </div>
+}
 
 
 
-            <button type="submit" class="buy-btn auth-submit" style="width: 100%;">
 
-                <span id="authBtnText">Sign In</span>
 
-                <div id="authLoader" class="loader hidden"></div>
+function highlightText(text, term) {
 
-            </button>
+    if (!term.trim()) return text;
 
-        </form>
+    const regex = new RegExp(`(${term})`, 'gi');
 
-    </div>
+    return text.replace(regex, `<span style="background: #fdf2a4;">$1</span>`);
 
-</div>
+}
+
+
+
+function highlightText(text, term) {
+
+  if (!term) return text;
+
+  const regex = new RegExp(`(${term})`, 'gi');
+
+  return text.replace(regex, '<mark>$1</mark>');
+
+}
+
+let isSignUpMode = false;
+
+
+
+function openAuth() {
+
+    document.getElementById("authModal").style.display = "flex";
+
+}
+
+
+
+function closeAuth() {
+
+    document.getElementById("authModal").style.display = "none";
+
+}
+
+
+
+function toggleAuth(mode) {
+
+    isSignUpMode = (mode === 'signup');
+
+    document.getElementById("tab-login").classList.toggle("active", !isSignUpMode);
+
+    document.getElementById("tab-signup").classList.toggle("active", isSignUpMode);
+
+    document.getElementById("signupFields").classList.toggle("hidden", !isSignUpMode);
+
+    document.getElementById("authBtnText").innerText = isSignUpMode ? "Create Account" : "Sign In";
+
+}
+
+
+
+async function handleAuthSubmit(event) {
+
+    event.preventDefault();
+
+    const btnText = document.getElementById("authBtnText");
+
+    const loader = document.getElementById("authLoader");
 
     
 
+    // UI Loading State
 
+    btnText.classList.add("hidden");
 
-<script src="product.js"></script>
-
-
-
-<script src="script.js"></script>
-
-
-
-</body>
+    loader.classList.remove("hidden");
 
 
 
-</html>
+    const email = document.getElementById("authEmail").value;
+
+    const pass = document.getElementById("authPass").value;
+
+    const name = document.getElementById("authName").value;
+
+
+
+    // Simulate Server Request (1.5s delay)
+
+    await new Promise(res => setTimeout(res, 1500));
+
+
+
+    if (isSignUpMode) {
+
+        const newUser = { name, email, pass };
+
+        localStorage.setItem(email, JSON.stringify(newUser));
+
+        loginUser(newUser);
+
+    } else {
+
+        const user = JSON.parse(localStorage.getItem(email));
+
+        if (user && user.pass === pass) {
+
+            loginUser(user);
+
+        } else {
+
+            alert("Invalid email or password. Hint: Sign up first!");
+
+        }
+
+    }
+
+
+
+    btnText.classList.remove("hidden");
+
+    loader.classList.add("hidden");
+
+}
+
+
+
+function loginUser(user) {
+
+    localStorage.setItem("activeSession", JSON.stringify(user));
+
+    closeAuth();
+
+    renderUserNav();
+
+}
+
+
+
+function renderUserNav() {
+
+    const session = JSON.parse(localStorage.getItem("activeSession"));
+
+    const container = document.getElementById("userAuthSection");
+
+
+
+    if (session) {
+
+        const firstName = session.name.split(' ')[0];
+
+        // Uses a free UI avatar service for the high-end look
+
+        const avatarUrl = `https://ui-avatars.com/api/?name=${firstName}&background=82937E&color=fff`;
+
+        
+
+        container.innerHTML = `
+
+            <div class="user-profile" onclick="handleLogout()">
+
+                <img src="${avatarUrl}" style="width:24px; border-radius:50%;">
+
+                <span style="font-size: 0.85rem;">Hi, ${firstName}</span>
+
+            </div>
+
+        `;
+
+    } else {
+
+        container.innerHTML = `<a href="javascript:void(0)" onclick="openAuth()">Sign In</a>`;
+
+    }
+
+}
+
+
+
+function handleLogout() {
+
+    if(confirm("Would you like to sign out?")) {
+
+        localStorage.removeItem("activeSession");
+
+        renderUserNav();
+
+    }
+
+}
+
+
+
+let selectedPayment = 'UPI'; // Default
+
+
+
+function setPayment(method, event) {
+
+    selectedPayment = method;
+
+    document.querySelectorAll('.p-method').forEach(btn => btn.classList.remove('active'));
+
+    event.target.classList.add('active');
+
+
+
+    // Toggle visibility of specific payment details
+
+    // Ensure these IDs (upiDetail, cardDetail) match your HTML exactly
+
+    document.getElementById("upiDetail").style.display = (method === 'UPI') ? "block" : "none";
+
+    document.getElementById("cardDetail").style.display = (method === 'Card') ? "block" : "none";
+
+}
+
+
+
+
+
+function proceedToCheckout() {
+
+    const name = document.getElementById("checkoutName").value;
+
+    const phone = document.getElementById("checkoutPhone").value;
+
+    const address = document.getElementById("checkoutAddress").value;
+
+
+
+    if (cart.length === 0) return alert("Basket is empty!");
+
+    if (!name || !phone || !address) return alert("Please fill in all delivery details (Name, Phone, and Address).");
+
+
+
+    const btn = document.querySelector('.checkout-btn');
+
+    btn.innerText = "Verifying Details...";
+
+    btn.disabled = true;
+
+
+
+    // Simulate Payment/Server delay
+
+    setTimeout(() => {
+
+        simulatePaymentSuccess();
+
+        
+
+        // Data Reset
+
+        cart = [];
+
+        updateCartCount();
+
+        
+
+        // Reset Button & Clear fields
+
+        btn.disabled = false;
+
+        document.getElementById("checkoutName").value = "";
+
+        document.getElementById("checkoutPhone").value = "";
+
+        document.getElementById("checkoutAddress").value = "";
+
+    }, 1500);
+
+}
+
+
+
+
+
+
+// Add the helper function anywhere at the bottom of script.js
+
+function simulatePaymentSuccess() {
+
+    const btn = document.querySelector('.checkout-btn');
+
+    btn.innerHTML = "Payment Verified ✓";
+
+    btn.style.background = "#4CAF50"; // Turn green for success
+
+    
+
+    setTimeout(() => {
+
+        // Now trigger the final success overlay
+
+        toggleCart();
+
+        document.getElementById("successOverlay").style.display = "flex";
+
+        
+
+        // Reset button for next time
+
+        btn.innerHTML = "Confirm Order";
+
+        btn.style.background = "#82937E";
+
+    }, 1000);
+
+}
+function saveCart() {
+    localStorage.setItem("golden_whisk_cart", JSON.stringify(cart));
+    updateCartCount();
+}
+
+function updateCartCount() {
+    const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+    document.getElementById("cartCount").innerText = count;
+}
+
+/**
+ * 2. CART ACTIONS
+ */
+function addToCart(isBuyNow) {
+    const priceText = document.getElementById("m-price").innerText.replace('₹', '');
+    const priceNum = parseInt(priceText);
+    const weight = document.querySelector('.w-btn.active').innerText;
+    const itemName = `${activeItem.name} (${weight})`;
+
+    const existingItem = cart.find(item => item.name === itemName);
+
+    if (existingItem) {
+        existingItem.quantity += 1;
+    } else {
+        cart.push({
+            id: Date.now(), // Unique ID for tracking
+            name: itemName,
+            price: priceNum,
+            quantity: 1,
+            img: activeItem.img
+        });
+    }
+
+    saveCart();
+    
+    if(isBuyNow) {
+        if(!document.getElementById("cartSidebar").classList.contains("open")) toggleCart();
+    } else {
+        closeModal();
+        // Optional: Add a "Added!" toast notification here
+    }
+}
+
+function changeQty(index, delta) {
+    cart[index].quantity += delta;
+    if (cart[index].quantity <= 0) {
+        cart.splice(index, 1);
+    }
+    saveCart();
+    renderCart();
+}
+
+/**
+ * 3. RENDER CART & CALCULATE TOTALS
+ */
+function renderCart() {
+    const list = document.getElementById("cartItemsList");
+    const totalEl = document.getElementById("cartTotal");
+    let total = 0;
+
+    if (cart.length === 0) {
+        list.innerHTML = `<div class="empty-msg" style="text-align:center; padding:40px;">
+                            <p>Your basket is empty.</p>
+                          </div>`;
+        totalEl.innerText = "₹0";
+        document.getElementById("paypal-button-container").innerHTML = ""; // Clear buttons if empty
+        return;
+    }
+
+    list.innerHTML = cart.map((item, index) => {
+        const itemTotal = item.price * item.quantity;
+        total += itemTotal;
+        return `
+            <div class="cart-item">
+                <img src="${item.img}" style="width:60px; height:60px; border-radius:8px; object-fit:cover;">
+                <div style="flex:1; margin-left:15px;">
+                    <h4 style="font-size:0.9rem;">${item.name}</h4>
+                    <p style="font-size:0.8rem; color:#82937E; font-weight:bold;">₹${item.price}</p>
+                </div>
+                <div class="qty-controls" style="display:flex; align-items:center; gap:10px;">
+                    <button onclick="changeQty(${index}, -1)" style="border:1px solid #ddd; background:none; width:25px; cursor:pointer;">-</button>
+                    <span>${item.quantity}</span>
+                    <button onclick="changeQty(${index}, 1)" style="border:1px solid #ddd; background:none; width:25px; cursor:pointer;">+</button>
+                </div>
+            </div>
+        `;
+    }).join('');
+
+    totalEl.innerText = `₹${total}`;
+    
+    // Initialize PayPal whenever cart renders (and has items)
+    initPayPalButton(total);
+}
+
+/**
+ * 4. PAYPAL INTEGRATION
+ */
+function initPayPalButton(totalAmount) {
+    // Convert INR to USD for Sandbox (since PayPal Sandbox defaults to USD)
+    const usdAmount = (totalAmount / 83).toFixed(2); 
+
+    // Clear previous button to prevent duplicates
+    document.getElementById("paypal-button-container").innerHTML = "";
+
+    paypal.Buttons({
+        style: {
+            layout: 'vertical',
+            color:  'gold',
+            shape:  'rect',
+            label:  'checkout'
+        },
+        createOrder: function(data, actions) {
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value: usdAmount
+                    }
+                }]
+            });
+        },
+        onApprove: function(data, actions) {
+            return actions.order.capture().then(function(details) {
+                handleOrderSuccess(details);
+            });
+        },
+        onError: function(err) {
+            alert("Transaction Failed: Please check your payment details.");
+            console.error('PayPal Error:', err);
+        }
+    }).render('#paypal-button-container');
+}
+
+/**
+ * 5. POST-PURCHASE HANDLING
+ */
+function handleOrderSuccess(details) {
+    // 1. Clear State
+    cart = [];
+    saveCart();
+    
+    // 2. UI Feedback
+    toggleCart();
+    document.getElementById("successOverlay").style.display = "flex";
+    
+    // 3. Redirect after delay (GitHub Pages compatible)
+    setTimeout(() => {
+        window.location.href = "confirmation.html";
+    }, 3000);
+}
+
+// Ensure UI stays in sync on page load
+window.addEventListener('DOMContentLoaded', () => {
+    updateCartCount();
+});
