@@ -516,6 +516,22 @@ function renderProducts(items, searchTerm = "") {
 
 }
 
+
+
+
+
+function highlightText(text, term) {
+
+    if (!term.trim()) return text;
+
+    const regex = new RegExp(`(${term})`, 'gi');
+
+    return text.replace(regex, `<span style="background: #fdf2a4;">$1</span>`);
+
+}
+
+
+
 function highlightText(text, term) {
 
   if (!term) return text;
