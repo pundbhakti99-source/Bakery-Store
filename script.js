@@ -814,7 +814,7 @@ function simulatePaymentSuccess() {
 
 }
 function saveCart() {
-    localStorage.setItem("golden_whisk_cart", JSON.stringify(cart));
+    localStorage.setItem(CART_KEY , JSON.stringify(cart));
     updateCartCount();
 }
 
