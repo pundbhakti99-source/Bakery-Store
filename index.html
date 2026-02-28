@@ -465,7 +465,33 @@
         </div>
 
 <div class="cart-footer">
+        <div class=”total-row” style=”margin-bottom: 15px;”>
 
+            <span>Total:</span>
+
+            <span id=”cartTotal”>₹0</span>
+
+        </div>
+
+
+
+        <button id=”proceedToDeliveryBtn” class=”checkout-btn” onclick=”showDeliveryForm()”>
+
+            Proceed to Delivery
+
+        </button>
+
+
+
+        <div id=”checkoutSection” style=”display: none;”>
+
+            <button class=”back-to-cart” onclick=”hideDeliveryForm()” style=”background:none; border:none; color:#82937E; cursor:pointer; font-weight:600; margin-bottom:15px; font-family:inherit;”>
+
+                ← Back to Basket
+
+            </button>
+
+            
     <!-- Delivery Details -->
     <div class="delivery-details" style="margin-bottom: 15px;">
         <label style="font-size: 0.8rem; font-weight: 600; color: #666;">
@@ -578,7 +604,7 @@
             onclick="proceedToCheckout()">
         Confirm Order
     </button>
-
+        </div>
 </div>
     
  </div> <footer class="main-footer">
