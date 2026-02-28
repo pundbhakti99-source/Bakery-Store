@@ -1,16 +1,6 @@
-let cart = [];
 
-
-
+let cart = JSON.parse(localStorage.getItem("golden_whisk_cart")) || [];
 let activeItem = null;
-
-
-
-localStorage.setItem("cart", JSON.stringify(cart));
-
-cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-
 
 // Get all elements with the class 'cat-item'
 
