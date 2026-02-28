@@ -1713,4 +1713,16 @@ body { font-family: 'Montserrat', sans-serif; background: #FAF9F6; color: #333; 
     box-shadow: 0 -5px 10px rgba(0,0,0,0.05); 
 }
 
+.delivery-details label {
+    display: block;      /* This forces the label to take the full width */
+    margin-top: 10px;    /* Adds space above the label */
+    margin-bottom: 5px;  /* Adds space between label and input */
+    font-weight: 600;
+}
+
+.delivery-details input, 
+.delivery-details textarea {
+    display: block;
+    width: 100%;         /* Makes sure the input stays below the label */
+}
 
