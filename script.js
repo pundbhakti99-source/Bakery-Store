@@ -526,6 +526,11 @@
     </div>
 
     
+<div id="paypal-button-container"></div> <div class="total-row"> <div class="total-row"> <span>Total:</span>
+        <span id="cartTotal">₹0</span>
+    </div>
+    <button class="checkout-btn" onclick="proceedToCheckout()">Confirm Order</button>
+</div> 
 
     <div id="paypal-button-container"></div> 
     
