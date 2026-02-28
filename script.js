@@ -718,22 +718,68 @@ function setPayment(method, event) {
 
 }
 
+
+
+
+
 function proceedToCheckout() {
+
     const name = document.getElementById("checkoutName").value;
+
     const phone = document.getElementById("checkoutPhone").value;
+
     const address = document.getElementById("checkoutAddress").value;
 
-    [span_3](start_span)[span_4](start_span)// 1. Validation: Ensures all details are present[span_3](end_span)[span_4](end_span)
-    if (cart.length === 0) return alert("Basket is empty!");
-    if (!name || !phone || !address) {
-        alert("Please fill in all delivery details (Name, Phone, and Address) before paying.");
-        return;
-    }
 
-    [span_5](start_span)// 2. Guide user to the Payment Gateway[span_5](end_span)
-    alert("Details verified! Please complete your payment using the PayPal button or UPI option below.");
-    document.getElementById("paypal-button-container").scrollIntoView({ behavior: 'smooth' });
+
+    if (cart.length === 0) return alert("Basket is empty!");
+
+    if (!name || !phone || !address) return alert("Please fill in all delivery details (Name, Phone, and Address).");
+
+
+
+    const btn = document.querySelector('.checkout-btn');
+
+    btn.innerText = "Verifying Details...";
+
+    btn.disabled = true;
+
+
+
+    // Simulate Payment/Server delay
+
+    setTimeout(() => {
+
+        simulatePaymentSuccess();
+
+        
+
+        // Data Reset
+
+        cart = [];
+
+        updateCartCount();
+
+        
+
+        // Reset Button & Clear fields
+
+        btn.disabled = false;
+
+        document.getElementById("checkoutName").value = "";
+
+        document.getElementById("checkoutPhone").value = "";
+
+        document.getElementById("checkoutAddress").value = "";
+
+    }, 1500);
+
 }
+
+
+
+
+
 
 // Add the helper function anywhere at the bottom of script.js
 
@@ -884,33 +930,41 @@ function initPayPalButton(totalAmount) {
         },
         onApprove: function(data, actions) {
             return actions.order.capture().then(function(details) {
-                // This calls the success function below
-                handleOrderSuccess(details); 
+                [span_3](start_span)handleOrderSuccess(details); // Simulate success[span_3](end_span)
             });
         },
+        [span_4](start_span)// NEW: Simulate Failed Transaction[span_4](end_span)
         onError: function(err) {
             console.error('PayPal Error:', err);
-            alert("Payment Failed! The bank has declined the transaction.");
+            alert("Payment Failed! The bank has declined the transaction. Please try another method.");
         },
+        // NEW: Simulate User Cancellation
         onCancel: function(data) {
-            alert("Payment Cancelled.");
+            alert("Payment Cancelled. Your treats are still waiting in the basket!");
         }
     }).render('#paypal-button-container');
 }
+
 
 /**
  * 5. POST-PURCHASE HANDLING
  */
 function handleOrderSuccess(details) {
+    // 1. Clear State
     cart = [];
     saveCart();
     
-    // Hide cart and show success message
-    const sidebar = document.getElementById("cartSidebar");
-    if(sidebar) sidebar.classList.remove("open");
-    
-    document.getElementById("cartOverlay").style.display = "none";
+    // 2. UI Feedback
+    toggleCart();
     document.getElementById("successOverlay").style.display = "flex";
+    
+    // 3. Redirect after delay (GitHub Pages compatible)
+    setTimeout(() => {
+        window.location.href = "confirmation.html";
+    }, 3000);
 }
 
-
+// Ensure UI stays in sync on page load
+window.addEventListener('DOMContentLoaded', () => {
+    updateCartCount();
+});
