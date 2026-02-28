@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order Confirmed | The Golden Whisk</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css"> <style>
+        .conf-container { max-width: 600px; margin: 80px auto; padding: 40px; background: white; border-radius: 20px; box-shadow: 0 15px 40px rgba(0,0,0,0.05); text-align: center; }
+        .order-id { color: #82937E; font-weight: 600; font-size: 0.9rem; letter-spacing: 1px; }
+        .receipt-box { text-align: left; margin: 30px 0; border-top: 1px dashed #ddd; padding-top: 20px; }
+        .receipt-item { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.9rem; }
+        .final-total { border-top: 2px solid #f0f0f0; margin-top: 15px; padding-top: 15px; font-weight: 700; font-size: 1.2rem; display: flex; justify-content: space-between; }
+        .delivery-to { background: #FAF9F6; padding: 15px; border-radius: 10px; margin-top: 20px; text-align: left; font-size: 0.85rem; line-height: 1.6; }
+    </style>
+</head>
+<body>
+
+<div class="conf-container">
+    <div class="check-icon" style="display: block; margin-bottom: 10px;">✓</div>
+    <p class="order-id">ORDER #<span id="display-order-id">GW-0000</span></p>
+    <h1 style="font-family: 'Cormorant Garamond'; font-size: 2.5rem;">Freshly Confirmed!</h1>
+    <p>We’ve received your order. Our bakers are getting the oven ready as we speak.</p>
+
+    <div class="receipt-box">
+        <h3 style="margin-bottom: 15px; font-size: 1rem;">Order Summary</h3>
+        <div id="receipt-items-list">
+            </div>
+        <div class="final-total">
+            <span>Total Paid</span>
+            <span id="receipt-total">₹0</span>
+        </div>
+    </div>
+
+    <div class="delivery-to">
+        <strong>Delivering to:</strong><br>
+        <span id="dest-name">...</span><br>
+        <span id="dest-address">...</span>
+    </div>
+
+    <button onclick="window.location.href='index.html'" class="buy-btn" style="margin-top: 30px; width: 200px;">Back to Shop</button>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Retrieve data from localStorage
+        const lastOrder = JSON.parse(localStorage.getItem('last_processed_order'));
+        
+        if (!lastOrder) {
+            window.location.href = 'index.html'; // Redirect if no order data found
+            return;
+        }
+
+        // 1. Populate Order ID and Total
+        document.getElementById('display-order-id').innerText = lastOrder.orderID;
+        document.getElementById('receipt-total').innerText = `₹${lastOrder.total}`;
+        
+        // 2. Populate Delivery Details
+        document.getElementById('dest-name').innerText = lastOrder.details.name;
+        document.getElementById('dest-address').innerText = lastOrder.details.address;
+
+        // 3. Populate Items
+        const listContainer = document.getElementById('receipt-items-list');
+        listContainer.innerHTML = lastOrder.items.map(item => `
+            <div class="receipt-item">
+                <span>${item.quantity}x ${item.name}</span>
+                <span>₹${item.price * item.quantity}</span>
+            </div>
+        `).join('');
+
+        // Clean up last order to prevent refreshing into an old receipt
+        // localStorage.removeItem('last_processed_order'); 
+    });
+</script>
+</body>
+</html>
+
