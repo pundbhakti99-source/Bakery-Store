@@ -723,17 +723,18 @@ function proceedToCheckout() {
     const phone = document.getElementById("checkoutPhone").value;
     const address = document.getElementById("checkoutAddress").value;
 
-    [span_3](start_span)[span_4](start_span)// 1. Validation: Ensures all details are present[span_3](end_span)[span_4](end_span)
+    [span_1](start_span)// 1. Validation: Ensures all details are present before payment[span_1](end_span)
     if (cart.length === 0) return alert("Basket is empty!");
     if (!name || !phone || !address) {
         alert("Please fill in all delivery details (Name, Phone, and Address) before paying.");
         return;
     }
 
-    [span_5](start_span)// 2. Guide user to the Payment Gateway[span_5](end_span)
+    [span_2](start_span)// 2. Guide user to the Payment Gateway[span_2](end_span)
     alert("Details verified! Please complete your payment using the PayPal button or UPI option below.");
     document.getElementById("paypal-button-container").scrollIntoView({ behavior: 'smooth' });
 }
+
 
 // Add the helper function anywhere at the bottom of script.js
 
@@ -863,6 +864,7 @@ function renderCart() {
 /**
  * 4. PAYPAL INTEGRATION
  */
+
 function initPayPalButton(totalAmount) {
     [span_8](start_span)[span_9](start_span)// Convert INR to USD for the Sandbox API (approx 1 USD = 83 INR)[span_8](end_span)[span_9](end_span)
     const usdAmount = (totalAmount / 83).toFixed(2); 
@@ -900,7 +902,6 @@ function initPayPalButton(totalAmount) {
         }
     }).render('#paypal-button-container');
 }
-
 
 /**
  * 5. POST-PURCHASE HANDLING
