@@ -930,41 +930,34 @@ function initPayPalButton(totalAmount) {
         },
         onApprove: function(data, actions) {
             return actions.order.capture().then(function(details) {
-                [span_3](start_span)handleOrderSuccess(details); // Simulate success[span_3](end_span)
+                // This calls the success function below
+                handleOrderSuccess(details); 
             });
         },
-        [span_4](start_span)// NEW: Simulate Failed Transaction[span_4](end_span)
         onError: function(err) {
             console.error('PayPal Error:', err);
-            alert("Payment Failed! The bank has declined the transaction. Please try another method.");
+            alert("Payment Failed! The bank has declined the transaction.");
         },
-        // NEW: Simulate User Cancellation
         onCancel: function(data) {
-            alert("Payment Cancelled. Your treats are still waiting in the basket!");
+            alert("Payment Cancelled.");
         }
     }).render('#paypal-button-container');
 }
-
 
 /**
  * 5. POST-PURCHASE HANDLING
  */
 function handleOrderSuccess(details) {
-    // 1. Clear State
     cart = [];
     saveCart();
     
-    // 2. UI Feedback
-    toggleCart();
-    document.getElementById("successOverlay").style.display = "flex";
+    // Hide cart and show success message
+    const sidebar = document.getElementById("cartSidebar");
+    if(sidebar) sidebar.classList.remove("open");
     
-    // 3. Redirect after delay (GitHub Pages compatible)
-    setTimeout(() => {
-        window.location.href = "confirmation.html";
-    }, 3000);
+    document.getElementById("cartOverlay").style.display = "none";
+    document.getElementById("successOverlay").style.display = "flex";
 }
 
-// Ensure UI stays in sync on page load
-window.addEventListener('DOMContentLoaded', () => {
-    updateCartCount();
-});
+
+
