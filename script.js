@@ -911,8 +911,6 @@ function renderCart() {
  * 4. PAYPAL INTEGRATION
  */
 function initPayPalButton(totalAmount) {
-    // Convert INR to USD for Sandbox (since PayPal Sandbox defaults to USD)
-    const usdAmount = (totalAmount / 83).toFixed(2); 
 
     // Clear previous button to prevent duplicates
     document.getElementById("paypal-button-container").innerHTML = "";
