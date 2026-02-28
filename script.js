@@ -1,4 +1,4 @@
-  let cart = [];
+Let cart = [];
 
 
 
@@ -516,22 +516,6 @@ function renderProducts(items, searchTerm = "") {
 
 }
 
-
-
-
-
-function highlightText(text, term) {
-
-    if (!term.trim()) return text;
-
-    const regex = new RegExp(`(${term})`, 'gi');
-
-    return text.replace(regex, `<span style="background: #fdf2a4;">$1</span>`);
-
-}
-
-
-
 function highlightText(text, term) {
 
   if (!term) return text;
@@ -734,68 +718,22 @@ function setPayment(method, event) {
 
 }
 
-
-
-
-
 function proceedToCheckout() {
-
     const name = document.getElementById("checkoutName").value;
-
     const phone = document.getElementById("checkoutPhone").value;
-
     const address = document.getElementById("checkoutAddress").value;
 
-
-
+    [span_3](start_span)[span_4](start_span)// 1. Validation: Ensures all details are present[span_3](end_span)[span_4](end_span)
     if (cart.length === 0) return alert("Basket is empty!");
+    if (!name || !phone || !address) {
+        alert("Please fill in all delivery details (Name, Phone, and Address) before paying.");
+        return;
+    }
 
-    if (!name || !phone || !address) return alert("Please fill in all delivery details (Name, Phone, and Address).");
-
-
-
-    const btn = document.querySelector('.checkout-btn');
-
-    btn.innerText = "Verifying Details...";
-
-    btn.disabled = true;
-
-
-
-    // Simulate Payment/Server delay
-
-    setTimeout(() => {
-
-        simulatePaymentSuccess();
-
-        
-
-        // Data Reset
-
-        cart = [];
-
-        updateCartCount();
-
-        
-
-        // Reset Button & Clear fields
-
-        btn.disabled = false;
-
-        document.getElementById("checkoutName").value = "";
-
-        document.getElementById("checkoutPhone").value = "";
-
-        document.getElementById("checkoutAddress").value = "";
-
-    }, 1500);
-
+    [span_5](start_span)// 2. Guide user to the Payment Gateway[span_5](end_span)
+    alert("Details verified! Please complete your payment using the PayPal button or UPI option below.");
+    document.getElementById("paypal-button-container").scrollIntoView({ behavior: 'smooth' });
 }
-
-
-
-
-
 
 // Add the helper function anywhere at the bottom of script.js
 
@@ -926,9 +864,11 @@ function renderCart() {
  * 4. PAYPAL INTEGRATION
  */
 function initPayPalButton(totalAmount) {
+    [span_8](start_span)[span_9](start_span)// Convert INR to USD for the Sandbox API (approx 1 USD = 83 INR)[span_8](end_span)[span_9](end_span)
     const usdAmount = (totalAmount / 83).toFixed(2); 
 
-    document.getElementById("paypal-button-container").innerHTML = "";
+    const container = document.getElementById("paypal-button-container");
+    container.innerHTML = ""; // Clear old buttons to prevent duplicates
 
     paypal.Buttons({
         style: {
@@ -945,18 +885,18 @@ function initPayPalButton(totalAmount) {
             });
         },
         onApprove: function(data, actions) {
+            [span_10](start_span)[span_11](start_span)// Real Authorization & Capture flow[span_10](end_span)[span_11](end_span)
             return actions.order.capture().then(function(details) {
-                [span_3](start_span)handleOrderSuccess(details); // Simulate success[span_3](end_span)
+                handleOrderSuccess(details); 
             });
         },
-        [span_4](start_span)// NEW: Simulate Failed Transaction[span_4](end_span)
-        onError: function(err) {
-            console.error('PayPal Error:', err);
-            alert("Payment Failed! The bank has declined the transaction. Please try another method.");
-        },
-        // NEW: Simulate User Cancellation
         onCancel: function(data) {
-            alert("Payment Cancelled. Your treats are still waiting in the basket!");
+            [span_12](start_span)// Objective: Simulate failed/cancelled transactions[span_12](end_span)
+            alert("Payment Cancelled. You can try a different payment method.");
+        },
+        onError: function(err) {
+            [span_13](start_span)[span_14](start_span)// Objective: Simulate bank/gateway errors[span_13](end_span)[span_14](end_span)
+            alert("Payment Gateway Error: The transaction could not be processed.");
         }
     }).render('#paypal-button-container');
 }
@@ -966,21 +906,13 @@ function initPayPalButton(totalAmount) {
  * 5. POST-PURCHASE HANDLING
  */
 function handleOrderSuccess(details) {
-    // 1. Clear State
     cart = [];
     saveCart();
     
-    // 2. UI Feedback
-    toggleCart();
-    document.getElementById("successOverlay").style.display = "flex";
+    // Hide cart and show success message
+    const sidebar = document.getElementById("cartSidebar");
+    if(sidebar) sidebar.classList.remove("open");
     
-    // 3. Redirect after delay (GitHub Pages compatible)
-    setTimeout(() => {
-        window.location.href = "confirmation.html";
-    }, 3000);
+    document.getElementById("cartOverlay").style.display = "none";
+    document.getElementById("successOverlay").style.display = "flex";
 }
-
-// Ensure UI stays in sync on page load
-window.addEventListener('DOMContentLoaded', () => {
-    updateCartCount();
-});
