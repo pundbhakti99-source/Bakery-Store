@@ -464,84 +464,124 @@
 
         </div>
 
-
-
 <div class="cart-footer">
 
-    
+    <!-- Delivery Details -->
     <div class="delivery-details" style="margin-bottom: 15px;">
+        <label style="font-size: 0.8rem; font-weight: 600; color: #666;">
+            Delivery Details
+        </label>
 
-        <label style="font-size: 0.8rem; font-weight: 600; color: #666;">Delivery Details</label>
+        <label for="checkoutName">Recipient Name</label>
+        <input type="text"
+               id="checkoutName"
+               required
+               minlength="3"
+               placeholder="Recipient Name"
+               style="width:100%; padding:10px; margin-top:5px; border:1px solid #ddd; border-radius:8px;">
 
-        <input type="text" id="checkoutName" placeholder="Recipient Name" style="width:100%; padding:10px; margin-top:5px; border:1px solid #ddd; border-radius:8px;">
+        <label for="checkoutPhone" style="margin-top:8px;">Phone Number</label>
+        <input type="tel"
+               id="checkoutPhone"
+               required
+               pattern="[0-9]{10}"
+               maxlength="10"
+               placeholder="Enter 10-digit number"
+               style="width:100%; padding:10px; margin-top:5px; border:1px solid #ddd; border-radius:8px;">
 
-        <input type="tel" id="checkoutPhone" placeholder="Phone Number" style="width:100%; padding:10px; margin-top:5px; border:1px solid #ddd; border-radius:8px;">
+        <label for="checkoutAddress" style="margin-top:8px;">Full Delivery Address</label>
+        <textarea id="checkoutAddress"
+                  required
+                  minlength="10"
+                  placeholder="Full Delivery Address"
+                  style="width:100%; padding:10px; margin-top:5px; border:1px solid #ddd; border-radius:8px; height:60px; font-family:inherit;"></textarea>
 
-        <textarea id="checkoutAddress" placeholder="Full Delivery Address" style="width:100%; padding:10px; margin-top:5px; border:1px solid #ddd; border-radius:8px; height:60px; font-family:inherit;"></textarea>
-
+        <label for="checkoutPin" style="margin-top:8px;">Pincode</label>
+        <input type="text"
+               id="checkoutPin"
+               required
+               pattern="[0-9]{6}"
+               maxlength="6"
+               placeholder="6-digit Pincode"
+               style="width:100%; padding:10px; margin-top:5px; border:1px solid #ddd; border-radius:8px;">
     </div>
 
 
-
+    <!-- Payment Selection -->
     <div class="payment-selection" style="border-top: 1px solid #eee; padding-top: 15px;">
+        <label style="font-size: 0.8rem; font-weight: 600; color: #666;">
+            Payment Method
+        </label>
 
-        <label style="font-size: 0.8rem; font-weight: 600; color: #666;">Payment Method</label>
+        <div class="pay-options"
+             style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 8px; margin-bottom: 15px;">
 
-        <div class="pay-options" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 8px; margin-bottom: 15px;">
-
-            <button class="p-method active" onclick="setPayment('UPI', event)">UPI</button>
-
-            <button class="p-method" onclick="setPayment('Card', event)">Card</button>
-
-            <button class="p-method" onclick="setPayment('COD', event)">Cash</button>
-
+            <button type="button" class="p-method active" onclick="setPayment('UPI', event)">UPI</button>
+            <button type="button" class="p-method" onclick="setPayment('Card', event)">Card</button>
+            <button type="button" class="p-method" onclick="setPayment('COD', event)">Cash</button>
         </div>
 
 
+        <!-- UPI -->
+        <div id="upiDetail"
+             style="display: block; text-align: center; margin-bottom: 15px; background: #f9f9f9; padding: 15px; border-radius: 10px;">
 
-        <div id="upiDetail" style="display: block; text-align: center; margin-bottom: 15px; background: #f9f9f9; padding: 15px; border-radius: 10px;">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa=goldenwhisk@bank&pn=TheGoldenWhisk&cu=INR"
+                 alt="UPI QR Code"
+                 style="width: 120px;">
 
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa=goldenwhisk@bank&pn=TheGoldenWhisk&cu=INR" style="width: 100px;">
-
-            <p style="font-size: 0.7rem; margin-top: 5px; color: #666;">Scan to Pay</p>
-
+            <p style="font-size: 0.7rem; margin-top: 5px; color: #666;">
+                Scan to Pay
+            </p>
         </div>
 
 
+        <!-- Card (Demo Only) -->
+        <div id="cardDetail"
+             style="display: none; background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 15px;">
 
-        <div id="cardDetail" style="display: none; background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 15px;">
-
-            <input type="text" placeholder="Card Number" style="width:100%; padding:8px; margin-bottom:8px; border:1px solid #ccc; border-radius:5px;">
+            <input type="text"
+                   placeholder="Card Number"
+                   maxlength="16"
+                   style="width:100%; padding:8px; margin-bottom:8px; border:1px solid #ccc; border-radius:5px;">
 
             <div style="display: flex; gap: 5px;">
+                <input type="text"
+                       placeholder="MM/YY"
+                       maxlength="5"
+                       style="width:50%; padding:8px; border:1px solid #ccc; border-radius:5px;">
 
-                <input type="text" placeholder="MM/YY" style="width:50%; padding:8px; border:1px solid #ccc; border-radius:5px;">
-
-                <input type="password" placeholder="CVV" style="width:50%; padding:8px; border:1px solid #ccc; border-radius:5px;">
-
+                <input type="password"
+                       placeholder="CVV"
+                       maxlength="3"
+                       style="width:50%; padding:8px; border:1px solid #ccc; border-radius:5px;">
             </div>
-
         </div>
 
     </div>
 
-    
-<div id="paypal-button-container"></div> <div class="total-row"> <div class="total-row"> <span>Total:</span>
-        <span id="cartTotal">₹0</span>
-    </div>
-    <button class="checkout-btn" onclick="proceedToCheckout()">Confirm Order</button>
-</div> 
 
-    <div id="paypal-button-container"></div> 
-    
-    <div class="total-row">
+    <!-- PayPal (Only One Container Now) -->
+    <div id="paypal-button-container"></div>
+
+
+    <!-- Total Section -->
+    <div class="total-row" style="margin-top: 10px;">
         <span>Total:</span>
         <span id="cartTotal">₹0</span>
     </div>
+
+
+    <!-- Checkout Button -->
+    <button class="checkout-btn"
+            style="margin-top: 10px;"
+            onclick="proceedToCheckout()">
+        Confirm Order
+    </button>
+
+</div>
     
-    <button class="checkout-btn" onclick="proceedToCheckout()">Confirm Order</button>
-    
-</div> </div> <footer class="main-footer">
+ </div> <footer class="main-footer">
     <div class="footer-container">
         <div class="footer-brand">
             <a href="#" class="logo" onclick="clearSearch()">G<span>W</span></a>
