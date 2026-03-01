@@ -62,6 +62,8 @@
         // 2. Populate Delivery Details
         document.getElementById('dest-name').innerText = lastOrder.details.name;
         document.getElementById('dest-address').innerText = lastOrder.details.address;
+        document.getElementById('dest-payment').innerText = lastOrder.paymentMethod || 'Not Specified';
+        
 
         // 3. Populate Items
         const listContainer = document.getElementById('receipt-items-list');
