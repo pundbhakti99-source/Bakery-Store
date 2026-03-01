@@ -881,4 +881,51 @@ function toggleCart() {
         renderCart();
     }
 }
+function proceedToCheckout() {
+    const name = document.getElementById("checkoutName").value;
+    const phone = document.getElementById("checkoutPhone").value;
+    const address = document.getElementById("checkoutAddress").value;
+
+    if (cart.length === 0) return alert("Basket is empty!");
+    if (!name || !phone || !address) return alert("Please fill in all delivery details.");
+
+    const btn = document.querySelector('.checkout-btn');
+    btn.innerText = "Verifying Details...";
+    btn.disabled = true;
+
+    // 1. Prepare the Order Data BEFORE showing success
+    const orderData = {
+        orderID: `GW-${Math.floor(1000 + Math.random() * 9000)}`,
+        items: [...cart],
+        total: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0),
+        details: {
+            name: name,
+            address: address
+        }
+    };
+
+    // 2. Save to localStorage immediately
+    localStorage.setItem('last_processed_order', JSON.stringify(orderData));
+
+    // 3. Simulate process
+    setTimeout(() => {
+        btn.innerHTML = "Payment Verified ✓";
+        btn.style.background = "#4CAF50";
+        
+        setTimeout(() => {
+            // Clear cart data
+            cart = [];
+            saveCart();
+            
+            // Show Success UI
+            toggleCart(); // Close sidebar
+            document.getElementById("successOverlay").style.display = "flex";
+            
+            // Attach the redirect to the popup button
+            document.getElementById("viewReceiptBtn").onclick = () => {
+                window.location.href = 'confirmation.html';
+            };
+        }, 1000);
+    }, 1500);
+}
 
