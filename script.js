@@ -920,6 +920,7 @@ function toggleCart() {
         orderID: `GW-${Math.floor(1000 + Math.random() * 9000)}`,
         items: [...cart],
         total: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0),
+        paymentMethod : selectedPayment,
         details: {
             name: name,
             address: `${address} - ${pin}`
