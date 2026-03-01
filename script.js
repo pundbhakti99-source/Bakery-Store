@@ -714,99 +714,6 @@ function setPayment(method, event) {
 }
 
 
-
-
-
-function proceedToCheckout() {
-
-    const name = document.getElementById("checkoutName").value;
-
-    const phone = document.getElementById("checkoutPhone").value;
-
-    const address = document.getElementById("checkoutAddress").value;
-
-
-
-    if (cart.length === 0) return alert("Basket is empty!");
-
-    if (!name || !phone || !address) return alert("Please fill in all delivery details (Name, Phone, and Address).");
-
-
-
-    const btn = document.querySelector('.checkout-btn');
-
-    btn.innerText = "Verifying Details...";
-
-    btn.disabled = true;
-
-
-
-    // Simulate Payment/Server delay
-
-    setTimeout(() => {
-
-        simulatePaymentSuccess();
-
-        
-
-        // Data Reset
-
-        cart = [];
-
-        updateCartCount();
-
-        
-
-        // Reset Button & Clear fields
-
-        btn.disabled = false;
-
-        document.getElementById("checkoutName").value = "";
-
-        document.getElementById("checkoutPhone").value = "";
-
-        document.getElementById("checkoutAddress").value = "";
-
-    }, 1500);
-
-}
-
-
-
-
-
-
-// Add the helper function anywhere at the bottom of script.js
-
-function simulatePaymentSuccess() {
-
-    const btn = document.querySelector('.checkout-btn');
-
-    btn.innerHTML = "Payment Verified ✓";
-
-    btn.style.background = "#4CAF50"; // Turn green for success
-
-    
-
-    setTimeout(() => {
-
-        // Now trigger the final success overlay
-
-        toggleCart();
-
-        document.getElementById("successOverlay").style.display = "flex";
-
-        
-
-        // Reset button for next time
-
-        btn.innerHTML = "Confirm Order";
-
-        btn.style.background = "#82937E";
-
-    }, 1000);
-
-}
 function saveCart() {
     localStorage.setItem(CART_KEY , JSON.stringify(cart));
     updateCartCount();
@@ -938,38 +845,6 @@ function initPayPalButton(totalAmount) {
     }).render('#paypal-button-container');
 }
 
-
-/**
- * 5. POST-PURCHASE HANDLING
- */
-function handleOrderSuccess(details) {
-    // 1. Capture final order data for the receipt
-    const orderData = {
-        orderID: `GW-${Math.floor(1000 + Math.random() * 9000)}`,
-        items: [...cart],
-        total: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0),
-        details: {
-            name: document.getElementById("checkoutName").value || "Valued Customer",
-            address: document.getElementById("checkoutAddress").value || "Hand-delivered"
-        }
-    };
-
-    // 2. Save to localStorage specifically for the confirmation page
-    localStorage.setItem('last_processed_order', JSON.stringify(orderData));
-
-    // 3. Clear existing Cart
-    cart = [];
-    saveCart();
-    
-    // 4. Redirect
-    window.location.href = "confirmation.html";
-}
-
-
-// Ensure UI stays in sync on page load
-window.addEventListener('DOMContentLoaded', () => {
-    updateCartCount();
-});
 function showDeliveryForm() {
     if (cart.length === 0) {
         alert("Your basket is empty!");
