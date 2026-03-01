@@ -1674,7 +1674,13 @@ body { font-family: 'Montserrat', sans-serif; background: #FAF9F6; color: #333; 
     padding: 20px;
     max-height: calc(100vh - 200px);
 }
-
+.cart-body::-webkit-scrollbar {
+    width: 6px;
+}
+.cart-body::-webkit-scrollbar-thumb {
+    background: #82937E;
+    border-radius: 10px;
+    }
 .cart-footer {
     padding: 20px;
     background: #fff;
