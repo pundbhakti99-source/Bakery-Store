@@ -26,13 +26,6 @@
 
 
     <link rel="stylesheet" href="style.css">
-
-
-    <div id="mock-paypal-button" 
-     onclick="simulatePayment()" 
-     style="background: #ffc439; color: #111; padding: 12px; border-radius: 25px; text-align: center; font-weight: bold; cursor: pointer; font-family: 'Arial', sans-serif; margin-top: 10px;">
-    <span style="font-style: italic; color: #003087;">Pay</span><span style="font-style: italic; color: #009cde;">Pal</span> / Debit Card
-    </div>
     
 
 
@@ -567,7 +560,12 @@
 
 
     <!-- PayPal (Only One Container Now) -->
-    <div id="paypal-button-container"></div>
+    <div id="mock-paypal-button" 
+     onclick="simulatePayment()" 
+     style="background: #ffc439; color: #111; padding: 12px; border-radius: 25px; text-align: center; font-weight: bold; cursor: pointer; font-family: 'Arial', sans-serif; margin-top: 10px;">
+    <span style="font-style: italic; color: #003087;">Pay</span><span style="font-style: italic; color: #009cde;">Pal</span> / Debit Card
+    </div>
+        
 
 
     <!-- Checkout Button -->
@@ -612,7 +610,10 @@
         <div class="check-icon">✓</div>
         <h2>Baking in Progress!</h2>
         <p>Your treats are being prepared with love.</p>
-
+        <p style="margin-top: 10px;">
+    <strong>Paid via:</strong> <span id="receipt-payment-method" style="color: #82937E; font-weight: bold;"></span>
+        </p>
+        
         <button id="viewReceiptBtn" class="buy-btn" style="width: auto; padding: 10px 30px;">
             Sweet! View Receipt
         </button>
