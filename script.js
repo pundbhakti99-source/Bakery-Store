@@ -880,52 +880,73 @@ function toggleCart() {
         hideDeliveryForm();
         renderCart();
     }
-}
-function proceedToCheckout() {
-    const name = document.getElementById("checkoutName").value;
-    const phone = document.getElementById("checkoutPhone").value;
-    const address = document.getElementById("checkoutAddress").value;
+}function proceedToCheckout() {
+    // 1. Grab values
+    const name = document.getElementById("checkoutName").value.trim();
+    const phone = document.getElementById("checkoutPhone").value.trim();
+    const address = document.getElementById("checkoutAddress").value.trim();
+    const pin = document.getElementById("checkoutPin").value.trim();
 
-    if (cart.length === 0) return alert("Basket is empty!");
-    if (!name || !phone || !address) return alert("Please fill in all delivery details.");
+    // 2. Manual Mobile Validation (Since mobile browsers often hide HTML5 errors)
+    if (cart.length === 0) {
+        alert("Your basket is empty!");
+        return;
+    }
+    if (name.length < 3) {
+        alert("Please enter a valid Recipient Name (min 3 characters).");
+        return;
+    }
+    if (!/^\d{10}$/.test(phone)) {
+        alert("Please enter a valid 10-digit Phone Number.");
+        return;
+    }
+    if (address.length < 10) {
+        alert("Please enter a more detailed delivery address.");
+        return;
+    }
+    if (!/^\d{6}$/.test(pin)) {
+        alert("Please enter a valid 6-digit Pincode.");
+        return;
+    }
 
+    // 3. UI Feedback
     const btn = document.querySelector('.checkout-btn');
+    const originalText = btn.innerText;
     btn.innerText = "Verifying Details...";
     btn.disabled = true;
 
-    // 1. Prepare the Order Data BEFORE showing success
+    // 4. Prepare Order Data
     const orderData = {
         orderID: `GW-${Math.floor(1000 + Math.random() * 9000)}`,
         items: [...cart],
         total: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0),
         details: {
             name: name,
-            address: address
+            address: `${address} - ${pin}`
         }
     };
 
-    // 2. Save to localStorage immediately
+    // 5. Save to localStorage
     localStorage.setItem('last_processed_order', JSON.stringify(orderData));
 
-    // 3. Simulate process
+    // 6. Simulate Process (Reduced delay for snappier mobile feel)
     setTimeout(() => {
         btn.innerHTML = "Payment Verified ✓";
         btn.style.background = "#4CAF50";
         
         setTimeout(() => {
-            // Clear cart data
             cart = [];
             saveCart();
             
             // Show Success UI
-            toggleCart(); // Close sidebar
+            toggleCart(); 
             document.getElementById("successOverlay").style.display = "flex";
             
-            // Attach the redirect to the popup button
             document.getElementById("viewReceiptBtn").onclick = () => {
                 window.location.href = 'confirmation.html';
             };
-        }, 1000);
-    }, 1500);
+        }, 800);
+    }, 1200);
 }
+
 
