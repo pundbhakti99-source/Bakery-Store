@@ -981,6 +981,7 @@ function showDeliveryForm() {
     
     // Show delivery form
     document.getElementById("checkoutSection").style.display = "block";
+   document.querySelector('.cart-body').scrollTop = 0;
 }
 
 function hideDeliveryForm() {
