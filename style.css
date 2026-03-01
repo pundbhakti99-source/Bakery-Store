@@ -1672,6 +1672,7 @@ body { font-family: 'Montserrat', sans-serif; background: #FAF9F6; color: #333; 
     flex: 1; /* Takes up all available space */
     overflow-y: auto; /* This enables the scrollbar */
     padding: 20px;
+    -webkit-overflow-scrolling: touch;
 }
 
 .cart-footer {
