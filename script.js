@@ -941,6 +941,9 @@ function toggleCart() {
             
             // Show Success UI
             toggleCart(); 
+            // Add this line just before the line that shows the successOverlay
+            document.getElementById('receipt-payment-method').innerText = selectedPayment;
+            
             document.getElementById("successOverlay").style.display = "flex";
             
             document.getElementById("viewReceiptBtn").onclick = () => {
@@ -951,3 +954,20 @@ function toggleCart() {
 }
 
 
+function simulatePayment() {
+    const btn = document.getElementById('mock-paypal-button');
+    const originalText = btn.innerHTML;
+    btn.innerHTML = "Processing Payment...";
+    btn.style.opacity = "0.7";
+    btn.style.pointerEvents = "none";
+
+    setTimeout(() => {
+        selectedPayment = 'PayPal / Debit Card'; // Sets the method for the receipt
+        proceedToCheckout(); // Calls your existing checkout function
+        
+        // Reset button for next time
+        btn.innerHTML = originalText;
+        btn.style.opacity = "1";
+        btn.style.pointerEvents = "auto";
+    }, 1500); 
+}
