@@ -1659,7 +1659,7 @@ body { font-family: 'Montserrat', sans-serif; background: #FAF9F6; color: #333; 
     top: 0;
     right: -400px;
     width: 400px;
-    height: 100vh; /* Mandatory: Set to full screen height */
+    height: 100%; /* Mandatory: Set to full screen height */
     background: #fff;
     z-index: 3000;
     transition: 0.4s;
@@ -1672,13 +1672,14 @@ body { font-family: 'Montserrat', sans-serif; background: #FAF9F6; color: #333; 
     flex: 1; /* Takes up all available space */
     overflow-y: auto; /* This enables the scrollbar */
     padding: 20px;
-    -webkit-overflow-scrolling: touch;
+    max-height: calc(100vh - 150px);
 }
 
 .cart-footer {
     padding: 20px;
     background: #fff;
     border-top: 1px solid #eee;
+    flex-shrink: 0;
     /* Optional: shadow to show it's above the list */
     box-shadow: 0 -5px 10px rgba(0,0,0,0.05); 
 }
