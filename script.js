@@ -690,7 +690,7 @@ function saveCart() {
 }
 
 
-function updateCartUI() {
+function updateCartCount() {
     // 1. Calculate Quantity for the Navbar Count
     const count = cart.reduce((sum, item) => sum + item.quantity, 0);
     const cartCountEl = document.getElementById("cartCount");
