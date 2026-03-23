@@ -691,8 +691,19 @@ function saveCart() {
 
 function updateCartCount() {
     const count = cart.reduce((sum, item) => sum + item.quantity, 0);
-    document.getElementById("cartCount").innerText = count;
+    const cartCountEl = document.getElementById("cartCount");
+    
+    cartCountEl.innerText = count;
+
+    // Add the animation class
+    cartCountEl.classList.remove("cart-animate"); // Reset if already there
+    void cartCountEl.offsetWidth;                // Trigger reflow
+    cartCountEl.classList.add("cart-animate");
+    
+    // Optional: Remove it after animation finishes to keep the DOM clean
+    setTimeout(() => cartCountEl.classList.remove("cart-animate"), 400);
 }
+
 
 /**
  * 2. CART ACTIONS
