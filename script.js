@@ -957,4 +957,22 @@ function copyPromo(code) {
     navigator.clipboard.writeText(code);
     alert("Promo code " + code + " copied to clipboard! 🧁");
 }
+let discountPercent = 0; // Starts at 0%
+
+function applyDiscount() {
+    const code = document.getElementById("promoInput").value.trim().toUpperCase();
+    const message = document.getElementById("promoMessage");
+
+    if (code === "GOLDEN20") {
+        discountPercent = 0.20; // 20% discount
+        message.style.color = "green";
+        message.innerText = "Success! 20% discount applied. 🧁";
+        updateCartTotal(); // Refresh the numbers
+    } else {
+        discountPercent = 0;
+        message.style.color = "red";
+        message.innerText = "Invalid code. Please try again.";
+        updateCartTotal();
+    }
+}
 
