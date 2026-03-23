@@ -953,3 +953,8 @@ function simulatePayment() {
         btn.style.pointerEvents = "auto";
     }, 1500); 
 }
+function copyPromo(code) {
+    navigator.clipboard.writeText(code);
+    alert("Promo code " + code + " copied to clipboard! 🧁");
+}
+
