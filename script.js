@@ -862,78 +862,78 @@ function toggleCart() {
     }
 }
 
-}function proceedToCheckout() {
+async function proceedToCheckout() {
     // 1. Grab values
     const name = document.getElementById("checkoutName").value.trim();
     const phone = document.getElementById("checkoutPhone").value.trim();
     const address = document.getElementById("checkoutAddress").value.trim();
     const pin = document.getElementById("checkoutPin").value.trim();
 
-    // 2. Manual Mobile Validation (Since mobile browsers often hide HTML5 errors)
-    if (cart.length === 0) {
-        alert("Your basket is empty!");
-        return;
-    }
-    if (name.length < 3) {
-        alert("Please enter a valid Recipient Name (min 3 characters).");
-        return;
-    }
-    if (!/^\d{10}$/.test(phone)) {
-        alert("Please enter a valid 10-digit Phone Number.");
-        return;
-    }
-    if (address.length < 10) {
-        alert("Please enter a more detailed delivery address.");
-        return;
-    }
-    if (!/^\d{6}$/.test(pin)) {
-        alert("Please enter a valid 6-digit Pincode.");
-        return;
+    // 2. Validation
+    if (cart.length === 0) { return alert("Your basket is empty!"); }
+    if (name.length < 3 || !/^\d{10}$/.test(phone) || address.length < 10 || !/^\d{6}$/.test(pin)) {
+        return alert("Please check your delivery details (Name, 10-digit Phone, Address, and 6-digit Pincode).");
     }
 
-    // 3. UI Feedback
+    // 3. UI Feedback (Visual Loading)
     const btn = document.querySelector('.checkout-btn');
     const originalText = btn.innerText;
-    btn.innerText = "Verifying Details...";
+    btn.innerText = "Sending Order...";
     btn.disabled = true;
 
-    // 4. Prepare Order Data
+    // 4. Prepare Order Data for Email
+    const totalAmount = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     const orderData = {
-        orderID: `GW-${Math.floor(1000 + Math.random() * 9000)}`,
-        items: [...cart],
-        total: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0),
-        paymentMethod : selectedPayment,
-        details: {
-            name: name,
-            address: `${address} - ${pin}`
-        }
+        Order_ID: `GW-${Math.floor(1000 + Math.random() * 9000)}`,
+        Customer_Name: name,
+        Phone: phone,
+        Delivery_Address: `${address} - ${pin}`,
+        Payment_Method: selectedPayment,
+        Items: cart.map(item => `${item.name} (x${item.quantity}) - ₹${item.price * item.quantity}`).join('\n'),
+        Grand_Total: `₹${totalAmount}`
     };
 
-    // 5. Save to localStorage
-    localStorage.setItem('last_processed_order', JSON.stringify(orderData));
+    try {
+        // 5. SEND TO FORMSPREE
+        const response = await fetch("https://formspree.io/f/xaqpgaaq", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(orderData)
+        });
 
-    // 6. Simulate Process (Reduced delay for snappier mobile feel)
-    setTimeout(() => {
-        btn.innerHTML = "Payment Verified ✓";
-        btn.style.background = "#4CAF50";
-        
-        setTimeout(() => {
-            cart = [];
-            saveCart();
-            
-            // Show Success UI
-            toggleCart(); 
-            // Add this line just before the line that shows the successOverlay
-            document.getElementById('receipt-payment-method').innerText = selectedPayment;
-            
-            document.getElementById("successOverlay").style.display = "flex";
-            
-            document.getElementById("viewReceiptBtn").onclick = () => {
-                window.location.href = 'confirmation.html';
-            };
-        }, 800);
-    }, 1200);
+        if (response.ok) {
+            // 6. Success Logic
+            btn.innerHTML = "Order Placed ✓";
+            btn.style.background = "#4CAF50";
+
+            localStorage.setItem('last_processed_order', JSON.stringify(orderData));
+
+            setTimeout(() => {
+                cart = [];
+                saveCart();
+                toggleCart(); // Close sidebar
+                
+                // Show Success UI
+                document.getElementById('receipt-payment-method').innerText = selectedPayment;
+                document.getElementById("successOverlay").style.display = "flex";
+                
+                document.getElementById("viewReceiptBtn").onclick = () => {
+                    window.location.href = 'confirmation.html';
+                };
+            }, 800);
+        } else {
+            throw new Error("Formspree error");
+        }
+    } catch (error) {
+        alert("Oops! Connection failed. Please check your internet and try again.");
+        btn.innerText = originalText;
+        btn.disabled = false;
+    }
 }
+
 
 
 function simulatePayment() {
