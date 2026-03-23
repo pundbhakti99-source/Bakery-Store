@@ -344,52 +344,22 @@ document.addEventListener('click', (e) => {
 
 
 
-// 5. Pincode & Cart
-
-
-
 function checkPin() {
-
-
-
     const pin = document.getElementById("pinInput").value;
-
-
-
     const status = document.getElementById("pinStatus");
-
-
-
-    if(pin.length === 6 && !isNaN(pin)) {
-
-
-
-        status.innerText = "✓ Delivery Available!";
-
-
-
-        status.style.color = "green";
-
-
-
+    
+    // Example: Only deliver to certain areas (e.g., starting with 422)
+    if(pin.length === 6 && pin.startsWith("422")) {
+        status.innerText = "✓ Fresh delivery available to your area!";
+        status.style.color = "#82937E";
+    } else if (pin.length === 6) {
+        status.innerText = "× Sorry, we don't deliver here yet.";
+        status.style.color = "#ff3232";
     } else {
-
-
-
-        status.innerText = "× Invalid Pincode.";
-
-
-
-        status.style.color = "red";
-
-
-
+        status.innerText = "Please enter a 6-digit pincode.";
+        status.style.color = "orange";
     }
-
-
-
 }
-
 
 
 // Toggle Sidebar visibility
