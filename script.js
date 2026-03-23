@@ -867,19 +867,20 @@ function hideDeliveryForm() {
     // Hide delivery form
     document.getElementById("checkoutSection").style.display = "none";
 }
-
-// Update your toggleCart to reset the view
 function toggleCart() {
     const sidebar = document.getElementById("cartSidebar");
     const overlay = document.getElementById("cartOverlay");
-    sidebar.classList.toggle("open");
-    overlay.style.display = sidebar.classList.contains("open") ? "block" : "none";
+    const isOpen = sidebar.classList.toggle("open");
 
-    // Always reset to Step 1 (Basket) when opening
-    if (sidebar.classList.contains("open")) {
-        hideDeliveryForm();
+    overlay.style.display = isOpen ? "block" : "none";
+
+    // Logic: Always reset to the Basket view when opening
+    if (isOpen) {
+        hideDeliveryForm(); 
         renderCart();
     }
+}
+
 }function proceedToCheckout() {
     // 1. Grab values
     const name = document.getElementById("checkoutName").value.trim();
