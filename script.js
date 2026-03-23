@@ -1906,7 +1906,7 @@ function copyPromo(code) {
     navigator.clipboard.writeText(code);
     alert("Promo code " + code + " copied to clipboard! 🧁");
 }
-let discountPercent = 0; // Starts at 0%
+        
 
 function applyDiscount() {
     const code = document.getElementById("promoInput").value.trim().toUpperCase();
