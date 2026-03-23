@@ -5,6 +5,7 @@ const CART_KEY = "golden_whisk_cart";
 // Load from storage immediately
 let cart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
 
+let discountPercent = 0; // Initialize at 0%
 
 // Get all elements with the class 'cat-item'
 
