@@ -921,7 +921,7 @@ async function proceedToCheckout() {
             body: JSON.stringify(orderData)
         });
 
-        if (response.ok) {
+                if (response.ok) {
             // 6. Success Logic
             btn.innerHTML = "Order Placed ✓";
             btn.style.background = "#4CAF50";
@@ -933,23 +933,27 @@ async function proceedToCheckout() {
                 saveCart();
                 toggleCart(); // Close sidebar
                 
-                // Show Success UI
-                document.getElementById('receipt-payment-method').innerText = selectedPayment;
+                // Show Success Overlay
                 document.getElementById("successOverlay").style.display = "flex";
-                
-                document.getElementById("viewReceiptBtn").onclick = () => {
-                    window.location.href = 'confirmation.html';
-                };
-            }, 800);
+                document.getElementById("receipt-payment-method").innerText = selectedPayment;
+            }, 1000);
         } else {
-            throw new Error("Formspree error");
+            alert("Something went wrong. Please try again.");
         }
     } catch (error) {
-        alert("Oops! Connection failed. Please check your internet and try again.");
-        btn.innerText = originalText;
+        console.error("Error:", error);
+        alert("Connection error. Please check your internet.");
+    } finally {
         btn.disabled = false;
+        btn.innerText = originalText;
     }
 }
+
+// Add this to make the "View Receipt" button work
+document.getElementById("viewReceiptBtn")?.addEventListener("click", () => {
+    window.location.href = "receipt.html"; 
+});
+
 
 
 
