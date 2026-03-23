@@ -363,35 +363,6 @@ function checkPin() {
 }
 
 
-// Toggle Sidebar visibility
-
-
-
-function toggleCart() {
-
-
-
-    const sidebar = document.getElementById("cartSidebar");
-
-
-
-    const overlay = document.getElementById("cartOverlay");
-
-
-
-    sidebar.classList.toggle("open");
-
-
-
-    overlay.style.display = sidebar.classList.contains("open") ? "block" : "none";
-
-
-
-    renderCart();
-
-
-
-}
 
 function removeItem(index) {
 
