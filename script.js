@@ -6,6 +6,7 @@ const CART_KEY = "golden_whisk_cart";
 let cart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
 
 let discountPercent = 0; // Initialize at 0%
+let activeItem = null;
 
 // Get all elements with the class 'cat-item'
 
