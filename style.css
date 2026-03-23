@@ -1703,3 +1703,16 @@ body { font-family: 'Montserrat', sans-serif; background: #FAF9F6; color: #333; 
     width: 100%;         /* Makes sure the input stays below the label */
 }
 
+/* The Animation Keyframes */
+@keyframes cartPop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.4); color: #82937E; }
+    100% { transform: scale(1); }
+}
+
+/* The class we will trigger via JS */
+.cart-animate {
+    display: inline-block; /* Required for transform to work */
+    animation: cartPop 0.4s ease-out;
+}
+
