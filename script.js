@@ -1,4 +1,4 @@
-Js.script
+
 // Use ONE consistent key name
 const CART_KEY = "golden_whisk_cart";
 
