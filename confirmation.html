@@ -2,82 +2,73 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Order Confirmed | The Golden Whisk</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css"> <style>
-        .conf-container { max-width: 600px; margin: 80px auto; padding: 40px; background: white; border-radius: 20px; box-shadow: 0 15px 40px rgba(0,0,0,0.05); text-align: center; }
-        .order-id { color: #82937E; font-weight: 600; font-size: 0.9rem; letter-spacing: 1px; }
-        .receipt-box { text-align: left; margin: 30px 0; border-top: 1px dashed #ddd; padding-top: 20px; }
-        .receipt-item { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.9rem; }
-        .final-total { border-top: 2px solid #f0f0f0; margin-top: 15px; padding-top: 15px; font-weight: 700; font-size: 1.2rem; display: flex; justify-content: space-between; }
-        .delivery-to { background: #FAF9F6; padding: 15px; border-radius: 10px; margin-top: 20px; text-align: left; font-size: 0.85rem; line-height: 1.6; }
+    <title>Order Confirmed | Golden Whisk</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f9f9f9; color: #333; display: flex; justify-content: center; padding: 20px; }
+        .receipt-card { background: white; width: 100%; max-width: 400px; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border-top: 8px solid #82937E; }
+        .header { text-align: center; margin-bottom: 20px; }
+        .order-id { font-size: 0.8rem; color: #888; text-transform: uppercase; letter-spacing: 1px; }
+        .item-row { display: flex; justify-content: space-between; margin: 10px 0; font-size: 0.95rem; }
+        .total-row { border-top: 1px dashed #ddd; margin-top: 15px; padding-top: 15px; font-weight: bold; font-size: 1.2rem; display: flex; justify-content: space-between; }
+        .details { margin-top: 20px; font-size: 0.85rem; color: #666; line-height: 1.6; }
+        .back-btn { display: block; text-align: center; margin-top: 30px; padding: 12px; background: #82937E; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; }
     </style>
 </head>
 <body>
 
-<div class="conf-container">
-    <div class="check-icon" style="display: block; margin-bottom: 10px;">✓</div>
-    <p class="order-id">ORDER #<span id="display-order-id">GW-0000</span></p>
-    <h1 style="font-family: 'Cormorant Garamond'; font-size: 2.5rem;">Freshly Confirmed!</h1>
-    <p>We’ve received your order. Our bakers are getting the oven ready as we speak.</p>
-
-    <div class="receipt-box">
-        <h3 style="margin-bottom: 15px; font-size: 1rem;">Order Summary</h3>
-        <div id="receipt-items-list">
-            </div>
-        <div class="final-total">
-            <span>Total Paid</span>
-            <span id="receipt-total">₹0</span>
-        </div>
+<div class="receipt-card">
+    <div class="header">
+        <h2 style="margin: 5px 0;">Thank You!</h2>
+        <p class="order-id" id="receipt-id">Order #-------</p>
     </div>
 
-    <div class="delivery-to">
-    <strong>Delivering to:</strong><br>
-    <span id="dest-name">...</span><br>
-    <span id="dest-address">...</span><br>
-    
-    <br><strong>Payment Method:</strong><br>
-    <span id="dest-payment">...</span>
-</div>
+    <div id="receipt-items">
+        </div>
 
+    <div class="total-row">
+        <span>Grand Total</span>
+        <span id="receipt-total">₹0</span>
+    </div>
 
-    <button onclick="window.location.href='index.html'" class="buy-btn" style="margin-top: 30px; width: 200px;">Back to Shop</button>
+    <div class="details">
+        <strong>Delivering to:</strong><br>
+        <span id="receipt-address">Loading address...</span><br><br>
+        <strong>Payment:</strong> <span id="receipt-method">---</span>
+    </div>
+
+    <a href="index.html" class="back-btn">Back to Shop</a>
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // Retrieve data from localStorage
-        const lastOrder = JSON.parse(localStorage.getItem('last_processed_order'));
-        
-        if (!lastOrder) {
-            window.location.href = 'index.html'; // Redirect if no order data found
+    window.onload = () => {
+        const order = JSON.parse(localStorage.getItem('last_processed_order'));
+
+        if (!order) {
+            document.body.innerHTML = "<h2>No recent order found.</h2><a href='index.html'>Go back</a>";
             return;
         }
 
-        // 1. Populate Order ID and Total
-        document.getElementById('display-order-id').innerText = lastOrder.orderID;
-        document.getElementById('receipt-total').innerText = `₹${lastOrder.total}`;
-        
-        // 2. Populate Delivery Details
-        document.getElementById('dest-name').innerText = lastOrder.details.name;
-        document.getElementById('dest-address').innerText = lastOrder.details.address;
-        document.getElementById('dest-payment').innerText = lastOrder.paymentMethod || 'Not Specified';
-        
+        // 1. Set ID and Total
+        document.getElementById('receipt-id').innerText = `Order #${order.Order_ID}`;
+        document.getElementById('receipt-total').innerText = order.Grand_Total;
+        document.getElementById('receipt-address').innerText = order.Delivery_Address;
+        document.getElementById('receipt-method').innerText = order.Payment_Method;
 
-        // 3. Populate Items
-        const listContainer = document.getElementById('receipt-items-list');
-        listContainer.innerHTML = lastOrder.items.map(item => `
-            <div class="receipt-item">
-                <span>${item.quantity}x ${item.name}</span>
-                <span>₹${item.price * item.quantity}</span>
+        // 2. Render Items
+        // Note: Formspree logic uses a string for items, 
+        // but if you kept the array in localStorage, we use that:
+        const itemContainer = document.getElementById('receipt-items');
+        
+        // Handling the multi-line string we created in the previous step
+        const itemsList = order.Items.split('\n');
+        itemContainer.innerHTML = itemsList.map(item => `
+            <div class="item-row">
+                <span>${item}</span>
             </div>
         `).join('');
-
-        // Clean up last order to prevent refreshing into an old receipt
-        // localStorage.removeItem('last_processed_order'); 
-    });
+    };
 </script>
+
 </body>
 </html>
-
