@@ -362,35 +362,6 @@ function checkPin() {
 }
 
 
-// Toggle Sidebar visibility
-
-
-
-function toggleCart() {
-
-
-
-    const sidebar = document.getElementById("cartSidebar");
-
-
-
-    const overlay = document.getElementById("cartOverlay");
-
-
-
-    sidebar.classList.toggle("open");
-
-
-
-    overlay.style.display = sidebar.classList.contains("open") ? "block" : "none";
-
-
-
-    renderCart();
-
-
-
-}
 
 function removeItem(index) {
 
@@ -1796,19 +1767,6 @@ function hideDeliveryForm() {
     
     // Hide delivery form
     document.getElementById("checkoutSection").style.display = "none";
-}
-function toggleCart() {
-    const sidebar = document.getElementById("cartSidebar");
-    const overlay = document.getElementById("cartOverlay");
-    const isOpen = sidebar.classList.toggle("open");
-
-    overlay.style.display = isOpen ? "block" : "none";
-
-    // Logic: Always reset to the Basket view when opening
-    if (isOpen) {
-        hideDeliveryForm(); 
-        renderCart();
-    }
 }
 
 async function proceedToCheckout() {
