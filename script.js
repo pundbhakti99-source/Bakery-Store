@@ -3,7 +3,7 @@ const CART_KEY = "golden_whisk_cart";
 
 // Load from storage immediately
 let cart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
-
+let discountPercent = 0; 
 
 // Get all elements with the class 'cat-item'
 
@@ -689,19 +689,36 @@ function saveCart() {
     updateCartCount();
 }
 
-function updateCartCount() {
+
+function updateCartUI() {
+    // 1. Calculate Quantity for the Navbar Count
     const count = cart.reduce((sum, item) => sum + item.quantity, 0);
     const cartCountEl = document.getElementById("cartCount");
     
-    cartCountEl.innerText = count;
+    if (cartCountEl) {
+        cartCountEl.innerText = count;
 
-    // Add the animation class
-    cartCountEl.classList.remove("cart-animate"); // Reset if already there
-    void cartCountEl.offsetWidth;                // Trigger reflow
-    cartCountEl.classList.add("cart-animate");
-    
-    // Optional: Remove it after animation finishes to keep the DOM clean
-    setTimeout(() => cartCountEl.classList.remove("cart-animate"), 400);
+        // Trigger the "Pop" Animation
+        cartCountEl.classList.remove("cart-animate"); 
+        void cartCountEl.offsetWidth; // Trigger reflow to restart animation
+        cartCountEl.classList.add("cart-animate");
+        
+        setTimeout(() => cartCountEl.classList.remove("cart-animate"), 400);
+    }
+
+    // 2. Calculate Totals for the Cart/Checkout Modal
+    let subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    let discountAmount = subtotal * discountPercent;
+    let finalTotal = subtotal - discountAmount;
+
+    // 3. Update HTML elements (using Optional Chaining to prevent errors if elements aren't on the current page)
+    const subtotalEl = document.getElementById("subtotalDisplay");
+    const discountEl = document.getElementById("discountDisplay");
+    const finalTotalEl = document.getElementById("finalTotalDisplay");
+
+    if (subtotalEl) subtotalEl.innerText = `₹${subtotal}`;
+    if (discountEl) discountEl.innerText = `- ₹${discountAmount.toFixed(2)}`;
+    if (finalTotalEl) finalTotalEl.innerText = `₹${Math.round(finalTotal)}`;
 }
 
 
