@@ -4,7 +4,7 @@ const CART_KEY = "golden_whisk_cart";
 // Load from storage immediately
 let cart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
 let discountPercent = 0; 
-
+let activeItem = null;
 // Get all elements with the class 'cat-item'
 
 const catItems = document.querySelectorAll('.cat-item');
@@ -1916,12 +1916,12 @@ function applyDiscount() {
         discountPercent = 0.20; // 20% discount
         message.style.color = "green";
         message.innerText = "Success! 20% discount applied. 🧁";
-        updateCartTotal(); // Refresh the numbers
+         
     } else {
         discountPercent = 0;
         message.style.color = "red";
         message.innerText = "Invalid code. Please try again.";
-        updateCartTotal();
+        renderCart();
     }
 }
 
