@@ -937,11 +937,13 @@ function applyDiscount() {
         discountPercent = 0.20; // 20% discount
         message.style.color = "green";
         message.innerText = "Success! 20% discount applied. 🧁";
-         
+        updateCartCount();
+        renderCart();
     } else {
         discountPercent = 0;
         message.style.color = "red";
         message.innerText = "Invalid code. Please try again.";
+       updateCartCount();
         renderCart();
     }
 }
