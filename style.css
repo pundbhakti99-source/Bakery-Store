@@ -1715,4 +1715,42 @@ body { font-family: 'Montserrat', sans-serif; background: #FAF9F6; color: #333; 
     display: inline-block; /* Required for transform to work */
     animation: cartPop 0.4s ease-out;
 }
+.promo-banner {
+    background: #82937E; /* Matching your brand green */
+    color: white;
+    text-align: center;
+    padding: 8px 0;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 2000;
+}
+
+.promo-banner span {
+    background: rgba(255,255,255,0.2);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: bold;
+    margin: 0 5px;
+    border: 1px dashed white;
+}
+
+.promo-banner small {
+    opacity: 0.8;
+    margin-left: 10px;
+    text-transform: uppercase;
+    font-size: 0.65rem;
+}
+
+/* Adjust your Navbar to sit below the banner */
+.navbar {
+    top: 35px !important; /* Move it down to make room for the banner */
+}
+
+/* Adjust Hero section margin so it doesn't hide under the nav */
+.hero {
+    margin-top: 95px !important;
+}
 
