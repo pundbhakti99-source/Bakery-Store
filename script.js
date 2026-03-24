@@ -760,6 +760,27 @@ function renderCart() {
     
     // Initialize PayPal whenever cart renders (and has items)
     initPayPalButton(total);
+
+    const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const discountAmount = subtotal * currentDiscount;
+    const finalTotal = subtotal - discountAmount;
+
+    // Update the UI
+    const totalEl = document.getElementById("cartTotal");
+    
+    if (currentDiscount > 0) {
+        totalEl.innerHTML = `
+            <span style="text-decoration: line-through; color: #888; font-size: 0.9rem;">₹${subtotal}</span> 
+            ₹${Math.round(finalTotal)}
+        `;
+    } else {
+        totalEl.innerText = `₹${subtotal}`;
+    }
+    
+    // Update PayPal or Checkout buttons with finalTotal
+    initPayPalButton(Math.round(finalTotal));
+    }
+    
 }
 
 /**
