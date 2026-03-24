@@ -931,20 +931,22 @@ function copyPromo(code) {
         
 
 function applyDiscount() {
-    const code = document.getElementById("promoInput").value.trim().toUpperCase();
-    const message = document.getElementById("promoMessage");
-
+    const code = document.getElementById("promoCode").value.trim().toUpperCase();
+    const status = document.getElementById("discountStatus");
+    
+    // Example: 20% off with code "GOLDEN20"
     if (code === "GOLDEN20") {
-        discountPercent = 0.20; // 20% discount
-        message.style.color = "green";
-        message.innerText = "Success! 20% discount applied. 🧁";
-        updateCartCount();
-        renderCart();
+        currentDiscount = 0.20; 
+        status.innerText = "✓ 20% discount applied!";
+        status.style.color = "#82937E";
+    } else if (code === "") {
+        currentDiscount = 0;
+        status.innerText = "";
     } else {
-        discountPercent = 0;
-        message.style.color = "red";
-        message.innerText = "Invalid code. Please try again.";
-       updateCartCount();
-        renderCart();
+        currentDiscount = 0;
+        status.innerText = "× Invalid code.";
+        status.style.color = "red";
     }
+    
+    renderCart(); // Re-render to update the price
 }
