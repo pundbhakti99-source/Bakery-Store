@@ -464,6 +464,18 @@
     </div>
 
 <div class="cart-footer">
+    <div class="promo-section" style="padding: 15px; border-top: 1px solid #eee;">
+    <div style="display: flex; gap: 10px;">
+        <input type="text" id="promoCode" placeholder="Enter Discount Code" 
+               style="flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+        <button onclick="applyDiscount()" 
+                style="padding: 8px 15px; background: #82937E; color: white; border: none; border-radius: 5px; cursor: pointer;">
+            Apply
+        </button>
+    </div>
+    <p id="discountStatus" style="font-size: 0.8rem; margin-top: 5px;"></p>
+    </div>
+    
     <div class="total-row" >
         <span>Total:</span>
         <span id="cartTotal">₹0</span>
