@@ -7,6 +7,14 @@ let cart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
 
 let discountPercent = 0; // Initialize at 0%
 let activeItem = null;
+const response = await fetch("https://formspree.io/f/xaqpgaaq", {
+    method: "POST",
+    headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json' // This tells Formspree you want a JSON response, not a redirect
+    },
+    body: JSON.stringify(orderData)
+});
 
 // Get all elements with the class 'cat-item'
 
