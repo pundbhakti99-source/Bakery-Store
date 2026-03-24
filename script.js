@@ -843,62 +843,69 @@ async function proceedToCheckout() {
     const pin = document.getElementById("checkoutPin").value.trim();
 
     // 2. Validation
-    if (cart.length === 0) return alert("Your basket is empty!");
+    if (cart.length === 0) { return alert("Your basket is empty!"); }
     if (name.length < 3 || !/^\d{10}$/.test(phone) || address.length < 10 || !/^\d{6}$/.test(pin)) {
-        return alert("Please check your delivery details.");
+        return alert("Please check your delivery details (Name, 10-digit Phone, Address, and 6-digit Pincode).");
     }
 
-    // 3. UI Loading State
+    // 3. UI Feedback (Visual Loading)
     const btn = document.querySelector('.checkout-btn');
-    btn.innerText = "Preparing Secure Checkout...";
+    const originalText = btn.innerText;
+    btn.innerText = "Sending Order...";
     btn.disabled = true;
 
-    // 4. Data Preparation
+    // 4. Prepare Order Data for Email
     const totalAmount = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    const itemsString = cart.map(item => `${item.name} (x${item.quantity})`).join(', ');
-    const orderID = `GW-${Math.floor(1000 + Math.random() * 9000)}`;
-
-    // 5. Save locally for your confirmation.html page
-    localStorage.setItem('last_processed_order', JSON.stringify({
-        Order_ID: orderID,
-        Grand_Total: `₹${totalAmount}`,
+    const orderData = {
+        Order_ID: `GW-${Math.floor(1000 + Math.random() * 9000)}`,
+        Customer_Name: name,
+        Phone: phone,
         Delivery_Address: `${address} - ${pin}`,
         Payment_Method: selectedPayment,
-        Items: itemsString
-    }));
-
-    // 6. Create Hidden Form (Required for reCAPTCHA to pop up)
-    const form = document.createElement('form');
-    form.method = 'POST';
-    form.action = 'https://formspree.io/f/xaqpgaaq';
-
-    const fields = {
-        Order_ID: orderID,
-        Customer: name,
-        Phone: phone,
-        Total: `₹${totalAmount}`,
-        Items: itemsString,
-        _next: 'https://pundbhakti99-source.github.io/confirmation.html'
+        Items: cart.map(item => `${item.name} (x${item.quantity}) - ₹${item.price * item.quantity}`).join('\n'),
+        Grand_Total: `₹${totalAmount}`
     };
 
-    for (const key in fields) {
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = key;
-        input.value = fields[key];
-        form.appendChild(input);
+    try {
+        // 5. SEND TO FORMSPREE
+        const response = await fetch("https://formspree.io/f/xaqpgaaq", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(orderData)
+        });
+
+        if (response.ok) {
+            // 6. Success Logic
+            btn.innerHTML = "Order Placed ✓";
+            btn.style.background = "#4CAF50";
+
+            localStorage.setItem('last_processed_order', JSON.stringify(orderData));
+
+            setTimeout(() => {
+                cart = [];
+                saveCart();
+                toggleCart(); // Close sidebar
+                
+                // Show Success UI
+                document.getElementById('receipt-payment-method').innerText = selectedPayment;
+                document.getElementById("successOverlay").style.display = "flex";
+                
+                document.getElementById("viewReceiptBtn").onclick = () => {
+                    window.location.href = 'confirmation.html';
+                };
+            }, 800);
+        } else {
+            throw new Error("Formspree error");
+        }
+    } catch (error) {
+        alert("Oops! Connection failed. Please check your internet and try again.");
+        btn.innerText = originalText;
+        btn.disabled = false;
     }
-
-    // 7. Small delay so the user sees the "Preparing..." message
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
-    // 8. Finalize and Redirect
-    cart = [];
-    saveCart();
-    document.body.appendChild(form);
-    form.submit();
 }
-
 function simulatePayment() {
     const btn = document.getElementById('mock-paypal-button');
     const originalText = btn.innerHTML;
