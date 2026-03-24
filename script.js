@@ -835,60 +835,50 @@ function toggleCart() {
         renderCart();
     }
 }
-
-function proceedToCheckout() {
+async function proceedToCheckout() {
     // 1. Grab values
     const name = document.getElementById("checkoutName").value.trim();
     const phone = document.getElementById("checkoutPhone").value.trim();
     const address = document.getElementById("checkoutAddress").value.trim();
     const pin = document.getElementById("checkoutPin").value.trim();
 
-    // 2. Comprehensive Validation
-    if (cart.length === 0) { 
-        return alert("Your basket is empty!"); 
-    }
+    // 2. Validation
+    if (cart.length === 0) return alert("Your basket is empty!");
     if (name.length < 3 || !/^\d{10}$/.test(phone) || address.length < 10 || !/^\d{6}$/.test(pin)) {
-        return alert("Please check your delivery details (Name, 10-digit Phone, Address, and 6-digit Pincode).");
+        return alert("Please check your delivery details.");
     }
 
-    // 3. UI Feedback (Show the "Processing" state)
+    // 3. UI Loading State
     const btn = document.querySelector('.checkout-btn');
-    const originalText = btn.innerText;
-    btn.innerText = "Verifying Details...";
+    btn.innerText = "Preparing Secure Checkout...";
     btn.disabled = true;
-    btn.style.opacity = "0.7";
 
-    // 4. Prepare Order Data
+    // 4. Data Preparation
     const totalAmount = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     const itemsString = cart.map(item => `${item.name} (x${item.quantity})`).join(', ');
     const orderID = `GW-${Math.floor(1000 + Math.random() * 9000)}`;
 
-    // 5. Save locally for the receipt page (before we leave the site)
-    const orderForReceipt = {
+    // 5. Save locally for your confirmation.html page
+    localStorage.setItem('last_processed_order', JSON.stringify({
         Order_ID: orderID,
-        Customer_Name: name,
         Grand_Total: `₹${totalAmount}`,
         Delivery_Address: `${address} - ${pin}`,
         Payment_Method: selectedPayment,
-        Items: itemsString 
-    };
-    localStorage.setItem('last_processed_order', JSON.stringify(orderForReceipt));
+        Items: itemsString
+    }));
 
-    // 6. Create the hidden form for reCAPTCHA compatibility
+    // 6. Create Hidden Form (Required for reCAPTCHA to pop up)
     const form = document.createElement('form');
     form.method = 'POST';
     form.action = 'https://formspree.io/f/xaqpgaaq';
 
     const fields = {
         Order_ID: orderID,
-        Customer_Name: name,
+        Customer: name,
         Phone: phone,
-        Address: `${address} - ${pin}`,
-        Order_Items: itemsString,
-        Total_Amount: `₹${totalAmount}`,
-        Payment_Method: selectedPayment,
-        // Replace with your actual live GitHub URL if it differs
-        _next: 'https://pundbhakti99-source.github.io/confirmation.html' 
+        Total: `₹${totalAmount}`,
+        Items: itemsString,
+        _next: 'https://pundbhakti99-source.github.io/confirmation.html'
     };
 
     for (const key in fields) {
@@ -899,20 +889,15 @@ function proceedToCheckout() {
         form.appendChild(input);
     }
 
-    // 7. Brief delay for "Premium feel" then submit
-    setTimeout(() => {
-        btn.innerText = "Redirecting to Secure Checkout...";
-        
-        // Finalize state
-        cart = [];
-        saveCart();
-        
-        // Submit the form
-        document.body.appendChild(form);
-        form.submit();
-    }, 1200);
-}
+    // 7. Small delay so the user sees the "Preparing..." message
+    await new Promise(resolve => setTimeout(resolve, 1000));
 
+    // 8. Finalize and Redirect
+    cart = [];
+    saveCart();
+    document.body.appendChild(form);
+    form.submit();
+}
 
 function simulatePayment() {
     const btn = document.getElementById('mock-paypal-button');
