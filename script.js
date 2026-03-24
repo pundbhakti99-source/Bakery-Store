@@ -726,20 +726,21 @@ function changeQty(index, delta) {
 function renderCart() {
     const list = document.getElementById("cartItemsList");
     const totalEl = document.getElementById("cartTotal");
-    let total = 0;
 
+    // 1. Handle Empty Cart
     if (cart.length === 0) {
-        list.innerHTML = `<div class="empty-msg" style="text-align:center; padding:40px;">
-                            <p>Your basket is empty.</p>
-                          </div>`;
+        list.innerHTML = `
+            <div class="empty-msg" style="text-align:center; padding:40px;">
+                <p>Your basket is empty.</p>
+            </div>`;
         totalEl.innerText = "₹0";
-        document.getElementById("paypal-button-container").innerHTML = ""; // Clear buttons if empty
+        const paypalContainer = document.getElementById("paypal-button-container");
+        if (paypalContainer) paypalContainer.innerHTML = ""; 
         return;
     }
 
+    // 2. Render Item List
     list.innerHTML = cart.map((item, index) => {
-        const itemTotal = item.price * item.quantity;
-        total += itemTotal;
         return `
             <div class="cart-item">
                 <img src="${item.img}" style="width:60px; height:60px; border-radius:8px; object-fit:cover;">
@@ -756,32 +757,25 @@ function renderCart() {
         `;
     }).join('');
 
-    totalEl.innerText = `₹${total}`;
-    
-    // Initialize PayPal whenever cart renders (and has items)
-    initPayPalButton(total);
-
+    // 3. Calculate Totals (Subtotal vs Discounted Total)
     const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    const discountAmount = subtotal * currentDiscount;
-    const finalTotal = subtotal - discountAmount;
+    const discountAmount = subtotal * (typeof currentDiscount !== 'undefined' ? currentDiscount : 0);
+    const finalTotal = Math.round(subtotal - discountAmount);
 
-    // Update the UI
-    const totalEl = document.getElementById("cartTotal");
-    
-    if (currentDiscount > 0) {
+    // 4. Update the Price UI
+    if (discountAmount > 0) {
         totalEl.innerHTML = `
-            <span style="text-decoration: line-through; color: #888; font-size: 0.9rem;">₹${subtotal}</span> 
-            ₹${Math.round(finalTotal)}
+            <span style="text-decoration: line-through; color: #888; font-size: 0.9rem; margin-right:8px;">₹${subtotal}</span> 
+            ₹${finalTotal}
         `;
     } else {
         totalEl.innerText = `₹${subtotal}`;
     }
     
-    // Update PayPal or Checkout buttons with finalTotal
-    initPayPalButton(Math.round(finalTotal));
-    }
-    
+    // 5. Update PayPal/Checkout buttons with the final amount
+    initPayPalButton(finalTotal);
 }
+
 
 /**
  * 4. PAYPAL INTEGRATION
