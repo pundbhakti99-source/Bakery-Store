@@ -1,4 +1,3 @@
-
 // Use ONE consistent key name
 const CART_KEY = "golden_whisk_cart";
 
@@ -835,6 +834,7 @@ function toggleCart() {
         renderCart();
     }
 }
+
 async function proceedToCheckout() {
     // 1. Grab values
     const name = document.getElementById("checkoutName").value.trim();
@@ -906,6 +906,7 @@ async function proceedToCheckout() {
         btn.disabled = false;
     }
 }
+
 function simulatePayment() {
     const btn = document.getElementById('mock-paypal-button');
     const originalText = btn.innerHTML;
@@ -917,7 +918,7 @@ function simulatePayment() {
         selectedPayment = 'PayPal / Debit Card'; // Sets the method for the receipt
         proceedToCheckout(); // Calls your existing checkout function
         
-        // Reset button for next time
+        // Resetbutton for next time
         btn.innerHTML = originalText;
         btn.style.opacity = "1";
         btn.style.pointerEvents = "auto";
@@ -947,4 +948,3 @@ function applyDiscount() {
         renderCart();
     }
 }
-
