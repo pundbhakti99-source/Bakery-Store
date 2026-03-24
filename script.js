@@ -7,14 +7,6 @@ let cart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
 
 let discountPercent = 0; // Initialize at 0%
 let activeItem = null;
-const response = await fetch("https://formspree.io/f/xaqpgaaq", {
-    method: "POST",
-    headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json' // This tells Formspree you want a JSON response, not a redirect
-    },
-    body: JSON.stringify(orderData)
-});
 
 // Get all elements with the class 'cat-item'
 
@@ -844,77 +836,83 @@ function toggleCart() {
     }
 }
 
-async function proceedToCheckout() {
+function proceedToCheckout() {
     // 1. Grab values
     const name = document.getElementById("checkoutName").value.trim();
     const phone = document.getElementById("checkoutPhone").value.trim();
     const address = document.getElementById("checkoutAddress").value.trim();
     const pin = document.getElementById("checkoutPin").value.trim();
 
-    // 2. Validation
-    if (cart.length === 0) { return alert("Your basket is empty!"); }
+    // 2. Comprehensive Validation
+    if (cart.length === 0) { 
+        return alert("Your basket is empty!"); 
+    }
     if (name.length < 3 || !/^\d{10}$/.test(phone) || address.length < 10 || !/^\d{6}$/.test(pin)) {
         return alert("Please check your delivery details (Name, 10-digit Phone, Address, and 6-digit Pincode).");
     }
 
-    // 3. UI Feedback (Visual Loading)
+    // 3. UI Feedback (Show the "Processing" state)
     const btn = document.querySelector('.checkout-btn');
     const originalText = btn.innerText;
-    btn.innerText = "Sending Order...";
+    btn.innerText = "Verifying Details...";
     btn.disabled = true;
+    btn.style.opacity = "0.7";
 
-    // 4. Prepare Order Data for Email
+    // 4. Prepare Order Data
     const totalAmount = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    const orderData = {
-        Order_ID: `GW-${Math.floor(1000 + Math.random() * 9000)}`,
+    const itemsString = cart.map(item => `${item.name} (x${item.quantity})`).join(', ');
+    const orderID = `GW-${Math.floor(1000 + Math.random() * 9000)}`;
+
+    // 5. Save locally for the receipt page (before we leave the site)
+    const orderForReceipt = {
+        Order_ID: orderID,
         Customer_Name: name,
-        Phone: phone,
+        Grand_Total: `₹${totalAmount}`,
         Delivery_Address: `${address} - ${pin}`,
         Payment_Method: selectedPayment,
-        Items: cart.map(item => `${item.name} (x${item.quantity}) - ₹${item.price * item.quantity}`).join('\n'),
-        Grand_Total: `₹${totalAmount}`
+        Items: itemsString 
+    };
+    localStorage.setItem('last_processed_order', JSON.stringify(orderForReceipt));
+
+    // 6. Create the hidden form for reCAPTCHA compatibility
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = 'https://formspree.io/f/xaqpgaaq';
+
+    const fields = {
+        Order_ID: orderID,
+        Customer_Name: name,
+        Phone: phone,
+        Address: `${address} - ${pin}`,
+        Order_Items: itemsString,
+        Total_Amount: `₹${totalAmount}`,
+        Payment_Method: selectedPayment,
+        // Replace with your actual live GitHub URL if it differs
+        _next: 'https://pundbhakti99-source.github.io/confirmation.html' 
     };
 
-    try {
-        // 5. SEND TO FORMSPREE
-        const response = await fetch("https://formspree.io/f/xaqpgaaq", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify(orderData)
-        });
-
-        if (response.ok) {
-            // 6. Success Logic
-            btn.innerHTML = "Order Placed ✓";
-            btn.style.background = "#4CAF50";
-
-            localStorage.setItem('last_processed_order', JSON.stringify(orderData));
-
-            setTimeout(() => {
-                cart = [];
-                saveCart();
-                toggleCart(); // Close sidebar
-                
-                // Show Success UI
-                document.getElementById('receipt-payment-method').innerText = selectedPayment;
-                document.getElementById("successOverlay").style.display = "flex";
-                
-                document.getElementById("viewReceiptBtn").onclick = () => {
-                    window.location.href = 'confirmation.html';
-                };
-            }, 800);
-        } else {
-            throw new Error("Formspree error");
-        }
-    } catch (error) {
-        alert("Oops! Connection failed. Please check your internet and try again.");
-        btn.innerText = originalText;
-        btn.disabled = false;
+    for (const key in fields) {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = key;
+        input.value = fields[key];
+        form.appendChild(input);
     }
+
+    // 7. Brief delay for "Premium feel" then submit
+    setTimeout(() => {
+        btn.innerText = "Redirecting to Secure Checkout...";
+        
+        // Finalize state
+        cart = [];
+        saveCart();
+        
+        // Submit the form
+        document.body.appendChild(form);
+        form.submit();
+    }, 1200);
 }
+
 
 function simulatePayment() {
     const btn = document.getElementById('mock-paypal-button');
