@@ -860,17 +860,22 @@ async function proceedToCheckout() {
     // 2. Validation
     if (cart.length === 0) { return alert("Your basket is empty!"); }
     if (name.length < 3 || !/^\d{10}$/.test(phone) || address.length < 10 || !/^\d{6}$/.test(pin)) {
-        return alert("Please check your delivery details (Name, 10-digit Phone, Address, and 6-digit Pincode).");
+        return alert("Please check your delivery details.");
     }
 
-    // 3. UI Feedback (Visual Loading)
+    // 3. UI Feedback
     const btn = document.querySelector('.checkout-btn');
     const originalText = btn.innerText;
     btn.innerText = "Sending Order...";
     btn.disabled = true;
 
+    // --- DISCOUNT CALCULATION START ---
+    const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const discountAmount = subtotal * (typeof currentDiscount !== 'undefined' ? currentDiscount : 0);
+    const finalTotal = Math.round(subtotal - discountAmount);
+    // --- DISCOUNT CALCULATION END ---
+
     // 4. Prepare Order Data for Email
-    const totalAmount = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     const orderData = {
         Order_ID: `GW-${Math.floor(1000 + Math.random() * 9000)}`,
         Customer_Name: name,
@@ -878,7 +883,9 @@ async function proceedToCheckout() {
         Delivery_Address: `${address} - ${pin}`,
         Payment_Method: selectedPayment,
         Items: cart.map(item => `${item.name} (x${item.quantity}) - ₹${item.price * item.quantity}`).join('\n'),
-        Grand_Total: `₹${totalAmount}`
+        Subtotal: `₹${subtotal}`,
+        Discount: currentDiscount > 0 ? `${currentDiscount * 100}%` : "None",
+        Grand_Total: `₹${finalTotal}` // Using the discounted total here
     };
 
     try {
@@ -897,14 +904,14 @@ async function proceedToCheckout() {
             btn.innerHTML = "Order Placed ✓";
             btn.style.background = "#4CAF50";
 
+            // Save the version with the discount for the confirmation page
             localStorage.setItem('last_processed_order', JSON.stringify(orderData));
 
             setTimeout(() => {
                 cart = [];
                 saveCart();
-                toggleCart(); // Close sidebar
+                toggleCart(); 
                 
-                // Show Success UI
                 document.getElementById('receipt-payment-method').innerText = selectedPayment;
                 document.getElementById("successOverlay").style.display = "flex";
                 
@@ -921,6 +928,7 @@ async function proceedToCheckout() {
         btn.disabled = false;
     }
 }
+
 
 function simulatePayment() {
     const btn = document.getElementById('mock-paypal-button');
