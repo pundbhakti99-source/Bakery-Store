@@ -858,75 +858,62 @@ async function proceedToCheckout() {
     const pin = document.getElementById("checkoutPin").value.trim();
 
     // 2. Validation
-    if (cart.length === 0) { return alert("Your basket is empty!"); }
+    if (cart.length === 0) return alert("Your basket is empty!");
     if (name.length < 3 || !/^\d{10}$/.test(phone) || address.length < 10 || !/^\d{6}$/.test(pin)) {
         return alert("Please check your delivery details.");
     }
 
     // 3. UI Feedback
     const btn = document.querySelector('.checkout-btn');
-    const originalText = btn.innerText;
-    btn.innerText = "Sending Order...";
+    btn.innerText = "Redirecting to Secure Verification...";
     btn.disabled = true;
 
-    // --- DISCOUNT CALCULATION START ---
+    // 4. Calculate Final Total (Including Discount)
     const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     const discountAmount = subtotal * (typeof currentDiscount !== 'undefined' ? currentDiscount : 0);
     const finalTotal = Math.round(subtotal - discountAmount);
-    // --- DISCOUNT CALCULATION END ---
+    const itemsString = cart.map(item => `${item.name} (x${item.quantity})`).join(', ');
 
-    // 4. Prepare Order Data for Email
+    // 5. Save locally for your confirmation.html page
     const orderData = {
         Order_ID: `GW-${Math.floor(1000 + Math.random() * 9000)}`,
         Customer_Name: name,
-        Phone: phone,
+        Grand_Total: `₹${finalTotal}`,
         Delivery_Address: `${address} - ${pin}`,
         Payment_Method: selectedPayment,
-        Items: cart.map(item => `${item.name} (x${item.quantity}) - ₹${item.price * item.quantity}`).join('\n'),
-        Subtotal: `₹${subtotal}`,
-        Discount: currentDiscount > 0 ? `${currentDiscount * 100}%` : "None",
-        Grand_Total: `₹${finalTotal}` // Using the discounted total here
+        Items: itemsString
+    };
+    localStorage.setItem('last_processed_order', JSON.stringify(orderData));
+
+    // 6. Create Hidden Form for reCAPTCHA
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = 'https://formspree.io/f/xaqpgaaq';
+
+    // These fields will show up in your email
+    const fields = {
+        Customer: name,
+        Phone: phone,
+        Total_Paid: `₹${finalTotal}`,
+        Items: itemsString,
+        Address: `${address} - ${pin}`,
+        // This tells Formspree where to send the user AFTER they pass CAPTCHA
+        _next: 'https://pundbhakti99-source.github.io/Bakery-Store/confirmation.html'
     };
 
-    try {
-        // 5. SEND TO FORMSPREE
-        const response = await fetch("https://formspree.io/f/xaqpgaaq", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify(orderData)
-        });
-
-        if (response.ok) {
-            // 6. Success Logic
-            btn.innerHTML = "Order Placed ✓";
-            btn.style.background = "#4CAF50";
-
-            // Save the version with the discount for the confirmation page
-            localStorage.setItem('last_processed_order', JSON.stringify(orderData));
-
-            setTimeout(() => {
-                cart = [];
-                saveCart();
-                toggleCart(); 
-                
-                document.getElementById('receipt-payment-method').innerText = selectedPayment;
-                document.getElementById("successOverlay").style.display = "flex";
-                
-                document.getElementById("viewReceiptBtn").onclick = () => {
-                    window.location.href = 'confirmation.html';
-                };
-            }, 800);
-        } else {
-            throw new Error("Formspree error");
-        }
-    } catch (error) {
-        alert("Oops! Connection failed. Please check your internet and try again.");
-        btn.innerText = originalText;
-        btn.disabled = false;
+    for (const key in fields) {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = key;
+        input.value = fields[key];
+        form.appendChild(input);
     }
+
+    // 7. Clear cart and submit
+    cart = [];
+    saveCart();
+    document.body.appendChild(form);
+    form.submit();
 }
 
 
