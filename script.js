@@ -852,69 +852,93 @@ function toggleCart() {
 
 
 async function proceedToCheckout() {
-    // 1. Validation
+    // 1. Grab values
     const name = document.getElementById("checkoutName").value.trim();
     const phone = document.getElementById("checkoutPhone").value.trim();
     const address = document.getElementById("checkoutAddress").value.trim();
     const pin = document.getElementById("checkoutPin").value.trim();
 
-    if (cart.length === 0) return alert("Your basket is empty!");
+    // 2. Validation
+    if (cart.length === 0) { return alert("Your basket is empty!"); }
     if (name.length < 3 || !/^\d{10}$/.test(phone) || address.length < 10 || !/^\d{6}$/.test(pin)) {
         return alert("Please check your delivery details.");
     }
 
-    // 2. UI Loading State
+    // 3. UI Feedback
     const btn = document.querySelector('.checkout-btn');
-    btn.innerText = "Redirecting to Secure Verification...";
+    const originalText = btn.innerText;
+    btn.innerText = "Verifying Order..."; // Updated text for CAPTCHA awareness
     btn.disabled = true;
 
-    // 3. Calculation
+    // --- DISCOUNT CALCULATION ---
     const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     const discountAmount = subtotal * (typeof currentDiscount !== 'undefined' ? currentDiscount : 0);
     const finalTotal = Math.round(subtotal - discountAmount);
-    const itemsString = cart.map(item => `${item.name} (x${item.quantity})`).join(', ');
 
-    // 4. SAVE RECEIPT DATA (Do this BEFORE submitting)
+    // 4. Prepare Order Data
     const orderData = {
         Order_ID: `GW-${Math.floor(1000 + Math.random() * 9000)}`,
         Customer_Name: name,
         Phone: phone,
-        Grand_Total: `₹${finalTotal}`,
         Delivery_Address: `${address} - ${pin}`,
         Payment_Method: selectedPayment,
-        Items: itemsString,
-        Date: new Date().toLocaleString()
-    };
-    
-    // This is what the confirmation.html page looks for!
-    localStorage.setItem('last_processed_order', JSON.stringify(orderData));
-
-    // 5. Create Hidden Form for reCAPTCHA
-    const form = document.createElement('form');
-    form.method = 'POST';
-    form.action = 'https://formspree.io/f/xaqpgaaq';
-
-    const fields = {
-        Customer: name,
-        Phone: phone,
-        Total_Paid: `₹${finalTotal}`,
-        Items: itemsString,
-        Address: `${address} - ${pin}`,
-        _next: 'https://pundbhakti99-source.github.io/Bakery-Store/confirmation.html'
+        Items: cart.map(item => `${item.name} (x${item.quantity}) - ₹${item.price * item.quantity}`).join('\n'),
+        Subtotal: `₹${subtotal}`,
+        Discount: currentDiscount > 0 ? `${currentDiscount * 100}%` : "None",
+        Grand_Total: `₹${finalTotal}`
     };
 
-    for (const key in fields) {
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = key;
-        input.value = fields[key];
-        form.appendChild(input);
+    try {
+        // 5. SEND TO FORMSPREE
+        const response = await fetch("https://formspree.io/f/xaqpgaaq", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json' // Tells Formspree this is an AJAX request
+            },
+            body: JSON.stringify(orderData)
+        });
+
+        const result = await response.json();
+
+        // 6. Handle reCAPTCHA Redirect (Crucial Fix)
+        if (response.status === 302 || (result.code === "TYPE_EMAIL" && result.next)) {
+            // This happens if Formspree requires a manual CAPTCHA check
+            localStorage.setItem('last_processed_order', JSON.stringify(orderData));
+            window.location.href = result.next || "https://formspree.io/f/xaqpgaaq";
+            return;
+        }
+
+        if (response.ok) {
+            // 7. Success Logic (If no CAPTCHA was needed or it passed automatically)
+            btn.innerHTML = "Order Placed ✓";
+            btn.style.background = "#4CAF50";
+
+            localStorage.setItem('last_processed_order', JSON.stringify(orderData));
+
+            setTimeout(() => {
+                cart = [];
+                saveCart();
+                toggleCart(); 
+                
+                document.getElementById('receipt-payment-method').innerText = selectedPayment;
+                document.getElementById("successOverlay").style.display = "flex";
+                
+                document.getElementById("viewReceiptBtn").onclick = () => {
+                    window.location.href = 'confirmation.html';
+                };
+            }, 800);
+        } else {
+            throw new Error("Submission failed");
+        }
+    } catch (error) {
+        // If it fails, we fall back to a standard form submit to ensure they can pass the CAPTCHA
+        console.log("Fetch failed, falling back to redirect:", error);
+        localStorage.setItem('last_processed_order', JSON.stringify(orderData));
+        window.location.href = "https://formspree.io/f/xaqpgaaq";
     }
-
-    // 6. SUBMIT (Do not clear cart here!)
-    document.body.appendChild(form);
-    form.submit();
 }
+
 
 function simulatePayment() {
     const btn = document.getElementById('mock-paypal-button');
