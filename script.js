@@ -850,34 +850,36 @@ function toggleCart() {
     }
 }
 
+
 async function proceedToCheckout() {
-    // 1. Grab values
+    // 1. Double check the cart array isn't empty in memory
+    if (cart.length === 0) {
+        return alert("Your basket is empty! Please add items before confirming.");
+    }
+
     const name = document.getElementById("checkoutName").value.trim();
     const phone = document.getElementById("checkoutPhone").value.trim();
     const address = document.getElementById("checkoutAddress").value.trim();
     const pin = document.getElementById("checkoutPin").value.trim();
 
-    // 2. Validation
-    if (cart.length === 0) return alert("Your basket is empty!");
-    if (name.length < 3 || !/^\d{10}$/.test(phone) || address.length < 10 || !/^\d{6}$/.test(pin)) {
-        return alert("Please check your delivery details.");
+    if (name.length < 3 || !/^\d{10}$/.test(phone)) {
+        return alert("Please enter a valid Name and 10-digit Phone Number.");
     }
 
-    // 3. UI Feedback
+    // 2. UI Feedback
     const btn = document.querySelector('.checkout-btn');
     btn.innerText = "Redirecting to Secure Verification...";
     btn.disabled = true;
 
-    // 4. Calculate Final Total (Including Discount)
+    // 3. Math Logic (Apply the discount shown in your screenshot)
     const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    const discountAmount = subtotal * (typeof currentDiscount !== 'undefined' ? currentDiscount : 0);
+    const discountAmount = subtotal * currentDiscount;
     const finalTotal = Math.round(subtotal - discountAmount);
     const itemsString = cart.map(item => `${item.name} (x${item.quantity})`).join(', ');
 
-    // 5. Save locally for your confirmation.html page
+    // 4. Save locally for confirmation.html
     const orderData = {
         Order_ID: `GW-${Math.floor(1000 + Math.random() * 9000)}`,
-        Customer_Name: name,
         Grand_Total: `₹${finalTotal}`,
         Delivery_Address: `${address} - ${pin}`,
         Payment_Method: selectedPayment,
@@ -885,19 +887,16 @@ async function proceedToCheckout() {
     };
     localStorage.setItem('last_processed_order', JSON.stringify(orderData));
 
-    // 6. Create Hidden Form for reCAPTCHA
+    // 5. Create Hidden Form for reCAPTCHA
     const form = document.createElement('form');
     form.method = 'POST';
     form.action = 'https://formspree.io/f/xaqpgaaq';
 
-    // These fields will show up in your email
     const fields = {
         Customer: name,
         Phone: phone,
         Total_Paid: `₹${finalTotal}`,
         Items: itemsString,
-        Address: `${address} - ${pin}`,
-        // This tells Formspree where to send the user AFTER they pass CAPTCHA
         _next: 'https://pundbhakti99-source.github.io/Bakery-Store/confirmation.html'
     };
 
@@ -909,13 +908,14 @@ async function proceedToCheckout() {
         form.appendChild(input);
     }
 
-    // 7. Clear cart and submit
-    cart = [];
-    saveCart();
+    // 6. Final Step: Submit
     document.body.appendChild(form);
     form.submit();
+    
+    // Reset cart ONLY after submission starts
+    cart = [];
+    localStorage.removeItem("golden_whisk_cart");
 }
-
 
 function simulatePayment() {
     const btn = document.getElementById('mock-paypal-button');
