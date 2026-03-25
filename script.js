@@ -852,7 +852,7 @@ function toggleCart() {
 
 
 async function proceedToCheckout() {
-    // 1. Double check the cart array isn't empty in memory
+    // 1. Double check the cart array isn't empty
     if (cart.length === 0) {
         return alert("Your basket is empty! Please add items before confirming.");
     }
@@ -862,8 +862,9 @@ async function proceedToCheckout() {
     const address = document.getElementById("checkoutAddress").value.trim();
     const pin = document.getElementById("checkoutPin").value.trim();
 
-    if (name.length < 3 || !/^\d{10}$/.test(phone)) {
-        return alert("Please enter a valid Name and 10-digit Phone Number.");
+    // Comprehensive validation (Adding Address and Pin check)
+    if (name.length < 3 || !/^\d{10}$/.test(phone) || address.length < 5 || !/^\d{6}$/.test(pin)) {
+        return alert("Please enter valid details (Name, 10-digit Phone, Address, and 6-digit Pincode).");
     }
 
     // 2. UI Feedback
@@ -871,13 +872,13 @@ async function proceedToCheckout() {
     btn.innerText = "Redirecting to Secure Verification...";
     btn.disabled = true;
 
-    // 3. Math Logic (Apply the discount shown in your screenshot)
+    // 3. Math Logic
     const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     const discountAmount = subtotal * currentDiscount;
     const finalTotal = Math.round(subtotal - discountAmount);
     const itemsString = cart.map(item => `${item.name} (x${item.quantity})`).join(', ');
 
-    // 4. Save locally for confirmation.html
+    // 4. Save locally for confirmation.html (DO NOT clear cart yet)
     const orderData = {
         Order_ID: `GW-${Math.floor(1000 + Math.random() * 9000)}`,
         Grand_Total: `₹${finalTotal}`,
@@ -887,7 +888,7 @@ async function proceedToCheckout() {
     };
     localStorage.setItem('last_processed_order', JSON.stringify(orderData));
 
-    // 5. Create Hidden Form for reCAPTCHA
+    // 5. Create Hidden Form for reCAPTCHA compatibility
     const form = document.createElement('form');
     form.method = 'POST';
     form.action = 'https://formspree.io/f/xaqpgaaq';
@@ -895,6 +896,7 @@ async function proceedToCheckout() {
     const fields = {
         Customer: name,
         Phone: phone,
+        Address: `${address} - ${pin}`,
         Total_Paid: `₹${finalTotal}`,
         Items: itemsString,
         _next: 'https://pundbhakti99-source.github.io/Bakery-Store/confirmation.html'
@@ -908,14 +910,12 @@ async function proceedToCheckout() {
         form.appendChild(input);
     }
 
-    // 6. Final Step: Submit
+    // 6. Final Step: Submit 
+    // We stop here. We DON'T clear the cart in this file.
     document.body.appendChild(form);
     form.submit();
-    
-    // Reset cart ONLY after submission starts
-    cart = [];
-    localStorage.removeItem("golden_whisk_cart");
 }
+
 
 function simulatePayment() {
     const btn = document.getElementById('mock-paypal-button');
