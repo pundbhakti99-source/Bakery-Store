@@ -852,6 +852,7 @@ function toggleCart() {
 
 
 async function proceedToCheckout() {
+    // 1. Validation
     const name = document.getElementById("checkoutName").value.trim();
     const phone = document.getElementById("checkoutPhone").value.trim();
     const address = document.getElementById("checkoutAddress").value.trim();
@@ -862,68 +863,57 @@ async function proceedToCheckout() {
         return alert("Please check your delivery details.");
     }
 
+    // 2. UI Loading State
     const btn = document.querySelector('.checkout-btn');
-    const originalText = btn.innerText;
-    btn.innerText = "Verifying...";
+    btn.innerText = "Redirecting to Secure Verification...";
     btn.disabled = true;
 
+    // 3. Calculation
     const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     const discountAmount = subtotal * (typeof currentDiscount !== 'undefined' ? currentDiscount : 0);
     const finalTotal = Math.round(subtotal - discountAmount);
+    const itemsString = cart.map(item => `${item.name} (x${item.quantity})`).join(', ');
 
+    // 4. SAVE RECEIPT DATA (Do this BEFORE submitting)
     const orderData = {
         Order_ID: `GW-${Math.floor(1000 + Math.random() * 9000)}`,
         Customer_Name: name,
         Phone: phone,
+        Grand_Total: `₹${finalTotal}`,
         Delivery_Address: `${address} - ${pin}`,
         Payment_Method: selectedPayment,
-        Items: cart.map(item => `${item.name} (x${item.quantity}) - ₹${item.price * item.quantity}`).join('\n'),
-        Grand_Total: `₹${finalTotal}`
+        Items: itemsString,
+        Date: new Date().toLocaleString()
+    };
+    
+    // This is what the confirmation.html page looks for!
+    localStorage.setItem('last_processed_order', JSON.stringify(orderData));
+
+    // 5. Create Hidden Form for reCAPTCHA
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = 'https://formspree.io/f/xaqpgaaq';
+
+    const fields = {
+        Customer: name,
+        Phone: phone,
+        Total_Paid: `₹${finalTotal}`,
+        Items: itemsString,
+        Address: `${address} - ${pin}`,
+        _next: 'https://pundbhakti99-source.github.io/Bakery-Store/confirmation.html'
     };
 
-    try {
-        // --- ADDED CAPTCHA SUPPORT HERE ---
-        const response = await fetch("https://formspree.io/f/xaqpgaaq", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json' // Crucial for AJAX reCAPTCHA
-            },
-            body: JSON.stringify(orderData)
-        });
-
-        const data = await response.json();
-
-        if (response.ok) {
-            // SUCCESS
-            btn.innerHTML = "Order Placed ✓";
-            btn.style.background = "#4CAF50";
-            localStorage.setItem('last_processed_order', JSON.stringify(orderData));
-
-            setTimeout(() => {
-                cart = [];
-                saveCart();
-                toggleCart(); 
-                document.getElementById("successOverlay").style.display = "flex";
-                document.getElementById("viewReceiptBtn").onclick = () => {
-                    window.location.href = 'confirmation.html';
-                };
-            }, 800);
-        } else {
-            // If Formspree requires a CAPTCHA, it might redirect or return an error here
-            // On the free plan, it usually forces a redirect to their own page
-            if (data.code === "TYPE_EMAIL") {
-                 alert("Verification required. Please follow the instructions on the next screen.");
-                 window.location.href = `https://formspree.io/f/xaqpgaaq`; // Fallback redirect
-            } else {
-                throw new Error("Submission failed");
-            }
-        }
-    } catch (error) {
-        alert("Verification failed. Please try again.");
-        btn.innerText = originalText;
-        btn.disabled = false;
+    for (const key in fields) {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = key;
+        input.value = fields[key];
+        form.appendChild(input);
     }
+
+    // 6. SUBMIT (Do not clear cart here!)
+    document.body.appendChild(form);
+    form.submit();
 }
 
 function simulatePayment() {
