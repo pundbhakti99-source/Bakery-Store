@@ -42,56 +42,53 @@
 
 <script>
     window.onload = () => {
-        // 1. Retrieve the data we saved in the index.html proceedToCheckout function
-        const savedData = localStorage.getItem('last_processed_order');
+        // 1. Retrieve the order data saved right before the redirect
+        const order = JSON.parse(localStorage.getItem('last_processed_order'));
 
-        if (!savedData) {
-            // If someone tries to visit this page directly without ordering
-            document.body.innerHTML = `
-                <div style="text-align:center; padding:50px;">
-                    <h2>No recent order found.</h2>
-                    <p>Your session may have expired or the order wasn't completed.</p>
-                    <a href="index.html" style="color:#82937E; font-weight:bold;">Go back to Bakery</a>
-                </div>`;
+        // 2. If no order data exists, send them back to the shop
+        if (!order) {
+            window.location.href = 'index.html'; 
             return;
         }
 
-        const order = JSON.parse(savedData);
-
-        // 2. Map the saved data to your HTML IDs
-        document.getElementById('receipt-id').innerText = `Order #${order.Order_ID || 'GW-0000'}`;
-        document.getElementById('receipt-total').innerText = order.Grand_Total;
-        document.getElementById('receipt-address').innerText = order.Delivery_Address;
+        // 3. Fill in the Receipt UI
+        // Note: Ensure these IDs (receipt-id, etc.) match your HTML elements
+        if(document.getElementById('receipt-id')) {
+            document.getElementById('receipt-id').innerText = `Order #${order.Order_ID}`;
+        }
         
-        // Use a fallback if Payment_Method wasn't captured
-        document.getElementById('receipt-method').innerText = order.Payment_Method || 'Online Payment';
+        if(document.getElementById('receipt-total')) {
+            document.getElementById('receipt-total').innerText = order.Grand_Total;
+        }
 
-        // 3. Render Items 
-        // We split by newline because that's how we joined them in the checkout function
+        if(document.getElementById('receipt-address')) {
+            document.getElementById('receipt-address').innerText = order.Delivery_Address;
+        }
+
+        if(document.getElementById('receipt-method')) {
+            document.getElementById('receipt-method').innerText = order.Payment_Method;
+        }
+
+        // 4. Render the Item List
         const itemContainer = document.getElementById('receipt-items');
-        const itemsList = order.Items.split('\n');
-        
-        itemContainer.innerHTML = itemsList.map(item => {
-            // If the string contains a " - ", let's split it for a better "Item vs Price" look
-            const parts = item.split(' - ');
-            if (parts.length > 1) {
-                return `
-                    <div class="item-row">
-                        <span>${parts[0]}</span>
-                        <span style="color:#82937E;">${parts[1]}</span>
-                    </div>`;
-            }
-            return `<div class="item-row"><span>${item}</span></div>`;
-        }).join('');
+        if (itemContainer && order.Items) {
+            const itemsList = order.Items.split('\n');
+            itemContainer.innerHTML = itemsList.map(item => `
+                <div class="item-row">
+                    <span>${item}</span>
+                </div>
+            `).join('');
+        }
 
-        // 4. THE CLEANUP (Very Important)
-        // Now that the receipt is shown, clear the active cart so it's empty for the next visit
+        // 5. THE CLEANUP
+        // Now that the receipt is showing, clear the cart so it's empty for next time
         localStorage.removeItem("golden_whisk_cart");
         
-        // Optional: If you want to clear the receipt data after 5 minutes for privacy:
-        // setTimeout(() => localStorage.removeItem('last_processed_order'), 300000);
+        // Optional: Clear the receipt data from memory after a delay for privacy
+        // setTimeout(() => localStorage.removeItem('last_processed_order'), 600000);
     };
 </script>
+    
     
 </body>
 </html>
