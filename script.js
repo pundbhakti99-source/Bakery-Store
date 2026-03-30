@@ -828,7 +828,6 @@ function showDeliveryForm() {
    document.querySelector('.cart-body').scrollTop = 0;
 }
 
-
 function hideDeliveryForm() {
     // Show product list and main button
     document.getElementById("cartItemsList").style.display = "block";
@@ -837,90 +836,95 @@ function hideDeliveryForm() {
     // Hide delivery form
     document.getElementById("checkoutSection").style.display = "none";
 }
+
 function toggleCart() {
     const sidebar = document.getElementById("cartSidebar");
     const overlay = document.getElementById("cartOverlay");
     const isOpen = sidebar.classList.toggle("open");
 
-    overlay.style.display = isOpen ? "block" : "none";
+    if (overlay) overlay.style.display = isOpen ? "block" : "none";
 
     // Logic: Always reset to the Basket view when opening
     if (isOpen) {
         hideDeliveryForm(); 
-        renderCart();
-    }
-}
-
-
-        // Fallback for standard errors or blocked fetch
-        console.log("Redirecting for manual verification...");
-        window.location.href = "https://formspree.io/f/xaqpgaaq";
+        if (typeof renderCart === "function") renderCart();
     }
 }
 
 async function proceedToCheckout() {
-    // 1. Get user input
-    const name = document.getElementById("checkoutName").value.trim();
-    const phone = document.getElementById("checkoutPhone").value.trim();
-    const address = document.getElementById("checkoutAddress").value.trim();
-    const pin = document.getElementById("checkoutPin").value.trim();
+    try {
+        // 1. Get user input
+        const name = document.getElementById("checkoutName").value.trim();
+        const phone = document.getElementById("checkoutPhone").value.trim();
+        const address = document.getElementById("checkoutAddress").value.trim();
+        const pin = document.getElementById("checkoutPin").value.trim();
 
-    // 2. Simple Validation
-    if (cart.length === 0) return alert("Your basket is empty!");
-    if (name.length < 3 || !/^\d{10}$/.test(phone)) {
-        return alert("Please enter a valid Name and 10-digit Phone number.");
+        // 2. Simple Validation
+        if (cart.length === 0) return alert("Your basket is empty!");
+        if (name.length < 3 || !/^\d{10}$/.test(phone)) {
+            return alert("Please enter a valid Name and 10-digit Phone number.");
+        }
+
+        // 3. UI Feedback
+        const btn = document.querySelector('.checkout-btn');
+        btn.innerText = "Processing Your Treats...";
+        btn.disabled = true;
+
+        // 4. Calculate Totals
+        const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        const discount = (typeof currentDiscount !== 'undefined') ? currentDiscount : 0;
+        const finalTotal = Math.round(subtotal - (subtotal * discount));
+        const itemsString = cart.map(item => `${item.name} (x${item.quantity})`).join('\n');
+
+        // 5. SAVE DATA FOR RECEIPT
+        const orderData = {
+            Order_ID: `GW-${Math.floor(1000 + Math.random() * 9000)}`,
+            Customer_Name: name,
+            Grand_Total: `₹${finalTotal}`,
+            Delivery_Address: `${address} - ${pin}`,
+            Items: itemsString,
+            Payment_Method: typeof selectedPayment !== 'undefined' ? selectedPayment : "Not Specified"
+        };
+        localStorage.setItem('last_processed_order', JSON.stringify(orderData));
+
+        // 6. THE SHADOW FORM (Fixes the "Form should POST" error)
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = 'https://formspree.io/f/xaqpgaaq';
+
+        const formData = {
+            Customer: name,
+            Contact: phone,
+            Total_Amount: `₹${finalTotal}`,
+            Items_Ordered: itemsString,
+            Full_Address: `${address}, PIN: ${pin}`,
+            _next: 'https://pundbhakti99-source.github.io/Bakery-Store/confirmation.html'
+        };
+
+        for (const key in formData) {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = key;
+            input.value = formData[key];
+            form.appendChild(input);
+        }
+
+        // 7. Submit
+        document.body.appendChild(form);
+        form.submit(); 
+        
+    } catch (error) {
+        console.error("Checkout Error:", error);
+        alert("Something went wrong. Please refresh and try again.");
+        const btn = document.querySelector('.checkout-btn');
+        if (btn) {
+            btn.innerText = "Confirm Order";
+            btn.disabled = false;
+        }
     }
-
-    // 3. UI Feedback (Let them know it's working)
-    const btn = document.querySelector('.checkout-btn');
-    btn.innerText = "Processing Your Treats...";
-    btn.disabled = true;
-
-    // 4. Calculate Totals
-    const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    const discount = (typeof currentDiscount !== 'undefined') ? currentDiscount : 0;
-    const finalTotal = Math.round(subtotal - (subtotal * discount));
-    const itemsString = cart.map(item => `${item.name} (x${item.quantity})`).join('\n');
-
-    // 5. SAVE DATA FOR RECEIPT (Crucial: do this BEFORE the redirect)
-    const orderData = {
-        Order_ID: `GW-${Math.floor(1000 + Math.random() * 9000)}`,
-        Customer_Name: name,
-        Grand_Total: `₹${finalTotal}`,
-        Delivery_Address: `${address} - ${pin}`,
-        Items: itemsString,
-        Payment_Method: selectedPayment
-    };
-    localStorage.setItem('last_processed_order', JSON.stringify(orderData));
-
-    // 6. THE SHADOW FORM (This fixes the "Form should POST" error)
-    const form = document.createElement('form');
-    form.method = 'POST';
-    form.action = 'https://formspree.io/f/xaqpgaaq';
-
-    const formData = {
-        Customer: name,
-        Contact: phone,
-        Total_Amount: `₹${finalTotal}`,
-        Items_Ordered: itemsString,
-        Full_Address: `${address}, PIN: ${pin}`,
-        // This tells Formspree where to go after the CAPTCHA
-        _next: 'https://pundbhakti99-source.github.io/Bakery-Store/confirmation.html'
-    };
-
-    // Add each piece of data as a hidden input
-    for (const key in formData) {
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = key;
-        input.value = formData[key];
-        form.appendChild(input);
-    }
-
-    // 7. Submit and Clear
-    document.body.appendChild(form);
-    form.submit(); // This will handle the redirect and CAPTCHA correctly
 }
+
+
 
 
 function simulatePayment() {
