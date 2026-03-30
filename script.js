@@ -851,41 +851,43 @@ function toggleCart() {
     }
 }
 
-
 async function proceedToCheckout() {
+    // 1. Grab values
     const name = document.getElementById("checkoutName").value.trim();
     const phone = document.getElementById("checkoutPhone").value.trim();
     const address = document.getElementById("checkoutAddress").value.trim();
     const pin = document.getElementById("checkoutPin").value.trim();
 
-    // 1. Validation
-    if (cart.length === 0) return alert("Your basket is empty!");
-    if (name.length < 3 || !/^\d{10}$/.test(phone)) return alert("Please check your Name and 10-digit Phone.");
+    // 2. Validation
+    if (cart.length === 0) { return alert("Your basket is empty!"); }
+    if (name.length < 3 || !/^\d{10}$/.test(phone) || address.length < 10 || !/^\d{6}$/.test(pin)) {
+        return alert("Please check your delivery details.");
+    }
 
-    // 2. UI Feedback
+    // 3. UI Feedback
     const btn = document.querySelector('.checkout-btn');
-    btn.innerText = "Processing Order...";
+    const originalText = btn.innerText;
+    btn.innerText = "Sending Order...";
     btn.disabled = true;
 
-    // 3. Calculation Logic
+    // --- DISCOUNT CALCULATION START ---
     const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     const discountAmount = subtotal * (typeof currentDiscount !== 'undefined' ? currentDiscount : 0);
     const finalTotal = Math.round(subtotal - discountAmount);
-    const itemsString = cart.map(item => `${item.name} (x${item.quantity})`).join(', ');
+    // --- DISCOUNT CALCULATION END ---
 
-    // 4. PREPARE DATA
+    // 4. Prepare Order Data for Email
     const orderData = {
         Order_ID: `GW-${Math.floor(1000 + Math.random() * 9000)}`,
         Customer_Name: name,
         Phone: phone,
         Delivery_Address: `${address} - ${pin}`,
         Payment_Method: selectedPayment,
-        Items: itemsString,
-        Grand_Total: `₹${finalTotal}`
+        Items: cart.map(item => `${item.name} (x${item.quantity}) - ₹${item.price * item.quantity}`).join('\n'),
+        Subtotal: `₹${subtotal}`,
+        Discount: currentDiscount > 0 ? `${currentDiscount * 100}%` : "None",
+        Grand_Total: `₹${finalTotal}` // Using the discounted total here
     };
-
-    // SAVE IMMEDIATELY (This fixes the "Empty Receipt" after reCAPTCHA)
-    localStorage.setItem('last_processed_order', JSON.stringify(orderData));
 
     try {
         // 5. SEND TO FORMSPREE
@@ -898,29 +900,18 @@ async function proceedToCheckout() {
             body: JSON.stringify(orderData)
         });
 
-        const result = await response.json();
-
-        // 6. HANDLE CAPTCHA REDIRECT (Free Tier Fix)
-        if (!response.ok && result.next) {
-            // Formspree wants a CAPTCHA, redirect the user to their verification page
-            window.location.href = result.next;
-            return;
-        }
-
         if (response.ok) {
-            // SUCCESS UI (Baking in Progress screen)
+            // 6. Success Logic
             btn.innerHTML = "Order Placed ✓";
             btn.style.background = "#4CAF50";
 
+            // Save the version with the discount for the confirmation page
+            localStorage.setItem('last_processed_order', JSON.stringify(orderData));
+
             setTimeout(() => {
-                // Clear cart only AFTER confirmed success
                 cart = [];
                 saveCart();
-                
-                // Hide cart and show your Success Overlay
-                const sidebar = document.getElementById("cartSidebar");
-                if (sidebar) sidebar.classList.remove("open");
-                document.getElementById("cartOverlay").style.display = "none";
+                toggleCart(); 
                 
                 document.getElementById('receipt-payment-method').innerText = selectedPayment;
                 document.getElementById("successOverlay").style.display = "flex";
@@ -933,9 +924,9 @@ async function proceedToCheckout() {
             throw new Error("Formspree error");
         }
     } catch (error) {
-        // Fallback for standard connection issues
-        alert("Verification required. Redirecting to secure checkout...");
-        window.location.href = "https://formspree.io/f/xaqpgaaq";
+        alert("Oops! Connection failed. Please check your internet and try again.");
+        btn.innerText = originalText;
+        btn.disabled = false;
     }
 }
 
