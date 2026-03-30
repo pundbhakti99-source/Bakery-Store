@@ -850,58 +850,57 @@ function toggleCart() {
     }
 }
 
+
 async function proceedToCheckout() {
-    // 1. Grab values
+    // 1. Validation
     const name = document.getElementById("checkoutName").value.trim();
     const phone = document.getElementById("checkoutPhone").value.trim();
     const address = document.getElementById("checkoutAddress").value.trim();
     const pin = document.getElementById("checkoutPin").value.trim();
 
-    // 2. Validation
-    if (cart.length === 0) return alert("Your basket is empty!");
-    if (name.length < 3 || !/^\d{10}$/.test(phone) || address.length < 10 || !/^\d{6}$/.test(pin)) {
+    // Check cart length first!
+    if (cart.length === 0) {
+        return alert("Your basket is empty! Please add items before confirming.");
+    }
+
+    if (name.length < 3 || !/^\d{10}$/.test(phone)) {
         return alert("Please check your delivery details.");
     }
 
-    // 3. UI Feedback
+    // 2. UI Feedback
     const btn = document.querySelector('.checkout-btn');
-    btn.innerText = "Verifying & Sending...";
+    btn.innerText = "Verifying & Redirecting...";
     btn.disabled = true;
 
-    // 4. Calculations (Discount Logic)
+    // 3. Calculation Logic
     const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     const discountAmount = subtotal * (typeof currentDiscount !== 'undefined' ? currentDiscount : 0);
     const finalTotal = Math.round(subtotal - discountAmount);
     const itemsString = cart.map(item => `${item.name} (x${item.quantity})`).join(', ');
 
-    // 5. Save for Confirmation Page (MUST happen before redirect)
+    // 4. Save data for confirmation.html BEFORE clearing/redirecting
     const orderData = {
         Order_ID: `GW-${Math.floor(1000 + Math.random() * 9000)}`,
         Customer_Name: name,
         Grand_Total: `₹${finalTotal}`,
         Delivery_Address: `${address} - ${pin}`,
-        Items: itemsString,
-        Payment_Method: selectedPayment
+        Items: itemsString
     };
     localStorage.setItem('last_processed_order', JSON.stringify(orderData));
 
-    // 6. CREATE THE SECURE POST FORM
+    // 5. Create the POST Form (Fixes the "Form should POST" error)
     const form = document.createElement('form');
-    form.method = 'POST'; // This fixes your "Form should POST" error
+    form.method = 'POST'; 
     form.action = 'https://formspree.io/f/xaqpgaaq';
 
-    // Data fields for your email
     const fields = {
         Customer: name,
         Phone: phone,
-        Address: `${address} - ${pin}`,
-        Total_Paid: `₹${finalTotal}`,
+        Total: `₹${finalTotal}`,
         Items: itemsString,
-        // Tells Formspree where to go after CAPTCHA is solved
         _next: 'https://pundbhakti99-source.github.io/Bakery-Store/confirmation.html'
     };
 
-    // Add fields to form
     for (const key in fields) {
         const input = document.createElement('input');
         input.type = 'hidden';
@@ -910,9 +909,12 @@ async function proceedToCheckout() {
         form.appendChild(input);
     }
 
-    // 7. FINAL SUBMIT
+    // 6. Submit the form
     document.body.appendChild(form);
     form.submit();
+
+    // NOTE: DO NOT put cart = [] here. 
+    // We will clear it in confirmation.html instead.
 }
 
 
