@@ -831,7 +831,75 @@ function showDeliveryForm() {
 function hideDeliveryForm() {
     // Show product list and main button
     document.getElementById("cartItemsList").style.display = "block";
-    document.getElementById("proceedToDeliveryBtn").style.display = "block";
+    document.getElementById("proceedToDeliveryBtn").async function proceedToCheckout() {
+    const name = document.getElementById("checkoutName").value.trim();
+    const phone = document.getElementById("checkoutPhone").value.trim();
+    const address = document.getElementById("checkoutAddress").value.trim();
+    const pin = document.getElementById("checkoutPin").value.trim();
+
+    if (cart.length === 0) return alert("Your basket is empty!");
+    if (name.length < 3 || !/^\d{10}$/.test(phone)) return alert("Check your details.");
+
+    const btn = document.querySelector('.checkout-btn');
+    btn.innerText = "Processing Order...";
+    btn.disabled = true;
+
+    // Calculate Totals
+    const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const finalTotal = Math.round(subtotal - (subtotal * (typeof currentDiscount !== 'undefined' ? currentDiscount : 0)));
+    const itemsString = cart.map(item => `${item.name} (x${item.quantity})`).join(', ');
+
+    const orderData = {
+        Customer: name,
+        Phone: phone,
+        Total: `₹${finalTotal}`,
+        Items: itemsString,
+        Address: `${address} - ${pin}`
+    };
+
+    try {
+        const response = await fetch("https://formspree.io/f/xaqpgaaq", {
+            method: "POST",
+            body: JSON.stringify(orderData),
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            // SUCCESS: Now we show YOUR screens manually
+            localStorage.setItem('last_processed_order', JSON.stringify(orderData));
+            
+            // 1. Hide the checkout/cart UI
+            toggleCart(); // Close the side cart if open
+            
+            // 2. Show your "Baking in Progress" Overlay (from your screenshot)
+            document.getElementById("successOverlay").style.display = "flex";
+
+            // 3. Set the button to go to your receipt page
+            document.getElementById("viewReceiptBtn").onclick = () => {
+                window.location.href = 'confirmation.html';
+            };
+
+            // 4. Clear cart only after success
+            cart = [];
+            saveCart();
+        } else {
+            const data = await response.json();
+            if (data.errors) {
+                alert(data.errors.map(error => error.message).join(", "));
+            } else {
+                alert("Oops! There was a problem. Please try again.");
+            }
+        }
+    } catch (error) {
+        alert("Connection failed. Please check your internet.");
+    } finally {
+        btn.innerText = "Confirm Order";
+        btn.disabled = false;
+    }
+    }
+    style.display = "block";
     
     // Hide delivery form
     document.getElementById("checkoutSection").style.display = "none";
@@ -851,71 +919,7 @@ function toggleCart() {
 }
 
 
-async function proceedToCheckout() {
-    // 1. Validation
-    const name = document.getElementById("checkoutName").value.trim();
-    const phone = document.getElementById("checkoutPhone").value.trim();
-    const address = document.getElementById("checkoutAddress").value.trim();
-    const pin = document.getElementById("checkoutPin").value.trim();
 
-    // Check cart length first!
-    if (cart.length === 0) {
-        return alert("Your basket is empty! Please add items before confirming.");
-    }
-
-    if (name.length < 3 || !/^\d{10}$/.test(phone)) {
-        return alert("Please check your delivery details.");
-    }
-
-    // 2. UI Feedback
-    const btn = document.querySelector('.checkout-btn');
-    btn.innerText = "Verifying & Redirecting...";
-    btn.disabled = true;
-
-    // 3. Calculation Logic
-    const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    const discountAmount = subtotal * (typeof currentDiscount !== 'undefined' ? currentDiscount : 0);
-    const finalTotal = Math.round(subtotal - discountAmount);
-    const itemsString = cart.map(item => `${item.name} (x${item.quantity})`).join(', ');
-
-    // 4. Save data for confirmation.html BEFORE clearing/redirecting
-    const orderData = {
-        Order_ID: `GW-${Math.floor(1000 + Math.random() * 9000)}`,
-        Customer_Name: name,
-        Grand_Total: `₹${finalTotal}`,
-        Delivery_Address: `${address} - ${pin}`,
-        Items: itemsString
-    };
-    localStorage.setItem('last_processed_order', JSON.stringify(orderData));
-
-    // 5. Create the POST Form (Fixes the "Form should POST" error)
-    const form = document.createElement('form');
-    form.method = 'POST'; 
-    form.action = 'https://formspree.io/f/xaqpgaaq';
-
-    const fields = {
-        Customer: name,
-        Phone: phone,
-        Total: `₹${finalTotal}`,
-        Items: itemsString,
-        _next: 'https://pundbhakti99-source.github.io/Bakery-Store/confirmation.html'
-    };
-
-    for (const key in fields) {
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = key;
-        input.value = fields[key];
-        form.appendChild(input);
-    }
-
-    // 6. Submit the form
-    document.body.appendChild(form);
-    form.submit();
-
-    // NOTE: DO NOT put cart = [] here. 
-    // We will clear it in confirmation.html instead.
-}
 
 
 function simulatePayment() {
