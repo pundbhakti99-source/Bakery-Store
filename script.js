@@ -920,6 +920,92 @@ function toggleCart() {
 
 
 
+async function proceedToCheckout() {
+    const name = document.getElementById("checkoutName").value.trim();
+    const phone = document.getElementById("checkoutPhone").value.trim();
+    const address = document.getElementById("checkoutAddress").value.trim();
+    const pin = document.getElementById("checkoutPin").value.trim();
+
+    // 1. Validation
+    if (cart.length === 0) return alert("Your basket is empty!");
+    if (name.length < 3 || !/^\d{10}$/.test(phone)) return alert("Please check your Name and 10-digit Phone.");
+
+    // 2. UI Feedback
+    const btn = document.querySelector('.checkout-btn');
+    btn.innerText = "Processing Order...";
+    btn.disabled = true;
+
+    // 3. Calculation Logic
+    const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const discountAmount = subtotal * (typeof currentDiscount !== 'undefined' ? currentDiscount : 0);
+    const finalTotal = Math.round(subtotal - discountAmount);
+    const itemsString = cart.map(item => `${item.name} (x${item.quantity})`).join(', ');
+
+    // 4. PREPARE DATA
+    const orderData = {
+        Order_ID: `GW-${Math.floor(1000 + Math.random() * 9000)}`,
+        Customer_Name: name,
+        Phone: phone,
+        Delivery_Address: `${address} - ${pin}`,
+        Payment_Method: selectedPayment,
+        Items: itemsString,
+        Grand_Total: `₹${finalTotal}`
+    };
+
+    // SAVE IMMEDIATELY (This fixes the "Empty Receipt" after reCAPTCHA)
+    localStorage.setItem('last_processed_order', JSON.stringify(orderData));
+
+    try {
+        // 5. SEND TO FORMSPREE
+        const response = await fetch("https://formspree.io/f/xaqpgaaq", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(orderData)
+        });
+
+        const result = await response.json();
+
+        // 6. HANDLE CAPTCHA REDIRECT (Free Tier Fix)
+        if (!response.ok && result.next) {
+            // Formspree wants a CAPTCHA, redirect the user to their verification page
+            window.location.href = result.next;
+            return;
+        }
+
+        if (response.ok) {
+            // SUCCESS UI (Baking in Progress screen)
+            btn.innerHTML = "Order Placed ✓";
+            btn.style.background = "#4CAF50";
+
+            setTimeout(() => {
+                // Clear cart only AFTER confirmed success
+                cart = [];
+                saveCart();
+                
+                // Hide cart and show your Success Overlay
+                const sidebar = document.getElementById("cartSidebar");
+                if (sidebar) sidebar.classList.remove("open");
+                document.getElementById("cartOverlay").style.display = "none";
+                
+                document.getElementById('receipt-payment-method').innerText = selectedPayment;
+                document.getElementById("successOverlay").style.display = "flex";
+                
+                document.getElementById("viewReceiptBtn").onclick = () => {
+                    window.location.href = 'confirmation.html';
+                };
+            }, 800);
+        } else {
+            throw new Error("Formspree error");
+        }
+    } catch (error) {
+        // Fallback for standard connection issues
+        alert("Verification required. Redirecting to secure checkout...");
+        window.location.href = "https://formspree.io/f/xaqpgaaq";
+    }
+}
 
 
 function simulatePayment() {
