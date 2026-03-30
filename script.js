@@ -852,78 +852,60 @@ function toggleCart() {
 }
 
 async function proceedToCheckout() {
-    try {
-        // 1. Get user input
-        const name = document.getElementById("checkoutName").value.trim();
-        const phone = document.getElementById("checkoutPhone").value.trim();
-        const address = document.getElementById("checkoutAddress").value.trim();
-        const pin = document.getElementById("checkoutPin").value.trim();
+    // 1. Validation (Keep your existing validation here)
+    const name = document.getElementById("checkoutName").value.trim();
+    const phone = document.getElementById("checkoutPhone").value.trim();
+    const address = document.getElementById("checkoutAddress").value.trim();
+    const pin = document.getElementById("checkoutPin").value.trim();
 
-        // 2. Simple Validation
-        if (cart.length === 0) return alert("Your basket is empty!");
-        if (name.length < 3 || !/^\d{10}$/.test(phone)) {
-            return alert("Please enter a valid Name and 10-digit Phone number.");
-        }
+    if (cart.length === 0) return alert("Your basket is empty!");
 
-        // 3. UI Feedback
-        const btn = document.querySelector('.checkout-btn');
-        btn.innerText = "Processing Your Treats...";
-        btn.disabled = true;
+    // 2. UI Feedback
+    const btn = document.querySelector('.checkout-btn');
+    btn.innerText = "Redirecting to Secure Check...";
+    btn.disabled = true;
 
-        // 4. Calculate Totals
-        const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-        const discount = (typeof currentDiscount !== 'undefined') ? currentDiscount : 0;
-        const finalTotal = Math.round(subtotal - (subtotal * discount));
-        const itemsString = cart.map(item => `${item.name} (x${item.quantity})`).join('\n');
+    // 3. Prepare Data
+    const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const discount = (typeof currentDiscount !== 'undefined') ? currentDiscount : 0;
+    const finalTotal = Math.round(subtotal - (subtotal * discount));
+    const itemsString = cart.map(item => `${item.name} (x${item.quantity})`).join('\n');
 
-        // 5. SAVE DATA FOR RECEIPT
-        const orderData = {
-            Order_ID: `GW-${Math.floor(1000 + Math.random() * 9000)}`,
-            Customer_Name: name,
-            Grand_Total: `₹${finalTotal}`,
-            Delivery_Address: `${address} - ${pin}`,
-            Items: itemsString,
-            Payment_Method: typeof selectedPayment !== 'undefined' ? selectedPayment : "Not Specified"
-        };
-        localStorage.setItem('last_processed_order', JSON.stringify(orderData));
+    // 4. CRITICAL: Save to localStorage BEFORE the page changes
+    const orderData = {
+        Order_ID: `GW-${Math.floor(1000 + Math.random() * 9000)}`,
+        Customer_Name: name,
+        Grand_Total: `₹${finalTotal}`,
+        Delivery_Address: `${address} - ${pin}`,
+        Items: itemsString,
+        Payment_Method: typeof selectedPayment !== 'undefined' ? selectedPayment : "Online"
+    };
+    localStorage.setItem('last_processed_order', JSON.stringify(orderData));
 
-        // 6. THE SHADOW FORM (Fixes the "Form should POST" error)
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = 'https://formspree.io/f/xaqpgaaq';
+    // 5. THE FIX: Submit via a hidden form to handle reCAPTCHA
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = 'https://formspree.io/f/xaqpgaaq';
 
-        const formData = {
-            Customer: name,
-            Contact: phone,
-            Total_Amount: `₹${finalTotal}`,
-            Items_Ordered: itemsString,
-            Full_Address: `${address}, PIN: ${pin}`,
-            _next: 'https://pundbhakti99-source.github.io/Bakery-Store/confirmation.html'
-        };
+    const fields = {
+        Customer: name,
+        Total: `₹${finalTotal}`,
+        Items: itemsString,
+        // This tells Formspree where to send the user AFTER reCAPTCHA
+        _next: 'https://pundbhakti99-source.github.io/Bakery-Store/confirmation.html'
+    };
 
-        for (const key in formData) {
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = key;
-            input.value = formData[key];
-            form.appendChild(input);
-        }
-
-        // 7. Submit
-        document.body.appendChild(form);
-        form.submit(); 
-        
-    } catch (error) {
-        console.error("Checkout Error:", error);
-        alert("Something went wrong. Please refresh and try again.");
-        const btn = document.querySelector('.checkout-btn');
-        if (btn) {
-            btn.innerText = "Confirm Order";
-            btn.disabled = false;
-        }
+    for (const key in fields) {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = key;
+        input.value = fields[key];
+        form.appendChild(input);
     }
-}
 
+    document.body.appendChild(form);
+    form.submit();
+}
 
 
 
