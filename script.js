@@ -828,78 +828,11 @@ function showDeliveryForm() {
    document.querySelector('.cart-body').scrollTop = 0;
 }
 
+
 function hideDeliveryForm() {
     // Show product list and main button
     document.getElementById("cartItemsList").style.display = "block";
-    document.getElementById("proceedToDeliveryBtn").async function proceedToCheckout() {
-    const name = document.getElementById("checkoutName").value.trim();
-    const phone = document.getElementById("checkoutPhone").value.trim();
-    const address = document.getElementById("checkoutAddress").value.trim();
-    const pin = document.getElementById("checkoutPin").value.trim();
-
-    if (cart.length === 0) return alert("Your basket is empty!");
-    if (name.length < 3 || !/^\d{10}$/.test(phone)) return alert("Check your details.");
-
-    const btn = document.querySelector('.checkout-btn');
-    btn.innerText = "Processing Order...";
-    btn.disabled = true;
-
-    // Calculate Totals
-    const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    const finalTotal = Math.round(subtotal - (subtotal * (typeof currentDiscount !== 'undefined' ? currentDiscount : 0)));
-    const itemsString = cart.map(item => `${item.name} (x${item.quantity})`).join(', ');
-
-    const orderData = {
-        Customer: name,
-        Phone: phone,
-        Total: `₹${finalTotal}`,
-        Items: itemsString,
-        Address: `${address} - ${pin}`
-    };
-
-    try {
-        const response = await fetch("https://formspree.io/f/xaqpgaaq", {
-            method: "POST",
-            body: JSON.stringify(orderData),
-            headers: {
-                'Accept': 'application/json'
-            }
-        });
-
-        if (response.ok) {
-            // SUCCESS: Now we show YOUR screens manually
-            localStorage.setItem('last_processed_order', JSON.stringify(orderData));
-            
-            // 1. Hide the checkout/cart UI
-            toggleCart(); // Close the side cart if open
-            
-            // 2. Show your "Baking in Progress" Overlay (from your screenshot)
-            document.getElementById("successOverlay").style.display = "flex";
-
-            // 3. Set the button to go to your receipt page
-            document.getElementById("viewReceiptBtn").onclick = () => {
-                window.location.href = 'confirmation.html';
-            };
-
-            // 4. Clear cart only after success
-            cart = [];
-            saveCart();
-        } else {
-            const data = await response.json();
-            if (data.errors) {
-                alert(data.errors.map(error => error.message).join(", "));
-            } else {
-                alert("Oops! There was a problem. Please try again.");
-            }
-        }
-    } catch (error) {
-        alert("Connection failed. Please check your internet.");
-    } finally {
-        btn.innerText = "Confirm Order";
-        btn.disabled = false;
-    }
-    }
-    style.display = "block";
+    document.getElementById("proceedToDeliveryBtn").style.display = "block";
     
     // Hide delivery form
     document.getElementById("checkoutSection").style.display = "none";
@@ -917,7 +850,6 @@ function toggleCart() {
         renderCart();
     }
 }
-
 
 
 async function proceedToCheckout() {
