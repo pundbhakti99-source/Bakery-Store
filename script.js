@@ -859,27 +859,30 @@ function toggleCart() {
 }
 
 async function proceedToCheckout() {
-    // 1. Validation
+    // 1. Get user input
     const name = document.getElementById("checkoutName").value.trim();
     const phone = document.getElementById("checkoutPhone").value.trim();
     const address = document.getElementById("checkoutAddress").value.trim();
     const pin = document.getElementById("checkoutPin").value.trim();
 
+    // 2. Simple Validation
     if (cart.length === 0) return alert("Your basket is empty!");
-    if (name.length < 3 || !/^\d{10}$/.test(phone)) return alert("Check your details (Name & 10-digit Phone).");
+    if (name.length < 3 || !/^\d{10}$/.test(phone)) {
+        return alert("Please enter a valid Name and 10-digit Phone number.");
+    }
 
-    // 2. UI Feedback
+    // 3. UI Feedback (Let them know it's working)
     const btn = document.querySelector('.checkout-btn');
-    btn.innerText = "Baking Your Order..."; 
+    btn.innerText = "Processing Your Treats...";
     btn.disabled = true;
 
-    // 3. Data Preparation
+    // 4. Calculate Totals
     const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     const discount = (typeof currentDiscount !== 'undefined') ? currentDiscount : 0;
     const finalTotal = Math.round(subtotal - (subtotal * discount));
     const itemsString = cart.map(item => `${item.name} (x${item.quantity})`).join('\n');
 
-    // 4. Save for Receipt (Crucial: do this BEFORE the redirect)
+    // 5. SAVE DATA FOR RECEIPT (Crucial: do this BEFORE the redirect)
     const orderData = {
         Order_ID: `GW-${Math.floor(1000 + Math.random() * 9000)}`,
         Customer_Name: name,
@@ -890,7 +893,7 @@ async function proceedToCheckout() {
     };
     localStorage.setItem('last_processed_order', JSON.stringify(orderData));
 
-    // 5. THE SHADOW FORM: Creates a real POST request for Formspree
+    // 6. THE SHADOW FORM (This fixes the "Form should POST" error)
     const form = document.createElement('form');
     form.method = 'POST';
     form.action = 'https://formspree.io/f/xaqpgaaq';
@@ -899,12 +902,13 @@ async function proceedToCheckout() {
         Customer: name,
         Contact: phone,
         Total_Amount: `₹${finalTotal}`,
-        Order_Details: itemsString,
-        Address: `${address}, PIN: ${pin}`,
-        // Redirects back to your receipt page after CAPTCHA
+        Items_Ordered: itemsString,
+        Full_Address: `${address}, PIN: ${pin}`,
+        // This tells Formspree where to go after the CAPTCHA
         _next: 'https://pundbhakti99-source.github.io/Bakery-Store/confirmation.html'
     };
 
+    // Add each piece of data as a hidden input
     for (const key in formData) {
         const input = document.createElement('input');
         input.type = 'hidden';
@@ -913,10 +917,11 @@ async function proceedToCheckout() {
         form.appendChild(input);
     }
 
-    // 6. Submit and Redirect
+    // 7. Submit and Clear
     document.body.appendChild(form);
-    form.submit();
+    form.submit(); // This will handle the redirect and CAPTCHA correctly
 }
+
 
 function simulatePayment() {
     const btn = document.getElementById('mock-paypal-button');
