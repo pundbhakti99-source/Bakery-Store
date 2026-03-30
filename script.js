@@ -858,83 +858,61 @@ async function proceedToCheckout() {
     const pin = document.getElementById("checkoutPin").value.trim();
 
     // 2. Validation
-    if (cart.length === 0) { return alert("Your basket is empty!"); }
+    if (cart.length === 0) return alert("Your basket is empty!");
     if (name.length < 3 || !/^\d{10}$/.test(phone) || address.length < 10 || !/^\d{6}$/.test(pin)) {
         return alert("Please check your delivery details.");
     }
 
     // 3. UI Feedback
     const btn = document.querySelector('.checkout-btn');
-    const originalText = btn.innerText;
-    btn.innerText = "Verifying Order..."; // Changed to let user know verification is happening
+    btn.innerText = "Verifying & Sending...";
     btn.disabled = true;
 
-    // --- DISCOUNT CALCULATION ---
+    // 4. Calculations (Discount Logic)
     const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     const discountAmount = subtotal * (typeof currentDiscount !== 'undefined' ? currentDiscount : 0);
     const finalTotal = Math.round(subtotal - discountAmount);
+    const itemsString = cart.map(item => `${item.name} (x${item.quantity})`).join(', ');
 
-    // 4. Prepare Order Data
+    // 5. Save for Confirmation Page (MUST happen before redirect)
     const orderData = {
         Order_ID: `GW-${Math.floor(1000 + Math.random() * 9000)}`,
         Customer_Name: name,
-        Phone: phone,
+        Grand_Total: `₹${finalTotal}`,
         Delivery_Address: `${address} - ${pin}`,
-        Payment_Method: selectedPayment,
-        Items: cart.map(item => `${item.name} (x${item.quantity}) - ₹${item.price * item.quantity}`).join('\n'),
-        Subtotal: `₹${subtotal}`,
-        Discount: currentDiscount > 0 ? `${currentDiscount * 100}%` : "None",
-        Grand_Total: `₹${finalTotal}`
+        Items: itemsString,
+        Payment_Method: selectedPayment
     };
-
-    // SAVE DATA IMMEDIATELY (So it's ready for confirmation.html even if we redirect)
     localStorage.setItem('last_processed_order', JSON.stringify(orderData));
 
-    try {
-        // 5. SEND TO FORMSPREE
-        const response = await fetch("https://formspree.io/f/xaqpgaaq", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json' // Crucial: tells Formspree we want JSON back
-            },
-            body: JSON.stringify(orderData)
-        });
+    // 6. CREATE THE SECURE POST FORM
+    const form = document.createElement('form');
+    form.method = 'POST'; // This fixes your "Form should POST" error
+    form.action = 'https://formspree.io/f/xaqpgaaq';
 
-        const result = await response.json();
+    // Data fields for your email
+    const fields = {
+        Customer: name,
+        Phone: phone,
+        Address: `${address} - ${pin}`,
+        Total_Paid: `₹${finalTotal}`,
+        Items: itemsString,
+        // Tells Formspree where to go after CAPTCHA is solved
+        _next: 'https://pundbhakti99-source.github.io/Bakery-Store/confirmation.html'
+    };
 
-        // --- CAPTCHA REDIRECT LOGIC ---
-        // If Formspree requires a CAPTCHA, it provides a 'next' URL
-        if (!response.ok && result.next) {
-            window.location.href = result.next;
-            return;
-        }
-
-        if (response.ok) {
-            // 6. Success Logic (Same as your original)
-            btn.innerHTML = "Order Placed ✓";
-            btn.style.background = "#4CAF50";
-
-            setTimeout(() => {
-                cart = [];
-                saveCart();
-                toggleCart(); 
-                
-                document.getElementById('receipt-payment-method').innerText = selectedPayment;
-                document.getElementById("successOverlay").style.display = "flex";
-                
-                document.getElementById("viewReceiptBtn").onclick = () => {
-                    window.location.href = 'confirmation.html';
-                };
-            }, 800);
-        } else {
-            throw new Error("Formspree error");
-        }
-    } catch (error) {
-        // Fallback: If fetch is blocked by reCAPTCHA, we use a standard redirect
-        console.log("Redirecting for verification...");
-        window.location.href = "https://formspree.io/f/xaqpgaaq";
+    // Add fields to form
+    for (const key in fields) {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = key;
+        input.value = fields[key];
+        form.appendChild(input);
     }
+
+    // 7. FINAL SUBMIT
+    document.body.appendChild(form);
+    form.submit();
 }
 
 
