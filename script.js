@@ -851,91 +851,72 @@ function toggleCart() {
     }
 }
 
-async function proceedToCheckout() {
-    // 1. Grab values
-    const name = document.getElementById("checkoutName").value.trim();
-    const phone = document.getElementById("checkoutPhone").value.trim();
-    const address = document.getElementById("checkoutAddress").value.trim();
-    const pin = document.getElementById("checkoutPin").value.trim();
 
-    // 2. Validation
-    if (cart.length === 0) { return alert("Your basket is empty!"); }
-    if (name.length < 3 || !/^\d{10}$/.test(phone) || address.length < 10 || !/^\d{6}$/.test(pin)) {
-        return alert("Please check your delivery details.");
-    }
-
-    // 3. UI Feedback
-    const btn = document.querySelector('.checkout-btn');
-    const originalText = btn.innerText;
-    btn.innerText = "Verifying & Sending...";
-    btn.disabled = true;
-
-    // 4. Calculations
-    const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    const discount = (typeof currentDiscount !== 'undefined') ? currentDiscount : 0;
-    const finalTotal = Math.round(subtotal - (subtotal * discount));
-
-    // 5. Prepare Order Data
-    const orderData = {
-        Order_ID: `GW-${Math.floor(1000 + Math.random() * 9000)}`,
-        Customer_Name: name,
-        Phone: phone,
-        Delivery_Address: `${address} - ${pin}`,
-        Payment_Method: selectedPayment,
-        Items: cart.map(item => `${item.name} (x${item.quantity}) - ₹${item.price * item.quantity}`).join('\n'),
-        Grand_Total: `₹${finalTotal}`
-    };
-
-    // CRITICAL: Save data to localStorage BEFORE trying to send
-    localStorage.setItem('last_processed_order', JSON.stringify(orderData));
-
-    try {
-        // 6. SEND TO FORMSPREE
-        const response = await fetch("https://formspree.io/f/xaqpgaaq", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify(orderData)
-        });
-
-        const result = await response.json();
-
-        // 7. CAPTCHA HANDLING (For Free Tier)
-        if (!response.ok && result.next) {
-            // Redirect user to Formspree's CAPTCHA page
-            window.location.href = result.next;
-            return;
-        }
-
-        if (response.ok) {
-            // SUCCESS UI
-            btn.innerHTML = "Order Placed ✓";
-            btn.style.background = "#4CAF50";
-
-            setTimeout(() => {
-                cart = []; // Clear current cart variable
-                saveCart(); // Sync to storage
-                
-                // Show your custom success overlay
-                document.getElementById("successOverlay").style.display = "flex";
-                document.getElementById('receipt-payment-method').innerText = selectedPayment;
-                
-                document.getElementById("viewReceiptBtn").onclick = () => {
-                    window.location.href = 'confirmation.html';
-                };
-            }, 800);
-        } else {
-            throw new Error("Submission failed");
-        }
-    } catch (error) {
         // Fallback for standard errors or blocked fetch
         console.log("Redirecting for manual verification...");
         window.location.href = "https://formspree.io/f/xaqpgaaq";
     }
 }
 
+async function proceedToCheckout() {
+    // 1. Validation
+    const name = document.getElementById("checkoutName").value.trim();
+    const phone = document.getElementById("checkoutPhone").value.trim();
+    const address = document.getElementById("checkoutAddress").value.trim();
+    const pin = document.getElementById("checkoutPin").value.trim();
+
+    if (cart.length === 0) return alert("Your basket is empty!");
+    if (name.length < 3 || !/^\d{10}$/.test(phone)) return alert("Check your details (Name & 10-digit Phone).");
+
+    // 2. UI Feedback
+    const btn = document.querySelector('.checkout-btn');
+    btn.innerText = "Baking Your Order..."; 
+    btn.disabled = true;
+
+    // 3. Data Preparation
+    const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const discount = (typeof currentDiscount !== 'undefined') ? currentDiscount : 0;
+    const finalTotal = Math.round(subtotal - (subtotal * discount));
+    const itemsString = cart.map(item => `${item.name} (x${item.quantity})`).join('\n');
+
+    // 4. Save for Receipt (Crucial: do this BEFORE the redirect)
+    const orderData = {
+        Order_ID: `GW-${Math.floor(1000 + Math.random() * 9000)}`,
+        Customer_Name: name,
+        Grand_Total: `₹${finalTotal}`,
+        Delivery_Address: `${address} - ${pin}`,
+        Items: itemsString,
+        Payment_Method: selectedPayment
+    };
+    localStorage.setItem('last_processed_order', JSON.stringify(orderData));
+
+    // 5. THE SHADOW FORM: Creates a real POST request for Formspree
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = 'https://formspree.io/f/xaqpgaaq';
+
+    const formData = {
+        Customer: name,
+        Contact: phone,
+        Total_Amount: `₹${finalTotal}`,
+        Order_Details: itemsString,
+        Address: `${address}, PIN: ${pin}`,
+        // Redirects back to your receipt page after CAPTCHA
+        _next: 'https://pundbhakti99-source.github.io/Bakery-Store/confirmation.html'
+    };
+
+    for (const key in formData) {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = key;
+        input.value = formData[key];
+        form.appendChild(input);
+    }
+
+    // 6. Submit and Redirect
+    document.body.appendChild(form);
+    form.submit();
+}
 
 function simulatePayment() {
     const btn = document.getElementById('mock-paypal-button');
