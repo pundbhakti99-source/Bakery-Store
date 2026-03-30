@@ -867,16 +867,15 @@ async function proceedToCheckout() {
     // 3. UI Feedback
     const btn = document.querySelector('.checkout-btn');
     const originalText = btn.innerText;
-    btn.innerText = "Sending Order...";
+    btn.innerText = "Verifying & Sending...";
     btn.disabled = true;
 
-    // --- DISCOUNT CALCULATION START ---
+    // 4. Calculations
     const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    const discountAmount = subtotal * (typeof currentDiscount !== 'undefined' ? currentDiscount : 0);
-    const finalTotal = Math.round(subtotal - discountAmount);
-    // --- DISCOUNT CALCULATION END ---
+    const discount = (typeof currentDiscount !== 'undefined') ? currentDiscount : 0;
+    const finalTotal = Math.round(subtotal - (subtotal * discount));
 
-    // 4. Prepare Order Data for Email
+    // 5. Prepare Order Data
     const orderData = {
         Order_ID: `GW-${Math.floor(1000 + Math.random() * 9000)}`,
         Customer_Name: name,
@@ -884,13 +883,14 @@ async function proceedToCheckout() {
         Delivery_Address: `${address} - ${pin}`,
         Payment_Method: selectedPayment,
         Items: cart.map(item => `${item.name} (x${item.quantity}) - ₹${item.price * item.quantity}`).join('\n'),
-        Subtotal: `₹${subtotal}`,
-        Discount: currentDiscount > 0 ? `${currentDiscount * 100}%` : "None",
-        Grand_Total: `₹${finalTotal}` // Using the discounted total here
+        Grand_Total: `₹${finalTotal}`
     };
 
+    // CRITICAL: Save data to localStorage BEFORE trying to send
+    localStorage.setItem('last_processed_order', JSON.stringify(orderData));
+
     try {
-        // 5. SEND TO FORMSPREE
+        // 6. SEND TO FORMSPREE
         const response = await fetch("https://formspree.io/f/xaqpgaaq", {
             method: "POST",
             headers: {
@@ -900,33 +900,39 @@ async function proceedToCheckout() {
             body: JSON.stringify(orderData)
         });
 
+        const result = await response.json();
+
+        // 7. CAPTCHA HANDLING (For Free Tier)
+        if (!response.ok && result.next) {
+            // Redirect user to Formspree's CAPTCHA page
+            window.location.href = result.next;
+            return;
+        }
+
         if (response.ok) {
-            // 6. Success Logic
+            // SUCCESS UI
             btn.innerHTML = "Order Placed ✓";
             btn.style.background = "#4CAF50";
 
-            // Save the version with the discount for the confirmation page
-            localStorage.setItem('last_processed_order', JSON.stringify(orderData));
-
             setTimeout(() => {
-                cart = [];
-                saveCart();
-                toggleCart(); 
+                cart = []; // Clear current cart variable
+                saveCart(); // Sync to storage
                 
-                document.getElementById('receipt-payment-method').innerText = selectedPayment;
+                // Show your custom success overlay
                 document.getElementById("successOverlay").style.display = "flex";
+                document.getElementById('receipt-payment-method').innerText = selectedPayment;
                 
                 document.getElementById("viewReceiptBtn").onclick = () => {
                     window.location.href = 'confirmation.html';
                 };
             }, 800);
         } else {
-            throw new Error("Formspree error");
+            throw new Error("Submission failed");
         }
     } catch (error) {
-        alert("Oops! Connection failed. Please check your internet and try again.");
-        btn.innerText = originalText;
-        btn.disabled = false;
+        // Fallback for standard errors or blocked fetch
+        console.log("Redirecting for manual verification...");
+        window.location.href = "https://formspree.io/f/xaqpgaaq";
     }
 }
 
