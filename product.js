@@ -281,20 +281,6 @@ const products = [
     "desc": "Flaky puff pastry envelope filled with cinnamon-spiced apple compote and glazed with sugar."
   },
   {
-    "name": "Chocolate Éclair",
-    "price": 155,
-    "cat": "pastries",
-    "img": "https://www.gogogogourmet.com/wp-content/uploads/2015/02/Chocolate-Eclairs-7.jpg",
-    "desc": "Choux pastry filled with silky vanilla custard and topped with rich dark chocolate ganache."
-  },
-  {
-    "name": "Coffee Éclair",
-    "price": 160,
-    "cat": "pastries",
-    "img": "https://whippedfood.com/wp-content/uploads/2023/09/Coffee-Eclair.jpg",
-    "desc": "Light choux pastry filled with espresso-infused cream and glazed with coffee fondant."
-  },
-  {
     "name": "Fruit Danish Crown",
     "price": 140,
     "cat": "pastries",
@@ -510,13 +496,6 @@ const products = [
     "cat": "cakes",
     "img": "https://butternutbakeryblog.com/wp-content/uploads/2023/07/lemon-raspberry-cake.jpg",
     "desc": "Zesty lemon cake layers with raspberry curd filling and Italian meringue frosting."
-  },
-  {
-    "name": "German Chocolate",
-    "price": 720,
-    "cat": "cakes",
-    "img": "https://tasteofrecipe.net/wp-content/uploads/2024/09/aspic7_German_Chocolate_Cake_32dbdccf-2110-4577-b9cc-7e80fe887f3e.png",
-    "desc": "Classic chocolate cake topped with coconut-pecan frosting, a Southern American tradition."
   },
   {
     "name": "Black Forest Gateau",
