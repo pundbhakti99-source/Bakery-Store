@@ -726,41 +726,24 @@ function changeQty(index, delta) {
 function renderCart() {
     const list = document.getElementById("cartItemsList");
     const totalEl = document.getElementById("cartTotal");
-    let total = 0;
+    let subtotal = 0;
 
-    if (cart.length === 0) {
-        list.innerHTML = `<div class="empty-msg" style="text-align:center; padding:40px;">
-                            <p>Your basket is empty.</p>
-                          </div>`;
-        totalEl.innerText = "₹0";
-        document.getElementById("paypal-button-container").innerHTML = ""; // Clear buttons if empty
-        return;
-    }
+    // ... (keep your existing cart.map logic)
+    cart.forEach(item => subtotal += (item.price * item.quantity));
 
-    list.innerHTML = cart.map((item, index) => {
-        const itemTotal = item.price * item.quantity;
-        total += itemTotal;
-        return `
-            <div class="cart-item">
-                <img src="${item.img}" style="width:60px; height:60px; border-radius:8px; object-fit:cover;">
-                <div style="flex:1; margin-left:15px;">
-                    <h4 style="font-size:0.9rem;">${item.name}</h4>
-                    <p style="font-size:0.8rem; color:#82937E; font-weight:bold;">₹${item.price}</p>
-                </div>
-                <div class="qty-controls" style="display:flex; align-items:center; gap:10px;">
-                    <button onclick="changeQty(${index}, -1)" style="border:1px solid #ddd; background:none; width:25px; cursor:pointer;">-</button>
-                    <span>${item.quantity}</span>
-                    <button onclick="changeQty(${index}, 1)" style="border:1px solid #ddd; background:none; width:25px; cursor:pointer;">+</button>
-                </div>
-            </div>
-        `;
-    }).join('');
+    // Calculate discount
+    const discountAmount = subtotal * discountPercent;
+    const finalTotal = subtotal - discountAmount;
 
-    totalEl.innerText = `₹${total}`;
+    totalEl.innerHTML = `
+        <div style="font-size: 0.8rem; color: #888;">Subtotal: ₹${subtotal}</div>
+        ${discountPercent > 0 ? `<div style="color: green; font-size: 0.8rem;">Discount: -₹${discountAmount}</div>` : ''}
+        <div>Total: ₹${finalTotal}</div>
+    `;
     
-    // Initialize PayPal whenever cart renders (and has items)
-    initPayPalButton(total);
+    initPayPalButton(finalTotal);
 }
+
 
 /**
  * 4. PAYPAL INTEGRATION
