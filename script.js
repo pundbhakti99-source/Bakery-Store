@@ -726,21 +726,20 @@ function changeQty(index, delta) {
 function renderCart() {
     const list = document.getElementById("cartItemsList");
     const totalEl = document.getElementById("cartTotal");
+    let total = 0;
 
-    // 1. Handle Empty Cart
     if (cart.length === 0) {
-        list.innerHTML = `
-            <div class="empty-msg" style="text-align:center; padding:40px;">
-                <p>Your basket is empty.</p>
-            </div>`;
+        list.innerHTML = `<div class="empty-msg" style="text-align:center; padding:40px;">
+                            <p>Your basket is empty.</p>
+                          </div>`;
         totalEl.innerText = "₹0";
-        const paypalContainer = document.getElementById("paypal-button-container");
-        if (paypalContainer) paypalContainer.innerHTML = ""; 
+        document.getElementById("paypal-button-container").innerHTML = ""; // Clear buttons if empty
         return;
     }
 
-    // 2. Render Item List
     list.innerHTML = cart.map((item, index) => {
+        const itemTotal = item.price * item.quantity;
+        total += itemTotal;
         return `
             <div class="cart-item">
                 <img src="${item.img}" style="width:60px; height:60px; border-radius:8px; object-fit:cover;">
@@ -757,25 +756,11 @@ function renderCart() {
         `;
     }).join('');
 
-    // 3. Calculate Totals (Subtotal vs Discounted Total)
-    const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    const discountAmount = subtotal * (typeof currentDiscount !== 'undefined' ? currentDiscount : 0);
-    const finalTotal = Math.round(subtotal - discountAmount);
-
-    // 4. Update the Price UI
-    if (discountAmount > 0) {
-        totalEl.innerHTML = `
-            <span style="text-decoration: line-through; color: #888; font-size: 0.9rem; margin-right:8px;">₹${subtotal}</span> 
-            ₹${finalTotal}
-        `;
-    } else {
-        totalEl.innerText = `₹${subtotal}`;
-    }
+    totalEl.innerText = `₹${total}`;
     
-    // 5. Update PayPal/Checkout buttons with the final amount
-    initPayPalButton(finalTotal);
+    // Initialize PayPal whenever cart renders (and has items)
+    initPayPalButton(total);
 }
-
 
 /**
  * 4. PAYPAL INTEGRATION
@@ -836,20 +821,20 @@ function hideDeliveryForm() {
     // Hide delivery form
     document.getElementById("checkoutSection").style.display = "none";
 }
-
 function toggleCart() {
     const sidebar = document.getElementById("cartSidebar");
     const overlay = document.getElementById("cartOverlay");
     const isOpen = sidebar.classList.toggle("open");
 
-    if (overlay) overlay.style.display = isOpen ? "block" : "none";
+    overlay.style.display = isOpen ? "block" : "none";
 
     // Logic: Always reset to the Basket view when opening
     if (isOpen) {
         hideDeliveryForm(); 
-        if (typeof renderCart === "function") renderCart();
+        renderCart();
     }
 }
+
 async function proceedToCheckout() {
     // 1. Grab values
     const name = document.getElementById("checkoutName").value.trim();
@@ -921,6 +906,7 @@ async function proceedToCheckout() {
         btn.disabled = false;
     }
 }
+
 function simulatePayment() {
     const btn = document.getElementById('mock-paypal-button');
     const originalText = btn.innerHTML;
@@ -932,7 +918,7 @@ function simulatePayment() {
         selectedPayment = 'PayPal / Debit Card'; // Sets the method for the receipt
         proceedToCheckout(); // Calls your existing checkout function
         
-        // Resetbutton for next time
+        // Reset button for next time
         btn.innerHTML = originalText;
         btn.style.opacity = "1";
         btn.style.pointerEvents = "auto";
@@ -945,22 +931,20 @@ function copyPromo(code) {
         
 
 function applyDiscount() {
-    const code = document.getElementById("promoCode").value.trim().toUpperCase();
-    const status = document.getElementById("discountStatus");
-    
-    // Example: 20% off with code "GOLDEN20"
+    const code = document.getElementById("promoInput").value.trim().toUpperCase();
+    const message = document.getElementById("promoMessage");
+
     if (code === "GOLDEN20") {
-        currentDiscount = 0.20; 
-        status.innerText = "✓ 20% discount applied!";
-        status.style.color = "#82937E";
-    } else if (code === "") {
-        currentDiscount = 0;
-        status.innerText = "";
+        discountPercent = 0.20; // 20% discount
+        message.style.color = "green";
+        message.innerText = "Success! 20% discount applied. 🧁";
+        updateCartCount();
+        renderCart();
     } else {
-        currentDiscount = 0;
-        status.innerText = "× Invalid code.";
-        status.style.color = "red";
+        discountPercent = 0;
+        message.style.color = "red";
+        message.innerText = "Invalid code. Please try again.";
+       updateCartCount();
+        renderCart();
     }
-    
-    renderCart(); // Re-render to update the price
 }
