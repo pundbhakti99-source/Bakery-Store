@@ -728,19 +728,21 @@ function renderCart() {
     const totalEl = document.getElementById("cartTotal");
     let subtotal = 0;
 
-    // ... (keep your existing cart.map logic)
+    // ... (Your existing map logic for items)
     cart.forEach(item => subtotal += (item.price * item.quantity));
 
-    // Calculate discount
-    const discountAmount = subtotal * discountPercent;
-    const finalTotal = subtotal - discountAmount;
+    // Calculate the actual savings
+    const savings = subtotal * discountPercent;
+    const finalTotal = Math.round(subtotal - savings);
 
+    // Update the UI with a breakdown
     totalEl.innerHTML = `
-        <div style="font-size: 0.8rem; color: #888;">Subtotal: ₹${subtotal}</div>
-        ${discountPercent > 0 ? `<div style="color: green; font-size: 0.8rem;">Discount: -₹${discountAmount}</div>` : ''}
-        <div>Total: ₹${finalTotal}</div>
+        <div style="font-size: 0.8rem; color: #777;">Subtotal: ₹${subtotal}</div>
+        ${discountPercent > 0 ? `<div style="color: #82937E; font-size: 0.8rem;">Promo Applied (-20%)</div>` : ''}
+        <div style="font-size: 1.2rem; font-weight: bold;">Total: ₹${finalTotal}</div>
     `;
     
+    // Crucial: Pass the discounted total to PayPal
     initPayPalButton(finalTotal);
 }
 
