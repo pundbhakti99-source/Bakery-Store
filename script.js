@@ -852,63 +852,83 @@ function toggleCart() {
 }
 
 async function proceedToCheckout() {
-    // 1. Validation (Keep your existing validation here)
+    // 1. Grab values
     const name = document.getElementById("checkoutName").value.trim();
     const phone = document.getElementById("checkoutPhone").value.trim();
     const address = document.getElementById("checkoutAddress").value.trim();
     const pin = document.getElementById("checkoutPin").value.trim();
 
-    if (cart.length === 0) return alert("Your basket is empty!");
+    // 2. Validation
+    if (cart.length === 0) { return alert("Your basket is empty!"); }
+    if (name.length < 3 || !/^\d{10}$/.test(phone) || address.length < 10 || !/^\d{6}$/.test(pin)) {
+        return alert("Please check your delivery details.");
+    }
 
-    // 2. UI Feedback
+    // 3. UI Feedback
     const btn = document.querySelector('.checkout-btn');
-    btn.innerText = "Redirecting to Secure Check...";
+    const originalText = btn.innerText;
+    btn.innerText = "Sending Order...";
     btn.disabled = true;
 
-    // 3. Prepare Data
+    // --- DISCOUNT CALCULATION START ---
     const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    const discount = (typeof currentDiscount !== 'undefined') ? currentDiscount : 0;
-    const finalTotal = Math.round(subtotal - (subtotal * discount));
-    const itemsString = cart.map(item => `${item.name} (x${item.quantity})`).join('\n');
+    const discountAmount = subtotal * (typeof currentDiscount !== 'undefined' ? currentDiscount : 0);
+    const finalTotal = Math.round(subtotal - discountAmount);
+    // --- DISCOUNT CALCULATION END ---
 
-    // 4. CRITICAL: Save to localStorage BEFORE the page changes
+    // 4. Prepare Order Data for Email
     const orderData = {
         Order_ID: `GW-${Math.floor(1000 + Math.random() * 9000)}`,
         Customer_Name: name,
-        Grand_Total: `₹${finalTotal}`,
+        Phone: phone,
         Delivery_Address: `${address} - ${pin}`,
-        Items: itemsString,
-        Payment_Method: typeof selectedPayment !== 'undefined' ? selectedPayment : "Online"
-    };
-    localStorage.setItem('last_processed_order', JSON.stringify(orderData));
-
-    // 5. THE FIX: Submit via a hidden form to handle reCAPTCHA
-    const form = document.createElement('form');
-    form.method = 'POST';
-    form.action = 'https://formspree.io/f/xaqpgaaq';
-
-    const fields = {
-        Customer: name,
-        Total: `₹${finalTotal}`,
-        Items: itemsString,
-        // This tells Formspree where to send the user AFTER reCAPTCHA
-        _next: 'https://pundbhakti99-source.github.io/Bakery-Store/confirmation.html'
+        Payment_Method: selectedPayment,
+        Items: cart.map(item => `${item.name} (x${item.quantity}) - ₹${item.price * item.quantity}`).join('\n'),
+        Subtotal: `₹${subtotal}`,
+        Discount: currentDiscount > 0 ? `${currentDiscount * 100}%` : "None",
+        Grand_Total: `₹${finalTotal}` // Using the discounted total here
     };
 
-    for (const key in fields) {
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = key;
-        input.value = fields[key];
-        form.appendChild(input);
+    try {
+        // 5. SEND TO FORMSPREE
+        const response = await fetch("https://formspree.io/f/xaqpgaaq", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(orderData)
+        });
+
+        if (response.ok) {
+            // 6. Success Logic
+            btn.innerHTML = "Order Placed ✓";
+            btn.style.background = "#4CAF50";
+
+            // Save the version with the discount for the confirmation page
+            localStorage.setItem('last_processed_order', JSON.stringify(orderData));
+
+            setTimeout(() => {
+                cart = [];
+                saveCart();
+                toggleCart(); 
+                
+                document.getElementById('receipt-payment-method').innerText = selectedPayment;
+                document.getElementById("successOverlay").style.display = "flex";
+                
+                document.getElementById("viewReceiptBtn").onclick = () => {
+                    window.location.href = 'confirmation.html';
+                };
+            }, 800);
+        } else {
+            throw new Error("Formspree error");
+        }
+    } catch (error) {
+        alert("Oops! Connection failed. Please check your internet and try again.");
+        btn.innerText = originalText;
+        btn.disabled = false;
     }
-
-    document.body.appendChild(form);
-    form.submit();
 }
-
-
-
 function simulatePayment() {
     const btn = document.getElementById('mock-paypal-button');
     const originalText = btn.innerHTML;
