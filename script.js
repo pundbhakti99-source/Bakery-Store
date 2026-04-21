@@ -728,21 +728,47 @@ function renderCart() {
     const totalEl = document.getElementById("cartTotal");
     let subtotal = 0;
 
-    // ... (Your existing map logic for items)
-    cart.forEach(item => subtotal += (item.price * item.quantity));
+    // 1. Check if cart is empty
+    if (cart.length === 0) {
+        list.innerHTML = `<div class="empty-msg" style="text-align:center; padding:40px;">
+                            <p>Your basket is empty.</p>
+                          </div>`;
+        totalEl.innerHTML = "₹0";
+        document.getElementById("paypal-button-container").innerHTML = ""; 
+        return;
+    }
 
-    // Calculate the actual savings
+    // 2. Generate Item List and Calculate Subtotal
+    list.innerHTML = cart.map((item, index) => {
+        subtotal += (item.price * item.quantity);
+        return `
+            <div class="cart-item">
+                <img src="${item.img}" style="width:60px; height:60px; border-radius:8px; object-fit:cover;">
+                <div style="flex:1; margin-left:15px;">
+                    <h4 style="font-size:0.9rem;">${item.name}</h4>
+                    <p style="font-size:0.8rem; color:#82937E; font-weight:bold;">₹${item.price}</p>
+                </div>
+                <div class="qty-controls" style="display:flex; align-items:center; gap:10px;">
+                    <button onclick="changeQty(${index}, -1)">-</button>
+                    <span>${item.quantity}</span>
+                    <button onclick="changeQty(${index}, 1)">+</button>
+                </div>
+            </div>
+        `;
+    }).join('');
+
+    // 3. Apply Discount Logic
     const savings = subtotal * discountPercent;
     const finalTotal = Math.round(subtotal - savings);
 
-    // Update the UI with a breakdown
+    // 4. Update the UI Breakdown
     totalEl.innerHTML = `
-        <div style="font-size: 0.8rem; color: #777;">Subtotal: ₹${subtotal}</div>
-        ${discountPercent > 0 ? `<div style="color: #82937E; font-size: 0.8rem;">Promo Applied (-20%)</div>` : ''}
-        <div style="font-size: 1.2rem; font-weight: bold;">Total: ₹${finalTotal}</div>
+        <div style="font-size: 0.85rem; color: #777;">Subtotal: ₹${subtotal}</div>
+        ${discountPercent > 0 ? `<div style="color: #82937E; font-size: 0.85rem;">Promo Applied (-${discountPercent * 100}%)</div>` : ''}
+        <div style="font-size: 1.2rem; font-weight: bold; margin-top: 5px;">Total: ₹${finalTotal}</div>
     `;
     
-    // Crucial: Pass the discounted total to PayPal
+    // 5. Update Payment Gateway with the Final Total
     initPayPalButton(finalTotal);
 }
 
