@@ -866,7 +866,13 @@ async function proceedToCheckout() {
     btn.disabled = true;
 
     // 4. Prepare Order Data for Email
-    const totalAmount = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    // ... inside proceedToCheckout function ...
+
+    // 4. Prepare Order Data (UPDATED TO INCLUDE DISCOUNT)
+    const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const savings = subtotal * discountPercent;
+    const finalTotal = Math.round(subtotal - savings);
+
     const orderData = {
         Order_ID: `GW-${Math.floor(1000 + Math.random() * 9000)}`,
         Customer_Name: name,
@@ -874,9 +880,13 @@ async function proceedToCheckout() {
         Delivery_Address: `${address} - ${pin}`,
         Payment_Method: selectedPayment,
         Items: cart.map(item => `${item.name} (x${item.quantity}) - ₹${item.price * item.quantity}`).join('\n'),
-        Grand_Total: `₹${totalAmount}`
+        Subtotal: `₹${subtotal}`, // New field
+        Discount: discountPercent > 0 ? `${discountPercent * 100}%` : "None", // New field
+        Grand_Total: `₹${finalTotal}` // Now reflects the discount!
     };
 
+// ... rest of the function ...
+    
     try {
         // 5. SEND TO FORMSPREE
         const response = await fetch("https://formspree.io/f/xaqpgaaq", {
