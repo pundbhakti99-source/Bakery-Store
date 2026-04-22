@@ -22,14 +22,24 @@
         <h2 style="margin: 5px 0;">Thank You!</h2>
         <p class="order-id" id="receipt-id">Order #-------</p>
     </div>
+<div id="receipt-items"></div>
 
-    <div id="receipt-items">
-        </div>
-
-    <div class="total-row">
-        <span>Grand Total</span>
-        <span id="receipt-total">₹0</span>
+<div style="border-top: 1px solid #eee; margin-top: 15px; padding-top: 10px; font-size: 0.9rem; color: #666;">
+    <div class="item-row">
+        <span>Subtotal</span>
+        <span id="receipt-subtotal">₹0</span>
     </div>
+    <div class="item-row" id="receipt-discount-row" style="display: none; color: #82937E;">
+        <span>Promo Discount</span>
+        <span id="receipt-discount-val">-₹0</span>
+    </div>
+</div>
+
+<div class="total-row">
+    <span>Grand Total</span>
+    <span id="receipt-total">₹0</span>
+</div>
+    
 
     <div class="details">
         <strong>Delivering to:</strong><br>
