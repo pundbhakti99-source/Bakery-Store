@@ -67,10 +67,27 @@
             document.getElementById('receipt-id').innerText = `Order #${order.Order_ID}`;
         }
         
+    
+        // ... inside window.onload on confirmation.html ...
+
         if(document.getElementById('receipt-total')) {
             document.getElementById('receipt-total').innerText = order.Grand_Total;
         }
 
+        // Add this logic to handle the subtotal and discount display
+        if(order.Subtotal) {
+            document.getElementById('receipt-subtotal').innerText = order.Subtotal;
+        }
+
+        if(order.Discount && order.Discount !== "None") {
+            const sub = parseInt(order.Subtotal.replace('₹', ''));
+            const grand = parseInt(order.Grand_Total.replace('₹', ''));
+            
+            document.getElementById('receipt-discount-row').style.display = 'flex';
+            document.getElementById('receipt-discount-val').innerText = `-₹${sub - grand}`;
+        }
+// ...
+        
         if(document.getElementById('receipt-address')) {
             document.getElementById('receipt-address').innerText = order.Delivery_Address;
         }
