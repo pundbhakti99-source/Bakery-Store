@@ -940,22 +940,26 @@ function copyPromo(code) {
     alert("Promo code " + code + " copied to clipboard! 🧁");
 }
         
-
 function applyDiscount() {
-    const code = document.getElementById("promoInput").value.trim().toUpperCase();
+    const input = document.getElementById("promoInput");
+    const code = input.value.trim().toUpperCase();
     const message = document.getElementById("promoMessage");
 
     if (code === "GOLDEN20") {
-        discountPercent = 0.20; // 20% discount
-        message.style.color = "green";
+        discountPercent = 0.20; 
+        message.style.color = "#82937E"; // Using your brand green
         message.innerText = "Success! 20% discount applied. 🧁";
-        updateCartCount();
-        renderCart();
+        input.disabled = true; // Lock the input once applied
+    } else if (code === "") {
+        discountPercent = 0;
+        message.innerText = "";
     } else {
         discountPercent = 0;
-        message.style.color = "red";
+        message.style.color = "#ff3232";
         message.innerText = "Invalid code. Please try again.";
-       updateCartCount();
-        renderCart();
     }
+    
+    // Always re-render to reflect changes
+    renderCart();
 }
+
